@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_rest_message_fn">
+    <sys_rest_message_fn action="INSERT_OR_UPDATE">
+        <authentication_type>inherit_from_parent</authentication_type>
+        <basic_auth_password/>
+        <basic_auth_profile/>
+        <basic_auth_user/>
+        <content>&lt;AddReceiver xmlns="http://www.hiplink.com/"&gt;&#13;
+  &lt;AddReceiverRequest&gt;&#13;
+    &lt;credential&gt;&#13;
+      &lt;username&gt;${hiplink_webservices_api_username}&lt;/username&gt;&#13;
+      &lt;password&gt;${hiplink_webservices_api_password}&lt;/password&gt;&#13;
+    &lt;/credential&gt;&#13;
+    &lt;receiver_name&gt;${receiver_name}&lt;/receiver_name&gt;&#13;
+    &lt;description&gt;${description}&lt;/description&gt;&#13;
+    &lt;carrier&gt;${carrier}&lt;/carrier&gt;&#13;
+    &lt;pin&gt;${pin}&lt;/pin&gt;&#13;
+    &lt;device_type&gt;${device_type}&lt;/device_type&gt;&#13;
+    &lt;first_name&gt;${first_name}&lt;/first_name&gt;&#13;
+    &lt;last_name&gt;${last_name}&lt;/last_name&gt;&#13;
+    &lt;department_name&gt;${department_name}&lt;/department_name&gt;&#13;
+    &lt;account_name&gt;&lt;/account_name&gt;&#13;
+    &lt;account_password&gt;&lt;/account_password&gt;&#13;
+    &lt;allow_edit&gt;&lt;/allow_edit&gt;&#13;
+    &lt;allow_schedule&gt;&lt;/allow_schedule&gt;&#13;
+    &lt;alternate_carrier&gt;&lt;/alternate_carrier&gt;&#13;
+    &lt;alternate_pin&gt;&lt;/alternate_pin&gt;&#13;
+    &lt;cover_by_receiver&gt;&lt;/cover_by_receiver&gt;&#13;
+    &lt;disabled&gt;${disabled}&lt;/disabled&gt;&#13;
+    &lt;email_address&gt;${email_address}&lt;/email_address&gt;&#13;
+    &lt;enable_cc&gt;${enable_cc}&lt;/enable_cc&gt;&#13;
+    &lt;enable_failover&gt;${enable_failover}&lt;/enable_failover&gt;&#13;
+    &lt;enable_voice&gt;&lt;/enable_voice&gt;&#13;
+    &lt;security_code&gt;&lt;/security_code&gt;&#13;
+    &lt;timezone&gt;&lt;/timezone&gt;&#13;
+    &lt;voice_number&gt;&lt;/voice_number&gt;&#13;
+    &lt;hnp_password&gt;${pin}&lt;/hnp_password&gt;&#13;
+    &lt;assigned_owner&gt;${assigned_owner}&lt;/assigned_owner&gt;&#13;
+    &lt;auto_assign_owner&gt;${auto_assign_owner}&lt;/auto_assign_owner&gt;&#13;
+    &lt;owner_user_group&gt;${owner_user_group}&lt;/owner_user_group&gt;&#13;
+    &lt;callback_number&gt;&lt;/callback_number&gt;&#13;
+    &lt;text_fallback_number&gt;&lt;/text_fallback_number&gt;&#13;
+    &lt;auth_type&gt;&lt;/auth_type&gt;&#13;
+    &lt;enable_adv_messaging&gt;&lt;/enable_adv_messaging&gt;&#13;
+  &lt;/AddReceiverRequest&gt;&#13;
+&lt;/AddReceiver&gt;</content>
+        <function_name>POST</function_name>
+        <http_method>post</http_method>
+        <lock>false</lock>
+        <oauth2_profile/>
+        <protocol_name/>
+        <qualified_name>hiplink.receiver.add [ POST ]</qualified_name>
+        <rest_endpoint/>
+        <rest_message display_value="hiplink.receiver.add">ae0b4abb1b90330079ee2136ec4bcb92</rest_message>
+        <sys_class_name>sys_rest_message_fn</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-03-27 03:01:13</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>611e06ff1b90330079ee2136ec4bcb0e</sys_id>
+        <sys_mod_count>13</sys_mod_count>
+        <sys_name>POST</sys_name>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_update_name>sys_rest_message_fn_611e06ff1b90330079ee2136ec4bcb0e</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-09-23 03:22:42</sys_updated_on>
+        <use_basic_auth>false</use_basic_auth>
+        <use_mid_server/>
+        <use_mutual_auth>false</use_mutual_auth>
+    </sys_rest_message_fn>
+</record_update>

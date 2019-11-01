@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_hls_hiplink.hiplink_web_service_consumer</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>hiplink_web_service_consumer</name>
+        <script><![CDATA[var hiplink_web_service_consumer = Class.create();
+hiplink_web_service_consumer.prototype = {
+
+    initialize: function () {
+
+        this.objSystemProperties = hiplink_system_properties.getInstance();
+
+        this.webservices_api_endpoint = this.objSystemProperties.webservices_api.endpoint;
+        this.webservices_api_username = this.encodeXml(this.objSystemProperties.webservices_api.username);
+        this.webservices_api_password = this.encodeXml(this.objSystemProperties.webservices_api.password);
+    },
+
+    queryReceivers: function (nameFilter, departmentFilter) {
+
+        try {
+            gs.info('HipLink Web Service: Querying receivers "' + nameFilter + '" for "' + departmentFilter + '"');
+
+            var r = new sn_ws.RESTMessageV2('x_hls_hiplink.hiplink.receiver.query', 'POST');
+
+            r.setStringParameterNoEscape('hiplink_webservices_api_endpoint', this.webservices_api_endpoint);
+            r.setStringParameterNoEscape('hiplink_webservices_api_username', this.webservices_api_username);
+            r.setStringParameterNoEscape('hiplink_webservices_api_password', this.webservices_api_password);
+
+            r.setStringParameterNoEscape('receiver_name_filter', this.encodeXml(nameFilter));
+            r.setStringParameterNoEscape('department_name_filter', this.encodeXml(departmentFilter));
+
+            var response = r.execute();
+
+            var httpStatus = response.getStatusCode();
+            var requestBody = r.getRequestBody();
+            var responseBody = response.getBody();
+
+            if (httpStatus === 200) {
+
+                gs.debug('HipLink Web Service: Successfully queried receivers "' + nameFilter + '" for "' + departmentFilter + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+
+                return true;
+            }
+            else {
+                gs.error('HipLink Web Service: Failed to query receivers "' + nameFilter + '" for "' + departmentFilter + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+            }
+        }
+        catch (ex) {
+
+            gs.error('HipLink Web Service: Failed to query receivers "' + nameFilter + '" for "' + departmentFilter + '"'
+                + '\nError message: ' + ex.message);
+        }
+
+        return false;
+    },
+
+    addReceiver: function (name, description, department, carrier, pin, type, firstName, lastName,
+        emailAddress, emailCC, emailFailover, assignedOwner, autoAssignOwner, ownerUserGroup, disabled) {
+
+        try {
+            gs.info('HipLink Web Service: Adding receiver "' + name + '"');
+
+            var r = new sn_ws.RESTMessageV2('x_hls_hiplink.hiplink.receiver.add', 'POST');
+
+            r.setStringParameterNoEscape('hiplink_webservices_api_endpoint', this.webservices_api_endpoint);
+            r.setStringParameterNoEscape('hiplink_webservices_api_username', this.webservices_api_username);
+            r.setStringParameterNoEscape('hiplink_webservices_api_password', this.webservices_api_password);
+
+            r.setStringParameterNoEscape('receiver_name', this.encodeXml(name));
+            r.setStringParameterNoEscape('description', this.encodeXml(description));
+            r.setStringParameterNoEscape('department_name', this.encodeXml(department));
+            r.setStringParameterNoEscape('carrier', this.encodeXml(carrier));
+            r.setStringParameterNoEscape('pin', this.encodeXml(pin));
+            r.setStringParameterNoEscape('device_type', this.encodeXml(type));
+            r.setStringParameterNoEscape('first_name', this.encodeXml(firstName));
+            r.setStringParameterNoEscape('last_name', this.encodeXml(lastName));
+            r.setStringParameterNoEscape('email_address', this.encodeXml(emailAddress));
+            r.setStringParameterNoEscape('enable_cc', emailCC);
+            r.setStringParameterNoEscape('enable_failover', emailFailover);
+            r.setStringParameterNoEscape('assigned_owner', this.encodeXml(assignedOwner));
+            r.setStringParameterNoEscape('auto_assign_owner', autoAssignOwner);
+            r.setStringParameterNoEscape('owner_user_group', this.encodeXml(ownerUserGroup));
+            r.setStringParameterNoEscape('disabled', disabled);
+
+            var response = r.execute();
+
+            var httpStatus = response.getStatusCode();
+            var requestBody = r.getRequestBody();
+            var responseBody = response.getBody();
+
+            if (httpStatus === 200) {
+
+                gs.debug('HipLink Web Service: Successfully added receiver "' + name + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+
+                return true;
+            }
+            else {
+                gs.error('HipLink Web Service: Failed to add receiver "' + name + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+            }
+        }
+        catch (ex) {
+
+            gs.error('HipLink Web Service: Failed to add receiver "' + name + '"'
+                + '\nError message: ' + ex.message);
+        }
+
+        return false;
+    },
+
+    updateReceiver: function (name, newName, description, department, carrier, pin, type, firstName, lastName,
+        emailAddress, emailCC, emailFailover, assignedOwner, autoAssignOwner, ownerUserGroup, disabled) {
+
+        try {
+            gs.info('HipLink Web Service: Updating receiver "' + name + '"');
+
+            var r = new sn_ws.RESTMessageV2('x_hls_hiplink.hiplink.receiver.update', 'POST');
+
+            r.setStringParameterNoEscape('hiplink_webservices_api_endpoint', this.webservices_api_endpoint);
+            r.setStringParameterNoEscape('hiplink_webservices_api_username', this.webservices_api_username);
+            r.setStringParameterNoEscape('hiplink_webservices_api_password', this.webservices_api_password);
+
+            r.setStringParameterNoEscape('receiver_name', this.encodeXml(name));
+            r.setStringParameterNoEscape('new_receiver_name', this.encodeXml(newName));
+            r.setStringParameterNoEscape('description', this.encodeXml(description));
+            r.setStringParameterNoEscape('department_name', this.encodeXml(department));
+            r.setStringParameterNoEscape('carrier', this.encodeXml(carrier));
+            r.setStringParameterNoEscape('pin', this.encodeXml(pin));
+            r.setStringParameterNoEscape('device_type', this.encodeXml(type));
+            r.setStringParameterNoEscape('first_name', this.encodeXml(firstName));
+            r.setStringParameterNoEscape('last_name', this.encodeXml(lastName));
+            r.setStringParameterNoEscape('email_address', this.encodeXml(emailAddress));
+            r.setStringParameterNoEscape('enable_cc', emailCC);
+            r.setStringParameterNoEscape('enable_failover', emailFailover);
+            r.setStringParameterNoEscape('assigned_owner', this.encodeXml(assignedOwner));
+            r.setStringParameterNoEscape('auto_assign_owner', autoAssignOwner);
+            r.setStringParameterNoEscape('owner_user_group', this.encodeXml(ownerUserGroup));
+            r.setStringParameterNoEscape('disabled', disabled);
+
+            var response = r.execute();
+
+            var httpStatus = response.getStatusCode();
+            var requestBody = r.getRequestBody();
+            var responseBody = response.getBody();
+
+            if (httpStatus === 200) {
+
+                gs.debug('HipLink Web Service: Successfully updated receiver "' + name + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+
+                return true;
+            }
+            else {
+                gs.error('HipLink Web Service: Failed to update receiver "' + name + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+            }
+        }
+        catch (ex) {
+
+            gs.error('HipLink Web Service: Failed to update receiver "' + name + '"'
+                + '\nError message: ' + ex.message);
+        }
+
+        return false;
+    },
+
+    deleteReceiver: function (name) {
+
+        try {
+            gs.info('HipLink Web Service: Deleting receiver "' + name + '"');
+
+            var r = new sn_ws.RESTMessageV2('x_hls_hiplink.hiplink.receiver.delete', 'POST');
+
+            r.setStringParameterNoEscape('hiplink_webservices_api_endpoint', this.webservices_api_endpoint);
+            r.setStringParameterNoEscape('hiplink_webservices_api_username', this.webservices_api_username);
+            r.setStringParameterNoEscape('hiplink_webservices_api_password', this.webservices_api_password);
+
+            r.setStringParameterNoEscape('receiver_name', this.encodeXml(name));
+
+            var response = r.execute();
+
+            var httpStatus = response.getStatusCode();
+            var requestBody = r.getRequestBody();
+            var responseBody = response.getBody();
+
+            if (httpStatus === 200) {
+
+                gs.debug('HipLink Web Service: Successfully deleted receiver "' + name + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+
+                return true;
+            }
+            else {
+                gs.error('HipLink Web Service: Failed to delete receiver "' + name + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+            }
+        }
+        catch (ex) {
+
+            gs.error('HipLink Web Service: Failed to delete receiver "' + name + '"'
+                + '\nError message: ' + ex.message);
+        }
+
+        return false;
+    },
+
+    queryRecipientGroups: function (nameFilter, departmentFilter) {
+
+        try {
+            gs.info('HipLink Web Service: Querying recipient groups "' + nameFilter + '" for "' + departmentFilter + '"');
+
+            var r = new sn_ws.RESTMessageV2('x_hls_hiplink.hiplink.recipient_group.query', 'POST');
+
+            r.setStringParameterNoEscape('hiplink_webservices_api_endpoint', this.webservices_api_endpoint);
+            r.setStringParameterNoEscape('hiplink_webservices_api_username', this.webservices_api_username);
+            r.setStringParameterNoEscape('hiplink_webservices_api_password', this.webservices_api_password);
+
+            r.setStringParameterNoEscape('group_name_filter', this.encodeXml(nameFilter));
+            r.setStringParameterNoEscape('department_name_filter', this.encodeXml(departmentFilter));
+
+            var response = r.execute();
+
+            var httpStatus = response.getStatusCode();
+            var requestBody = r.getRequestBody();
+            var responseBody = response.getBody();
+
+            if (httpStatus === 200) {
+
+                gs.debug('HipLink Web Service: Successfully queryied recipient groups "' + nameFilter + '" for "' + departmentFilter + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+
+                return true;
+            }
+            else {
+                gs.error('HipLink Web Service: Failed to query recipient groups "' + nameFilter + '" for "' + departmentFilter + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+
+            }
+        }
+        catch (ex) {
+
+            gs.error('HipLink Web Service: Failed to query recipient groups "' + nameFilter + '" for "' + departmentFilter + '"'
+                + '\nError message: ' + ex.message);
+        }
+
+        return false;
+    },
+
+    addRecipientGroup: function (name, description, department, type, disabled) {
+
+        try {
+            gs.info('HipLink Web Service: Adding recipient group "' + name + '"');
+
+            var r = new sn_ws.RESTMessageV2('x_hls_hiplink.hiplink.recipient_group.add', 'POST');
+
+            r.setStringParameterNoEscape('hiplink_webservices_api_endpoint', this.webservices_api_endpoint);
+            r.setStringParameterNoEscape('hiplink_webservices_api_username', this.webservices_api_username);
+            r.setStringParameterNoEscape('hiplink_webservices_api_password', this.webservices_api_password);
+
+            r.setStringParameterNoEscape('group_name', this.encodeXml(name));
+            r.setStringParameterNoEscape('description', this.encodeXml(description));
+            r.setStringParameterNoEscape('department_name', this.encodeXml(department));
+            r.setStringParameterNoEscape('group_type', this.encodeXml(type));
+            r.setStringParameterNoEscape('disabled', disabled);
+
+            var response = r.execute();
+
+            var httpStatus = response.getStatusCode();
+            var requestBody = r.getRequestBody();
+            var responseBody = response.getBody();
+
+            if (httpStatus === 200) {
+
+                gs.debug('HipLink Web Service: Successfully added recipient group "' + name + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+
+                return true;
+            }
+            else {
+                gs.error('HipLink Web Service: Failed to add recipient group "' + name + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+            }
+        }
+        catch (ex) {
+
+            gs.error('HipLink Web Service: Failed to add recipient group "' + name + '"'
+                + '\nError message: ' + ex.message);
+        }
+
+        return false;
+    },
+
+    updateRecipientGroup: function (name, newName, description, department, type, disabled) {
+
+        try {
+            gs.info('HipLink Web Service: Updating recipient group "' + name + '"');
+
+            var r = new sn_ws.RESTMessageV2('x_hls_hiplink.hiplink.recipient_group.update', 'POST');
+
+            r.setStringParameterNoEscape('hiplink_webservices_api_endpoint', this.webservices_api_endpoint);
+            r.setStringParameterNoEscape('hiplink_webservices_api_username', this.webservices_api_username);
+            r.setStringParameterNoEscape('hiplink_webservices_api_password', this.webservices_api_password);
+
+            r.setStringParameterNoEscape('group_name', this.encodeXml(name));
+            r.setStringParameterNoEscape('new_group_name', this.encodeXml(newName));
+            r.setStringParameterNoEscape('description', this.encodeXml(description));
+            r.setStringParameterNoEscape('department_name', this.encodeXml(department));
+            r.setStringParameterNoEscape('group_type', this.encodeXml(type));
+            r.setStringParameterNoEscape('disabled', disabled);
+
+            var response = r.execute();
+
+            var httpStatus = response.getStatusCode();
+            var requestBody = r.getRequestBody();
+            var responseBody = response.getBody();
+
+            if (httpStatus === 200) {
+
+                gs.debug('HipLink Web Service: Successfully updated recipient group "' + name + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+
+                return true;
+            }
+            else {
+                gs.error('HipLink Web Service: Failed to update recipient group "' + name + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+            }
+        }
+        catch (ex) {
+
+            gs.error('HipLink Web Service: Failed to update recipient group "' + name + '"'
+                + '\nError message: ' + ex.message);
+        }
+
+        return false;
+    },
+
+    deleteRecipientGroup: function (name) {
+
+        try {
+            gs.info('HipLink Web Service: Deleting recipient group "' + name + '"');
+
+            var r = new sn_ws.RESTMessageV2('x_hls_hiplink.hiplink.recipient_group.delete', 'POST');
+
+            r.setStringParameterNoEscape('hiplink_webservices_api_endpoint', this.webservices_api_endpoint);
+            r.setStringParameterNoEscape('hiplink_webservices_api_username', this.webservices_api_username);
+            r.setStringParameterNoEscape('hiplink_webservices_api_password', this.webservices_api_password);
+
+            r.setStringParameterNoEscape('group_name', this.encodeXml(name));
+
+            var response = r.execute();
+
+            var httpStatus = response.getStatusCode();
+            var requestBody = r.getRequestBody();
+            var responseBody = response.getBody();
+
+            if (httpStatus === 200) {
+
+                gs.debug('HipLink Web Service: Successfully deleted recipient group "' + name + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+
+                return true;
+            }
+            else {
+                gs.error('HipLink Web Service: Failed to delete recipient group "' + name + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+            }
+        }
+        catch (ex) {
+
+            gs.error('HipLink Web Service: Failed to delete recipient group "' + name + '"'
+                + '\nError message: ' + ex.message);
+        }
+
+        return false;
+    },
+
+    addRecipientGroupMember: function (name, member) {
+
+        try {
+            gs.info('HipLink Web Service: Adding recipient group "' + name + '" member "' + member + '"');
+
+            var r = new sn_ws.RESTMessageV2('x_hls_hiplink.hiplink.recipient_group_member.add', 'POST');
+
+            r.setStringParameterNoEscape('hiplink_webservices_api_endpoint', this.webservices_api_endpoint);
+            r.setStringParameterNoEscape('hiplink_webservices_api_username', this.webservices_api_username);
+            r.setStringParameterNoEscape('hiplink_webservices_api_password', this.webservices_api_password);
+
+            r.setStringParameterNoEscape('group_name', this.encodeXml(name));
+            r.setStringParameterNoEscape('member_name', this.encodeXml(member));
+
+            var response = r.execute();
+
+            var httpStatus = response.getStatusCode();
+            var requestBody = r.getRequestBody();
+            var responseBody = response.getBody();
+
+            if (httpStatus === 200) {
+
+                gs.debug('HipLink Web Service: Successfully added recipient group "' + name + '" member "' + member + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+
+                return true;
+            }
+            else {
+                gs.error('HipLink Web Service: Failed to add recipient group "' + name + '" member "' + member + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+            }
+        }
+        catch (ex) {
+
+            gs.error('HipLink Web Service: Failed to add recipient group "' + name + '" member "' + member + '"'
+                + '\nError message: ' + ex.message);
+        }
+
+        return false;
+    },
+
+    deleteRecipientGroupMember: function (name, member) {
+
+        try {
+            gs.info('HipLink Web Service: Removing recipient group "' + name + '" member "' + member + '"');
+
+            var r = new sn_ws.RESTMessageV2('x_hls_hiplink.hiplink.recipient_group_member.remove', 'POST');
+
+            r.setStringParameterNoEscape('hiplink_webservices_api_endpoint', this.webservices_api_endpoint);
+            r.setStringParameterNoEscape('hiplink_webservices_api_username', this.webservices_api_username);
+            r.setStringParameterNoEscape('hiplink_webservices_api_password', this.webservices_api_password);
+
+            r.setStringParameterNoEscape('group_name', this.encodeXml(name));
+            r.setStringParameterNoEscape('member_name', this.encodeXml(member));
+
+            var response = r.execute();
+
+            var httpStatus = response.getStatusCode();
+            var requestBody = r.getRequestBody();
+            var responseBody = response.getBody();
+
+            if (httpStatus === 200) {
+
+                gs.debug('HipLink Web Service: Successfully removed recipient group "' + name + '" member "' + member + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+
+                return true;
+            }
+            else {
+                gs.error('HipLink Web Service: Failed to remove recipient group "' + name + '" member "' + member + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+            }
+        }
+        catch (ex) {
+
+            gs.error('HipLink Web Service: Failed to remove recipient group "' + name + '" member "' + member + '"'
+                + '\nError message: ' + ex.message);
+        }
+
+        return false;
+    },
+
+    sendMessageStandard: function (recipients, subject, message, severity) {
+
+        try {
+            gs.info('HipLink Web Service: Sending standard message "' + subject + '" to "' + recipients.toString() + '"');
+
+            var recipientList = '';
+            recipients = Array.isArray(recipients) ? recipients : [recipients];
+            for (var i = 0; i < recipients.length; i++) {
+                recipientList += '\n      <recipient_name>' + this.encodeXml(recipients[i]) + '</recipient_name>';
+            }
+
+            var r = new sn_ws.RESTMessageV2('x_hls_hiplink.hiplink.send_message.standard', 'POST');
+
+            r.setStringParameterNoEscape('hiplink_webservices_api_endpoint', this.webservices_api_endpoint);
+            r.setStringParameterNoEscape('hiplink_webservices_api_username', this.webservices_api_username);
+            r.setStringParameterNoEscape('hiplink_webservices_api_password', this.webservices_api_password);
+
+            r.setStringParameterNoEscape('recipient_list', recipientList);
+            r.setStringParameterNoEscape('subject', this.encodeXml(subject));
+            r.setStringParameterNoEscape('message', this.encodeXml(message));
+            r.setStringParameterNoEscape('severity', severity);
+
+            var response = r.execute();
+
+            var httpStatus = response.getStatusCode();
+            var requestBody = r.getRequestBody();
+            var responseBody = response.getBody();
+
+            if (httpStatus === 200) {
+
+                gs.debug('HipLink Web Service: Successfully sent standard message "' + subject + '" to "' + recipients + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+
+                return true;
+            }
+            else {
+                gs.error('HipLink Web Service: Failed to send standard message "' + subject + '" to "' + recipients + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+            }
+        }
+        catch (ex) {
+
+            gs.error('HipLink Web Service: Failed to send standard message "' + subject + '" to "' + recipients + '"'
+                + '\nError message: ' + ex.message);
+        }
+
+        return false;
+    },
+
+    sendMessageTwoWay: function (recipients, subject, message, severity, responseAction, responseChoices) {
+
+        try {
+            gs.info('HipLink Web Service: Sending two-way message "' + subject + '" to "' + recipients.toString() + '"');
+
+            if (responseAction === null) {
+                responseAction = '';
+            }
+            if (responseChoices === null) {
+                responseChoices = [];
+            }
+
+            var i;
+            var recipientList = '';
+            var responseChoiceList = '';
+
+            recipients = Array.isArray(recipients) ? recipients : [recipients];
+            for (i = 0; i < recipients.length; i++) {
+                recipientList += '\n      <recipient_name>' + this.encodeXml(recipients[i]) + '</recipient_name>';
+            }
+            recipientList += '\n    ';
+
+            responseChoices = Array.isArray(responseChoices) ? responseChoices : [responseChoices];
+            for (i = 0; i < responseChoices.length; i++) {
+                responseChoiceList += '\n      <response_choice>';
+                responseChoiceList += '\n        <response_text>' + this.encodeXml(responseChoices[i]) + '</response_text>';
+                responseChoiceList += '\n        <default_action>false</default_action>';
+                responseChoiceList += '\n        <action_name>' + this.encodeXml(responseAction) + '</action_name>';
+                responseChoiceList += '\n        <final>true</final>';
+                responseChoiceList += '\n      </response_choice>';
+            }
+            responseChoiceList += '\n    ';
+
+            var r = new sn_ws.RESTMessageV2('x_hls_hiplink.hiplink.send_message.twoway', 'POST');
+
+            r.setStringParameterNoEscape('hiplink_webservices_api_endpoint', this.webservices_api_endpoint);
+            r.setStringParameterNoEscape('hiplink_webservices_api_username', this.webservices_api_username);
+            r.setStringParameterNoEscape('hiplink_webservices_api_password', this.webservices_api_password);
+
+            r.setStringParameterNoEscape('recipient_list', recipientList);
+            r.setStringParameterNoEscape('subject', this.encodeXml(subject));
+            r.setStringParameterNoEscape('message', this.encodeXml(message));
+            r.setStringParameterNoEscape('severity', severity);
+            r.setStringParameterNoEscape('response_choice_list', responseChoiceList);
+
+            var response = r.execute();
+
+            var httpStatus = response.getStatusCode();
+            var requestBody = r.getRequestBody();
+            var responseBody = response.getBody();
+
+            if (httpStatus === 200) {
+
+                gs.debug('HipLink Web Service: Successfully sent two-way message "' + subject + '" to "' + recipients + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+
+                return true;
+            }
+            else {
+                gs.error('HipLink Web Service: Failed to send two-way message "' + subject + '" to "' + recipients + '"'
+                    + '\nHTTP endpoint: ' + this.webservices_api_endpoint
+                    + '\nHTTP status: ' + httpStatus
+                    + '\nRequest Body:\n' + requestBody
+                    + '\nResponse Body:\n' + responseBody);
+            }
+        }
+        catch (ex) {
+
+            gs.error('HipLink Web Service: Failed to send two-way message "' + subject + '" to "' + recipients + '"'
+                + '\nError message: ' + ex.message);
+        }
+
+        return false;
+    },
+
+    encodeXml: function (str) {
+        return str.replace(/[<>&'"]/g, function (c) {
+            switch (c) {
+                case '<': return '&lt;';
+                case '>': return '&gt;';
+                case '&': return '&amp;';
+                case '\'': return '&apos;';
+                case '"': return '&quot;';
+            }
+        });
+    },
+
+    type: 'hiplink_web_service_consumer'
+};
+
+hiplink_web_service_consumer.getInstance = function () {
+
+    if (typeof hiplink_web_service_consumer._instance === 'undefined') {
+        hiplink_web_service_consumer._instance = new hiplink_web_service_consumer();
+    }
+
+    return hiplink_web_service_consumer._instance;
+};
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-04-11 09:13:25</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>f98134381bb8330079ee2136ec4bcb6b</sys_id>
+        <sys_mod_count>49</sys_mod_count>
+        <sys_name>hiplink_web_service_consumer</sys_name>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_update_name>sys_script_include_f98134381bb8330079ee2136ec4bcb6b</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-10-15 09:55:06</sys_updated_on>
+    </sys_script_include>
+</record_update>

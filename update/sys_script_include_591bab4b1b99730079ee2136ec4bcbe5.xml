@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_hls_hiplink.hiplink_business_rule_hooks</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>hiplink_business_rule_hooks</name>
+        <script><![CDATA[var hiplink_business_rule_hooks = Class.create();
+hiplink_business_rule_hooks.prototype = {
+
+    initialize: function () {
+    },
+
+    processWhenIncidentIsCreated: function (current, previous) {
+
+        try {
+            gs.debug('Business Rule: When incident is created');
+
+            var value;
+
+            var incident = {};
+            for (var property in current) {
+
+                if (property === 'work_notes') {
+                    value = current.work_notes.getJournalEntry(1).trim();
+                }
+                else if (property === 'comments') {
+                    value = current.comments.getJournalEntry(1).trim();
+                }
+                else {
+                    value = current.getValue(property);
+                }
+
+                incident[property] = value !== null ? value : '';
+            }
+
+            gs.eventQueue("x_hls_hiplink.i_incident_created", null,
+                JSON.stringify(incident));
+        }
+        catch (ex) {
+            gs.error('Failed to execute Business Rule: When incident is created'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    processWhenIncidentIsDeleted: function (current, previous) {
+
+        try {
+            gs.debug('Business Rule: When incident is deleted');
+
+            var value;
+
+            var incident = {};
+            for (var property in current) {
+
+                if (property === 'work_notes') {
+                    value = current.work_notes.getJournalEntry(1).trim();
+                }
+                else if (property === 'comments') {
+                    value = current.comments.getJournalEntry(1).trim();
+                }
+                else {
+                    value = current.getValue(property);
+                }
+
+                incident[property] = value !== null ? value : '';
+            }
+
+            gs.eventQueue("x_hls_hiplink.i_incident_deleted", null,
+                JSON.stringify(incident));
+        }
+        catch (ex) {
+            gs.error('Failed to execute Business Rule: When incident is deleted'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    processWhenIncidentIsUpdated: function (current, previous) {
+
+        try {
+            gs.debug('Business Rule: When incident is updated');
+
+            var value;
+
+            var incidentPrevious = {};
+            for (var propertyPrevious in previous) {
+
+                if (propertyPrevious === 'work_notes') {
+                    value = previous.work_notes.getJournalEntry(1).trim();
+                }
+                else if (propertyPrevious === 'comments') {
+                    value = previous.comments.getJournalEntry(1).trim();
+                }
+                else {
+                    value = previous.getValue(propertyPrevious);
+                }
+
+                incidentPrevious[propertyPrevious] = value !== null ? value : '';
+            }
+
+            var incidentCurrent = {};
+            for (var propertyCurrent in current) {
+
+                if (propertyCurrent === 'work_notes') {
+                    value = current.work_notes.getJournalEntry(1).trim();
+                }
+                else if (propertyCurrent === 'comments') {
+                    value = current.comments.getJournalEntry(1).trim();
+                }
+                else {
+                    value = current.getValue(propertyCurrent);
+                }
+
+                incidentCurrent[propertyCurrent] = value !== null ? value : '';
+            }
+
+            gs.eventQueue("x_hls_hiplink.i_incident_updated", null,
+                JSON.stringify(incidentPrevious), JSON.stringify(incidentCurrent));
+        }
+        catch (ex) {
+            gs.error('Failed to execute Business Rule: When incident is updated'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    processWhenUserRoleIsAdded: function (current, previous) {
+
+        try {
+            gs.debug('Business Rule: When user role is added');
+
+            var userHasRole = {};
+            for (var property in current) {
+                var value = current.getValue(property);
+                userHasRole[property] = value !== null ? value : '';
+            }
+
+            gs.eventQueue("x_hls_hiplink.x_user_role_added", null,
+                JSON.stringify(userHasRole));
+        }
+        catch (ex) {
+            gs.error('Failed to execute Business Rule: When user role is added'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    processWhenUserRoleIsRemoved: function (current, previous) {
+
+        try {
+            gs.debug('Business Rule: When user role is removed');
+
+            var userHasRole = {};
+            for (var property in current) {
+                var value = current.getValue(property);
+                userHasRole[property] = value !== null ? value : '';
+            }
+
+            gs.eventQueue("x_hls_hiplink.x_user_role_removed", null,
+                JSON.stringify(userHasRole));
+        }
+        catch (ex) {
+            gs.error('Failed to execute Business Rule: When user role is removed'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    processWhenUserProfileIsUpdated: function (current, previous) {
+
+        try {
+            gs.debug('Business Rule: When user profile is updated');
+
+            var value;
+
+            var userPrevious = {};
+            for (var propertyPrevious in previous) {
+                value = previous.getValue(propertyPrevious);
+                userPrevious[propertyPrevious] = value !== null ? value : '';
+            }
+
+            var userCurrent = {};
+            for (var propertyCurrent in current) {
+                value = current.getValue(propertyCurrent);
+                userCurrent[propertyCurrent] = value !== null ? value : '';
+            }
+
+            gs.eventQueue("x_hls_hiplink.x_user_profile_updated", null,
+                JSON.stringify(userPrevious), JSON.stringify(userCurrent));
+        }
+        catch (ex) {
+            gs.error('Failed to execute Business Rule: When user profile is updated'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    processWhenUserWillBeDeleted: function (current, previous) {
+
+        try {
+            gs.debug('Business Rule: When user will be deleted');
+
+            var user = {};
+            for (var property in current) {
+                var value = current.getValue(property);
+                user[property] = value !== null ? value : '';
+            }
+
+            var objDataOperations = hiplink_data_operations.getInstance();
+            var assignedUserRoleNames = objDataOperations.getAssignedUserRoleNames(user.sys_id);
+
+            gs.eventQueue("x_hls_hiplink.x_user_deleted", null,
+                JSON.stringify(user), JSON.stringify(assignedUserRoleNames));
+        }
+        catch (ex) {
+            gs.error('Failed to execute Business Rule: When user will be deleted'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    processWhenGroupRoleIsAdded: function (current, previous) {
+
+        try {
+            gs.debug('Business Rule: When group role is added');
+
+            var groupHasRole = {};
+            for (var property in current) {
+                var value = current.getValue(property);
+                groupHasRole[property] = value !== null ? value : '';
+            }
+
+            gs.eventQueue("x_hls_hiplink.x_group_role_added", null,
+                JSON.stringify(groupHasRole));
+        }
+        catch (ex) {
+            gs.error('Failed to execute Business Rule: When group role is added'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    processWhenGroupRoleIsRemoved: function (current, previous) {
+
+        try {
+            gs.debug('Business Rule: When group role is removed');
+
+            var groupHasRole = {};
+            for (var property in current) {
+                var value = current.getValue(property);
+                groupHasRole[property] = value !== null ? value : '';
+            }
+
+            gs.eventQueue("x_hls_hiplink.x_group_role_removed", null,
+                JSON.stringify(groupHasRole));
+        }
+        catch (ex) {
+            gs.error('Failed to execute Business Rule: When group role is removed'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    processWhenGroupProfileIsUpdated: function (current, previous) {
+
+        try {
+            gs.debug('Business Rule: When group profile is updated');
+
+            var value;
+
+            var groupPrevious = {};
+            for (var propertyPrevious in previous) {
+                value = previous.getValue(propertyPrevious);
+                groupPrevious[propertyPrevious] = value !== null ? value : '';
+            }
+
+            var groupCurrent = {};
+            for (var propertyCurrent in current) {
+                value = current.getValue(propertyCurrent);
+                groupCurrent[propertyCurrent] = value !== null ? value : '';
+            }
+
+            gs.eventQueue("x_hls_hiplink.x_group_profile_updated", null,
+                JSON.stringify(groupPrevious), JSON.stringify(groupCurrent));
+        }
+        catch (ex) {
+            gs.error('Failed to execute Business Rule: When group profile is updated'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    processWhenGroupWillBeDeleted: function (current, previous) {
+
+        try {
+            gs.debug('Business Rule: When group will be deleted');
+
+            var group = {};
+            for (var property in current) {
+                var value = current.getValue(property);
+                group[property] = value !== null ? value : '';
+            }
+
+            var objDataOperations = hiplink_data_operations.getInstance();
+            var assignedGroupRoleNames = objDataOperations.getAssignedGroupRoleNames(group.sys_id);
+
+            gs.eventQueue("x_hls_hiplink.x_group_deleted", null,
+                JSON.stringify(group), JSON.stringify(assignedGroupRoleNames));
+        }
+        catch (ex) {
+            gs.error('Failed to execute Business Rule: When group will be deleted'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    processWhenGroupMemberIsAdded: function (current, previous) {
+
+        try {
+            gs.debug('Business Rule: When group member is added');
+
+            var groupMember = {};
+            for (var property in current) {
+                var value = current.getValue(property);
+                groupMember[property] = value !== null ? value : '';
+            }
+
+            gs.eventQueue("x_hls_hiplink.x_group_member_added", null,
+                JSON.stringify(groupMember));
+        }
+        catch (ex) {
+            gs.error('Failed to execute Business Rule: When group member is added'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    processWhenGroupMemberIsRemoved: function (current, previous) {
+
+        try {
+            gs.debug('Business Rule: When group member is removed');
+
+            var groupMember = {};
+            for (var property in current) {
+                var value = current.getValue(property);
+                groupMember[property] = value !== null ? value : '';
+            }
+
+            gs.eventQueue("x_hls_hiplink.x_group_member_removed", null,
+                JSON.stringify(groupMember));
+        }
+        catch (ex) {
+            gs.error('Failed to execute Business Rule: When group member is removed'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    type: 'hiplink_business_rule_hooks'
+};
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-13 18:55:25</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>591bab4b1b99730079ee2136ec4bcbe5</sys_id>
+        <sys_mod_count>70</sys_mod_count>
+        <sys_name>hiplink_business_rule_hooks</sys_name>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_update_name>sys_script_include_591bab4b1b99730079ee2136ec4bcbe5</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-10-06 09:48:30</sys_updated_on>
+    </sys_script_include>
+</record_update>

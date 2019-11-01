@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_rest_message_fn">
+    <sys_rest_message_fn action="INSERT_OR_UPDATE">
+        <authentication_type>inherit_from_parent</authentication_type>
+        <basic_auth_password/>
+        <basic_auth_profile/>
+        <basic_auth_user/>
+        <content>&lt;AddGroup xmlns="http://www.hiplink.com/"&gt;&#13;
+  &lt;AddGroupRequest&gt;&#13;
+    &lt;credential&gt;&#13;
+      &lt;username&gt;${hiplink_webservices_api_username}&lt;/username&gt;&#13;
+      &lt;password&gt;${hiplink_webservices_api_password}&lt;/password&gt;&#13;
+    &lt;/credential&gt;&#13;
+    &lt;group_name&gt;${group_name}&lt;/group_name&gt;&#13;
+    &lt;description&gt;${description}&lt;/description&gt;&#13;
+    &lt;group_type&gt;${group_type}&lt;/group_type&gt;&#13;
+    &lt;department_name&gt;${department_name}&lt;/department_name&gt;&#13;
+    &lt;owner_user_name&gt;&lt;/owner_user_name&gt;&#13;
+    &lt;topic&gt;&lt;/topic&gt;&#13;
+    &lt;owner_do_alert&gt;&lt;/owner_do_alert&gt;&#13;
+    &lt;owner_limit_access&gt;&lt;/owner_limit_access&gt;&#13;
+    &lt;owner_settings_enable&gt;&lt;/owner_settings_enable&gt;&#13;
+    &lt;rotating&gt;&lt;/rotating&gt;&#13;
+    &lt;disabled&gt;${disabled}&lt;/disabled&gt;    &#13;
+  &lt;/AddGroupRequest&gt;&#13;
+&lt;/AddGroup&gt;</content>
+        <function_name>POST</function_name>
+        <http_method>post</http_method>
+        <lock>false</lock>
+        <oauth2_profile/>
+        <protocol_name/>
+        <qualified_name>hiplink.recipient_group.add [ POST ]</qualified_name>
+        <rest_endpoint/>
+        <rest_message display_value="hiplink.recipient_group.add">97a3dd631bab330079ee2136ec4bcba8</rest_message>
+        <sys_class_name>sys_rest_message_fn</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-09-03 17:36:29</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>81c41da31bab330079ee2136ec4bcbfd</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>POST</sys_name>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_update_name>sys_rest_message_fn_81c41da31bab330079ee2136ec4bcbfd</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-09-23 03:23:00</sys_updated_on>
+        <use_basic_auth>false</use_basic_auth>
+        <use_mid_server/>
+        <use_mutual_auth>false</use_mutual_auth>
+    </sys_rest_message_fn>
+</record_update>

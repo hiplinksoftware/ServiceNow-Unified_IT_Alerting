@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_hls_hiplink.hiplink_event_script_actions</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>hiplink_event_script_actions</name>
+        <script><![CDATA[var hiplink_event_script_actions = Class.create();
+hiplink_event_script_actions.prototype = {
+    initialize: function () {
+
+        this.objSystemProperties = hiplink_system_properties.getInstance();
+        this.objContactsSyncOperations = hiplink_contacts_sync_operations.getInstance();
+        this.objIncidentOperations = hiplink_incident_operations.getInstance();
+    },
+
+    onIncidentCreated: function (incident) {
+
+        try {
+
+            if (this.objSystemProperties.integration_enabled === false)
+                return;
+
+            gs.info('Event Action: On incident created');
+
+            this.objIncidentOperations.sendIncidentCreatedMessages(incident);
+        }
+        catch (ex) {
+            gs.error('Failed to execute Event Action: On incident created'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    onIncidentDeleted: function (incident) {
+
+        try {
+
+            if (this.objSystemProperties.integration_enabled === false)
+                return;
+
+            gs.info('Event Action: On incident deleted');
+
+            this.objIncidentOperations.sendIncidentDeletedMessages(incident);
+        }
+        catch (ex) {
+            gs.error('Failed to execute Event Action: On incident deleted'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    onIncidentUpdated: function (incidentPrevious, incidentCurrent) {
+
+        try {
+
+            if (this.objSystemProperties.integration_enabled === false)
+                return;
+
+            gs.info('Event Action: On incident updated');
+
+            this.objIncidentOperations.sendIncidentUpdatedMessages(incidentCurrent);
+        }
+        catch (ex) {
+            gs.error('Failed to execute Event Action: On incident updated'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    onUserRoleAdded: function (userHasRole) {
+
+        try {
+
+            if (this.objSystemProperties.integration_enabled === false)
+                return;
+
+            gs.info('Event Action: On user role added');
+
+            this.objContactsSyncOperations.addHLReceiverForUserRole(userHasRole);
+        }
+        catch (ex) {
+            gs.error('Failed to execute Event Action: On user role added'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    onUserRoleRemoved: function (userHasRole) {
+
+        try {
+
+            if (this.objSystemProperties.integration_enabled === false)
+                return;
+
+            gs.info('Event Action: On user role removed');
+
+            this.objContactsSyncOperations.deleteHLReceiverForUserRole(userHasRole);
+        }
+        catch (ex) {
+            gs.error('Failed to execute Event Action: On user role removed'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    onUserProfileUpdated: function (userPrevious, userCurrent) {
+
+        try {
+
+            if (this.objSystemProperties.integration_enabled === false)
+                return;
+
+            gs.info('Event Action: On user profile updated');
+
+            var isUserPreviousActive = userPrevious.active.toString() === '1';
+            var isUserCurrentActive = userCurrent.active.toString() === '1';
+
+            if (isUserPreviousActive === true && isUserCurrentActive === false) {
+                this.objContactsSyncOperations.deleteHLReceiversForUser(userPrevious);
+            }
+            else if (isUserPreviousActive === false && isUserCurrentActive === true) {
+                this.objContactsSyncOperations.addHLReceiversForUser(userCurrent);
+            }
+            else if (isUserCurrentActive === true) {
+                this.objContactsSyncOperations.updateHLReceiversForUser(userPrevious.user_name.toString(), userCurrent);
+            }
+        }
+        catch (ex) {
+            gs.error('Failed to execute Event Action: On user profile updated'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    onUserDeleted: function (user, assignedUserRoleNames) {
+
+        try {
+
+            if (this.objSystemProperties.integration_enabled === false)
+                return;
+
+            gs.info('Event Action: On user deleted');
+
+            this.objContactsSyncOperations.deleteHLReceiversForUser(user, assignedUserRoleNames);
+        }
+        catch (ex) {
+            gs.error('Failed to execute Event Action: On user deleted'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    onGroupRoleAdded: function (groupHasRole) {
+
+        try {
+
+            if (this.objSystemProperties.integration_enabled === false)
+                return;
+
+            gs.info('Event Action: On group role added');
+
+            this.objContactsSyncOperations.addHLRecipGroupForGroupRole(groupHasRole);
+        }
+        catch (ex) {
+            gs.error('Failed to execute Event Action: On group role added'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    onGroupRoleRemoved: function (groupHasRole) {
+
+        try {
+
+            if (this.objSystemProperties.integration_enabled === false)
+                return;
+
+            gs.info('Event Action: On group role removed');
+
+            this.objContactsSyncOperations.deleteHLRecipGroupForGroupRole(groupHasRole);
+        }
+        catch (ex) {
+            gs.error('Failed to execute Event Action: On group role removed'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    onGroupProfileUpdated: function (groupPrevious, groupCurrent) {
+
+        try {
+
+            if (this.objSystemProperties.integration_enabled === false)
+                return;
+
+            gs.info('Event Action: On group profile updated');
+
+            var isGroupPreviousActive = groupPrevious.active.toString() === '1';
+            var isGroupCurrentActive = groupCurrent.active.toString() === '1';
+
+            if (isGroupPreviousActive === true && isGroupCurrentActive === false) {
+                this.objContactsSyncOperations.deleteHLRecipGroupsForGroup(groupPrevious);
+            }
+            else if (isGroupPreviousActive === false && isGroupCurrentActive === true) {
+                this.objContactsSyncOperations.addHLRecipGroupsForGroup(groupCurrent);
+            }
+            else if (isGroupCurrentActive === true) {
+                this.objContactsSyncOperations.updateHLRecipGroupsForGroup(groupPrevious.name.toString(), groupCurrent);
+            }
+        }
+        catch (ex) {
+            gs.error('Failed to execute Event Action: On group profile updated'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    onGroupDeleted: function (group, assignedGroupRoleNames) {
+
+        try {
+
+            if (this.objSystemProperties.integration_enabled === false)
+                return;
+
+            gs.info('Event Action: On group deleted');
+
+            this.objContactsSyncOperations.deleteHLRecipGroupsForGroup(group, assignedGroupRoleNames);
+        }
+        catch (ex) {
+            gs.error('Failed to execute Event Action: On group deleted'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    onGroupMemberAdded: function (groupMember) {
+
+        try {
+
+            if (this.objSystemProperties.integration_enabled === false)
+                return;
+
+            gs.info('Event Action: On group member added');
+
+            this.objContactsSyncOperations.addHLRecipGroupMembersForGroupMember(groupMember);
+        }
+        catch (ex) {
+            gs.error('Failed to execute Event Action: On group member added'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    onGroupMemberRemoved: function (groupMember) {
+
+        try {
+
+            if (this.objSystemProperties.integration_enabled === false)
+                return;
+
+            gs.info('Event Action: On group member removed');
+
+            this.objContactsSyncOperations.deleteHLRecipGroupMembersForGroupMember(groupMember);
+        }
+        catch (ex) {
+            gs.error('Failed to execute Event Action: On group member removed'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    type: 'hiplink_event_script_actions'
+};
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-19 13:09:23</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>2345d5451b69730079ee2136ec4bcb71</sys_id>
+        <sys_mod_count>87</sys_mod_count>
+        <sys_name>hiplink_event_script_actions</sys_name>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_update_name>sys_script_include_2345d5451b69730079ee2136ec4bcb71</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-10-15 02:33:32</sys_updated_on>
+    </sys_script_include>
+</record_update>

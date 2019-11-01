@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sysevent_script_action">
+    <sysevent_script_action action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <condition_script/>
+        <description/>
+        <event_name>x_hls_hiplink.i_incident_created</event_name>
+        <name>i_on_incident_created</name>
+        <order>100</order>
+        <script><![CDATA[// Event Script Action: On Incident Created
+//
+var incident = JSON.parse(event.parm1);
+
+var objHipLinkEventScriptActions = new hiplink_event_script_actions();
+objHipLinkEventScriptActions.onIncidentCreated(incident);
+
+///////////////////////////////////////////
+]]></script>
+        <synchronous>false</synchronous>
+        <sys_class_name>sysevent_script_action</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-19 13:14:38</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>bf4691851b69730079ee2136ec4bcbe6</sys_id>
+        <sys_mod_count>10</sys_mod_count>
+        <sys_name>i_on_incident_created</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_update_name>sysevent_script_action_bf4691851b69730079ee2136ec4bcbe6</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-09-04 03:09:22</sys_updated_on>
+    </sysevent_script_action>
+</record_update>

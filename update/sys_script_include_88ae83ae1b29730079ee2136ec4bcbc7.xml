@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_hls_hiplink.hiplink_system_properties</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>hiplink_system_properties</name>
+        <script><![CDATA[var hiplink_system_properties = Class.create();
+hiplink_system_properties.prototype = {
+    initialize: function () {
+
+        if (gs.getProperty('x_hls_hiplink.@integration_enabled') === 'true') {
+
+            this.integration_enabled = true;
+            gs.debug('HipLink Integration: Enabled');
+        }
+        else {
+
+            this.integration_enabled = false;
+            gs.warn('HipLink Integration: Disabled');
+        }
+
+        this.instance_name = gs.getProperty('instance_name');
+
+        var i = 0;
+        var keyValue = '';
+
+        this.webservices_api = {
+            endpoint: '',
+            username: '',
+            password: ''
+        };
+        var webservicesAPIPropData = gs.getProperty('x_hls_hiplink.webservices_api_endpoint').split('\n');
+        for (i = 0; i < webservicesAPIPropData.length; i++) {
+
+            if ((keyValue = this.getKeyValue(webservicesAPIPropData[i], 'endpoint')) !== '') {
+                this.webservices_api.endpoint = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(webservicesAPIPropData[i], 'username')) !== '') {
+                this.webservices_api.username = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(webservicesAPIPropData[i], 'password')) !== '') {
+                this.webservices_api.password = keyValue;
+            }
+        }
+
+        this.multi_department = {
+            enabled: false,
+            default_department: 'Default'
+        };
+        var multiDeptPropData = gs.getProperty('x_hls_hiplink.multi_department').split('\n');
+        for (i = 0; i < multiDeptPropData.length; i++) {
+
+            if ((keyValue = this.getKeyValue(multiDeptPropData[i], 'enabled')) !== '') {
+                if (keyValue === 'true')
+                    this.multi_department.enabled = true;
+            }
+            else if ((keyValue = this.getKeyValue(multiDeptPropData[i], 'default_department')) !== '') {
+                this.multi_department.default_department = keyValue;
+            }
+        }
+
+        this.recipient_name_ident = {
+            prefix: '',
+            suffix: ''
+        };
+        var recipNameIdentPropData = gs.getProperty('x_hls_hiplink.recipient_name_ident').split('\n');
+        for (i = 0; i < recipNameIdentPropData.length; i++) {
+
+            if ((keyValue = this.getKeyValue(recipNameIdentPropData[i], 'prefix')) !== '') {
+                this.recipient_name_ident.prefix = keyValue + ' ';
+            }
+            else if ((keyValue = this.getKeyValue(recipNameIdentPropData[i], 'suffix')) !== '') {
+                this.recipient_name_ident.suffix = ' ' + keyValue;
+            }
+        }
+
+        this.receiver_profile = {
+
+            email: this.getReceiverProfile('email'),
+            hiplink_mobile: this.getReceiverProfile('hiplink_mobile'),
+            sms_text: this.getReceiverProfile('sms_text'),
+            voice_call: this.getReceiverProfile('voice_call')
+        };
+
+        this.incident_recipient = {
+            P1: this.getIncidentRecipient(1),
+            P2: this.getIncidentRecipient(2),
+            P3: this.getIncidentRecipient(3),
+            P4: this.getIncidentRecipient(4),
+            P5: this.getIncidentRecipient(5)
+        };
+
+        this.message_response = {
+            action: gs.getProperty('x_hls_hiplink.message_response.action'),
+            choices: {
+                assign_to_me: '',
+                in_progress: '',
+                on_hold: '',
+                resolved_permanent: '',
+                resolved_workaround: '',
+                not_reproducible: '',
+                close: '',
+                cancel: '',
+                reopen: ''
+            }
+        };
+        var messageRespChoicesPropData = gs.getProperty('x_hls_hiplink.message_response.choices').split('\n');
+        for (i = 0; i < messageRespChoicesPropData.length; i++) {
+
+            if ((keyValue = this.getKeyValue(messageRespChoicesPropData[i], 'assign_to_me')) !== '') {
+                this.message_response.choices.assign_to_me = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(messageRespChoicesPropData[i], 'in_progress')) !== '') {
+                this.message_response.choices.in_progress = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(messageRespChoicesPropData[i], 'on_hold')) !== '') {
+                this.message_response.choices.on_hold = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(messageRespChoicesPropData[i], 'resolved_permanent')) !== '') {
+                this.message_response.choices.resolved_permanent = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(messageRespChoicesPropData[i], 'resolved_workaround')) !== '') {
+                this.message_response.choices.resolved_workaround = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(messageRespChoicesPropData[i], 'not_reproducible')) !== '') {
+                this.message_response.choices.not_reproducible = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(messageRespChoicesPropData[i], 'close')) !== '') {
+                this.message_response.choices.close = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(messageRespChoicesPropData[i], 'cancel')) !== '') {
+                this.message_response.choices.cancel = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(messageRespChoicesPropData[i], 'reopen')) !== '') {
+                this.message_response.choices.reopen = keyValue;
+            }
+        }
+
+        gs.debug('System Properties: ' + JSON.stringify(this));
+    },
+
+    getReceiverProfile: function (type) {
+
+        var receiverProfile = {
+            carrier_name: '',
+            name_suffix: '',
+            description_suffix: '',
+            type: '',
+            pin_filter: '',
+            pin_prefix: '',
+            pin_suffix: '',
+            email_cc: false,
+            email_failover: false,
+            auto_assign_owner: false,
+            owner_user_group: '',
+            default_assigned_owner: ''
+        };
+
+        var i = 0;
+        var keyValue = '';
+
+        var receiverProfilePropData = [];
+
+        if (type === 'hiplink_mobile') {
+            receiverProfilePropData = gs.getProperty('x_hls_hiplink.receiver_profile.hipink_mobile').split('\n');
+        }
+        else if (type === 'sms_text') {
+            receiverProfilePropData = gs.getProperty('x_hls_hiplink.receiver_profile.sms_text').split('\n');
+        }
+        else if (type === 'voice_call') {
+            receiverProfilePropData = gs.getProperty('x_hls_hiplink.receiver_profile.voice_call').split('\n');
+        }
+        else if (type === 'email') {
+            receiverProfilePropData = gs.getProperty('x_hls_hiplink.receiver_profile.email').split('\n');
+        }
+
+        for (i = 0; i < receiverProfilePropData.length; i++) {
+
+            if ((keyValue = this.getKeyValue(receiverProfilePropData[i], 'carrier_name')) !== '') {
+                receiverProfile.carrier_name = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(receiverProfilePropData[i], 'name_suffix')) !== '') {
+                receiverProfile.name_suffix = ' ' + keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(receiverProfilePropData[i], 'description_suffix')) !== '') {
+                receiverProfile.description_suffix = ' ' + keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(receiverProfilePropData[i], 'type')) !== '') {
+                receiverProfile.type = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(receiverProfilePropData[i], 'pin_filter')) !== '') {
+                receiverProfile.pin_filter = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(receiverProfilePropData[i], 'pin_prefix')) !== '') {
+                receiverProfile.pin_prefix = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(receiverProfilePropData[i], 'pin_suffix')) !== '') {
+                receiverProfile.pin_suffix = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(receiverProfilePropData[i], 'email_cc')) !== '') {
+                if (keyValue === 'true')
+                    receiverProfile.email_cc = true;
+            }
+            else if ((keyValue = this.getKeyValue(receiverProfilePropData[i], 'email_failover')) !== '') {
+                if (keyValue === 'true')
+                    receiverProfile.email_failover = true;
+            }
+            else if ((keyValue = this.getKeyValue(receiverProfilePropData[i], 'auto_assign_owner')) !== '') {
+                if (keyValue === 'true')
+                    receiverProfile.auto_assign_owner = true;
+            }
+            else if ((keyValue = this.getKeyValue(receiverProfilePropData[i], 'owner_user_group')) !== '') {
+                receiverProfile.owner_user_group = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(receiverProfilePropData[i], 'default_assigned_owner')) !== '') {
+                receiverProfile.default_assigned_owner = keyValue;
+            }
+        }
+
+        return receiverProfile;
+    },
+
+    getIncidentRecipient: function (priority) {
+
+        var recipient = {
+            message_severity: 0,
+            notification_group_name: '',
+            operations_group_name: '',
+            enable_assignment_group: false,
+            enable_assigned_user: false
+        };
+
+        var i = 0;
+        var keyValue = '';
+
+        var recipientPropData = [];
+
+        if (priority === 1) {
+            recipientPropData = gs.getProperty('x_hls_hiplink.incident_recipient.P1').split('\n');
+        }
+        else if (priority === 2) {
+            recipientPropData = gs.getProperty('x_hls_hiplink.incident_recipient.P2').split('\n');
+        }
+        else if (priority === 3) {
+            recipientPropData = gs.getProperty('x_hls_hiplink.incident_recipient.P3').split('\n');
+        }
+        else if (priority === 4) {
+            recipientPropData = gs.getProperty('x_hls_hiplink.incident_recipient.P4').split('\n');
+        }
+        else if (priority === 5) {
+            recipientPropData = gs.getProperty('x_hls_hiplink.incident_recipient.P5').split('\n');
+        }
+
+        for (i = 0; i < recipientPropData.length; i++) {
+
+            if ((keyValue = this.getKeyValue(recipientPropData[i], 'message_severity')) !== '') {
+                if (keyValue === 'Normal')
+                    recipient.message_severity = 0;
+                else if (keyValue === 'Important')
+                    recipient.message_severity = 1;
+                else if (keyValue === 'Warning')
+                    recipient.message_severity = 2;
+                else if (keyValue === 'Critical')
+                    recipient.message_severity = 3;
+                else if (keyValue === 'Emergency')
+                    recipient.message_severity = 4;
+            }
+            else if ((keyValue = this.getKeyValue(recipientPropData[i], 'notification_group_name')) !== '') {
+                recipient.notification_group_name = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(recipientPropData[i], 'operations_group_name')) !== '') {
+                recipient.operations_group_name = keyValue;
+            }
+            else if ((keyValue = this.getKeyValue(recipientPropData[i], 'enable_assignment_group')) !== '') {
+                if (keyValue === 'true')
+                    recipient.enable_assignment_group = true;
+            }
+            else if ((keyValue = this.getKeyValue(recipientPropData[i], 'enable_assigned_user')) !== '') {
+                if (keyValue === 'true')
+                    recipient.enable_assigned_user = true;
+            }
+        }
+
+        return recipient;
+    },
+
+    getKeyValue: function (data, key) {
+
+        var value = '';
+
+        if (data.indexOf(key + '=') === 0 && data.length > (key + '=').length)
+            value = data.substr(key.length + 1).trim();
+
+        return value;
+    },
+
+    type: 'hiplink_system_properties'
+};
+
+hiplink_system_properties.getInstance = function () {
+
+    if (typeof hiplink_system_properties._instance === 'undefined') {
+        hiplink_system_properties._instance = new hiplink_system_properties();
+    }
+
+    return hiplink_system_properties._instance;
+};
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-24 13:49:14</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>88ae83ae1b29730079ee2136ec4bcbc7</sys_id>
+        <sys_mod_count>65</sys_mod_count>
+        <sys_name>hiplink_system_properties</sys_name>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_update_name>sys_script_include_88ae83ae1b29730079ee2136ec4bcbc7</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-11-01 11:12:43</sys_updated_on>
+    </sys_script_include>
+</record_update>

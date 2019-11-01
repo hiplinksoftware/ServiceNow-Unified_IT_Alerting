@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_hls_hiplink.hiplink_incident_operations</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>hiplink_incident_operations</name>
+        <script><![CDATA[var hiplink_incident_operations = Class.create();
+hiplink_incident_operations.prototype = {
+    initialize: function () {
+
+        this.objSystemProperties = hiplink_system_properties.getInstance();
+        this.objDataOperations = hiplink_data_operations.getInstance();
+        this.objContactsSyncOperations = hiplink_contacts_sync_operations.getInstance();
+        this.objHipLinkWebService = hiplink_web_service_consumer.getInstance();
+    },
+
+    sendIncidentCreatedMessages: function (incident) {
+        this.sendIncidentMessages(incident, 'C');
+    },
+
+    sendIncidentDeletedMessages: function (incident) {
+        this.sendIncidentMessages(incident, 'D');
+    },
+
+    sendIncidentUpdatedMessages: function (incident) {
+        this.sendIncidentMessages(incident, 'U');
+    },
+
+    sendIncidentMessages: function (incident, eventType) {
+
+        var recipient = this.getIncidentRecipient(incident);
+        var messageSeverity = recipient.message_severity;
+        var messageBody = this.getMessageBody(incident);
+        var messageResponseAction = this.objSystemProperties.message_response.action;
+        var messageResponseChoices = this.getMessageResponseChoices(incident);
+
+        if (recipient.notification_group_name !== '') {
+
+            var notifRecipients = this.getHLRecipients(recipient.notification_group_name);
+
+            if (notifRecipients.length > 0) {
+
+                var notifSubject = this.getMessageSubject(incident, 'N');
+                var notifMessage = this.getMessageHeader('N', eventType) + messageBody;
+
+                this.objHipLinkWebService.sendMessageStandard(notifRecipients,
+                    notifSubject, notifMessage, messageSeverity);
+            }
+        }
+
+        if (recipient.operations_group_name !== '') {
+
+            var operRecipients = this.getHLRecipients(recipient.operations_group_name);
+
+            if (operRecipients.length > 0) {
+
+                var operSubject = this.getMessageSubject(incident, 'O');
+                var operMessage = this.getMessageHeader('O', eventType) + messageBody;
+
+                var operResponseChoices = [];
+
+                if (messageResponseChoices.length > 0 &&
+                    messageResponseChoices[0] === this.objSystemProperties.message_response.choices.assign_to_me) {
+
+                    operResponseChoices = messageResponseChoices.slice(0, 1);
+                }
+
+                this.objHipLinkWebService.sendMessageTwoWay(operRecipients,
+                    operSubject, operMessage, messageSeverity, messageResponseAction, operResponseChoices);
+            }
+        }
+
+        if (recipient.enable_assignment_group === true) {
+
+            var asgnGroupRecipients = this.getHLRecipGroups(incident.assignment_group);
+
+            if (asgnGroupRecipients.length > 0) {
+
+                var asgnGroupSubject = this.getMessageSubject(incident, 'G');
+                var asgnGroupMessage = this.getMessageHeader('G', eventType) + messageBody;
+
+                this.objHipLinkWebService.sendMessageTwoWay(asgnGroupRecipients,
+                    asgnGroupSubject, asgnGroupMessage, messageSeverity, messageResponseAction, messageResponseChoices);
+            }
+        }
+
+        if (recipient.enable_assigned_user === true) {
+
+            var asgnUserRecipients = this.getHLReceivers(incident.assigned_to);
+
+            if (asgnUserRecipients.length > 0) {
+
+                var asgnUserSubject = this.getMessageSubject(incident, 'A');
+                var asgnUserMessage = this.getMessageHeader('A', eventType) + messageBody;
+
+                var asgnUserResponseChoices = messageResponseChoices;
+
+                if (messageResponseChoices.length > 0 &&
+                    messageResponseChoices[0] === this.objSystemProperties.message_response.choices.assign_to_me) {
+
+                    asgnUserResponseChoices = messageResponseChoices.slice(1);
+                }
+
+                this.objHipLinkWebService.sendMessageTwoWay(asgnUserRecipients,
+                    asgnUserSubject, asgnUserMessage, messageSeverity, messageResponseAction, asgnUserResponseChoices);
+            }
+        }
+    },
+
+    getIncidentRecipient: function (incident) {
+
+        var recipient = null;
+
+        var priority = parseInt(incident.priority);
+
+        if (priority >= 1 && priority <= 5) {
+            recipient = this.objSystemProperties.incident_recipient['P' + priority.toString()];
+        }
+        else { /* Default */
+            recipient = this.objSystemProperties.incident_recipient.P3;
+        }
+
+        return recipient;
+    },
+
+    getMessageSubject: function (incident, recipType) {
+
+        var subject = 'SNC:' + this.objSystemProperties.instance_name;
+        subject += ' Incident \'' + incident.number + '\' ' + this.getRecipTypeSubjectLabel(recipType);
+
+        return subject;
+    },
+
+    getMessageHeader: function (recipType, eventType) {
+
+        var message = 'Attn: ServiceNow Instance \'' + this.objSystemProperties.instance_name;
+        message += '\' Incident ' + this.getRecipTypeMessageLabel(recipType);
+        message += '\n** Incident ' + this.getEventTypeLabel(eventType) + ' **';
+
+        return message;
+    },
+
+    getMessageBody: function (incident) {
+
+        var incidentState = parseInt(incident.state);
+
+        var message = '';
+        message += '\n| Number: ' + incident.number;
+        message += '\n| Description: ' + incident.short_description;
+        message += '\n| Category: ' + this.getCategoryLabel(incident);
+        message += '\n| Caller: ' + this.getUserDisplayName(incident.caller_id);
+        message += '\n| Assigned group: ' + this.getGroupName(incident.assignment_group);
+        message += '\n| Assigned user: ' + this.getUserDisplayName(incident.assigned_to);
+        message += '\n| Priority: ' + this.getPriorityLabel(incident);
+        message += '\n| Impact: ' + this.getImpactLabel(incident);
+        message += '\n| Urgency: ' + this.getUrgencyLabel(incident);
+        message += '\n| State: ' + this.getStateLabel(incident);
+        if (incidentState === 6 || incidentState === 7) /* Resolved or Closed */
+            message += '\n| Resolution notes: ' + incident.close_notes;
+        else
+            message += '\n| Work notes: ' + this.getWorkNotes(incident);
+        message += '\n| Opened at ' + incident.opened_at + ' by ' + this.getUserDisplayName(incident.opened_by);
+        if (incidentState === 6 || incidentState === 7) /* Resolved or Closed */
+            message += '\n| Resolved at ' + incident.resolved_at + ' by ' + this.getUserDisplayName(incident.resolved_by);
+        if (incidentState === 7) /* Closed */
+            message += '\n| Closed at ' + incident.closed_at + ' by ' + this.getUserDisplayName(incident.closed_by);
+        message += '\n| Additional comments: ' + this.getAdditionalComments(incident);
+        message += '\n-- ref id: ' + incident.sys_id + '#' + incident.sys_mod_count + ' --';
+
+        return message;
+    },
+
+    getMessageResponseChoices: function (incident) {
+
+        var responseChoices = [];
+
+        var incidentState = parseInt(incident.state);
+        var choices = this.objSystemProperties.message_response.choices;
+
+        if (incidentState === 1) /* New */ {
+
+            responseChoices = [
+                choices.assign_to_me,
+                choices.in_progress,
+                choices.cancel
+            ];
+        }
+        else if (incidentState === 2) /* In Progress */ {
+
+            responseChoices = [
+                choices.assign_to_me,
+                choices.on_hold,
+                choices.resolved_permanent,
+                choices.resolved_workaround,
+                choices.not_reproducible,
+                choices.cancel
+            ];
+        }
+        else if (incidentState === 3) /* On Hold */ {
+
+            responseChoices = [
+                choices.assign_to_me,
+                choices.in_progress,
+                choices.resolved_permanent,
+                choices.resolved_workaround,
+                choices.not_reproducible,
+                choices.cancel
+            ];
+        }
+        else if (incidentState === 6) /* Resolved */ {
+
+            responseChoices = [
+                choices.assign_to_me,
+                choices.in_progress,
+                choices.on_hold,
+                choices.close,
+                choices.cancel
+            ];
+        }
+        else if (incidentState === 7) /* Closed */ {
+
+            responseChoices = [
+                choices.reopen,
+            ];
+        }
+        else if (incidentState === 8) /* Canceled */ {
+
+            responseChoices = [
+                choices.reopen,
+            ];
+        }
+        else {
+
+            responseChoices = [
+                choices.assign_to_me,
+                choices.in_progress,
+                choices.cancel
+            ];
+        }
+
+        return responseChoices;
+    },
+
+    getUserDisplayName: function (userID) {
+
+        return this.objDataOperations.getUserDisplayNameByID(userID);
+    },
+
+    getGroupName: function (groupID) {
+
+        return this.objDataOperations.getGroupNameByID(groupID);
+    },
+
+    getHLRecipients: function (groupName) {
+
+        var recipientList = [];
+
+        if (groupName.length > 3) {
+
+            var qualifier = groupName.substr(0, 3);
+
+            if (qualifier === 'hl:') {
+
+                var recipGroupName = groupName.substr(3);
+                recipientList.push(recipGroupName);
+            }
+            else if (qualifier === 'sn:') {
+
+                var groupID = this.objDataOperations.getGroupIDByName(groupName.substr(3));
+                recipientList = this.getHLRecipGroups(groupID);
+            }
+            else {
+                recipientList.push(groupName);
+            }
+        }
+        else {
+            recipientList.push(groupName);
+        }
+
+        return recipientList;
+    },
+
+    getHLRecipGroups: function (groupID) {
+
+        var recipGroupList = [];
+
+        if (groupID !== '') {
+
+            var assignedGroupRoleNames = this.objDataOperations.getAssignedGroupRoleNames(groupID);
+
+            for (var i = 0; i < assignedGroupRoleNames.length; i++) {
+
+                var groupRoleName = assignedGroupRoleNames[i];
+
+                var recipGroup = this.objContactsSyncOperations.getHLRecipGroupData(null, groupRoleName, groupID, null);
+
+                if (recipGroup.name !== '') {
+                    recipGroupList.push(recipGroup.name);
+                }
+            }
+        }
+
+        return recipGroupList;
+    },
+
+    getHLReceivers: function (userID) {
+
+        var receiverList = [];
+
+        if (userID !== '') {
+
+            var assignedUserRoleNames = this.objDataOperations.getAssignedUserRoleNames(userID);
+
+            for (var i = 0; i < assignedUserRoleNames.length; i++) {
+
+                var userRoleName = assignedUserRoleNames[i];
+
+                var receiver = this.objContactsSyncOperations.getHLReceiverData(null, userRoleName, userID, null);
+
+                if (receiver.name !== '') {
+                    receiverList.push(receiver.name);
+                }
+            }
+        }
+
+        return receiverList;
+    },
+
+    getRecipTypeSubjectLabel: function (recipType) {
+
+        var label = '';
+
+        if (recipType === 'N') {
+            label = 'Notification';
+        }
+        else if (recipType === 'O') {
+            label = 'Operations';
+        }
+        else if (recipType === 'G') {
+            label = 'Assignment';
+        }
+        else if (recipType === 'A') {
+            label = 'Assignment';
+        }
+        else { /* Default */
+            label = 'Notification';
+        }
+
+        return label;
+    },
+
+    getRecipTypeMessageLabel: function (recipType) {
+
+        var label = '';
+
+        if (recipType === 'N') {
+            label = 'Notification Group';
+        }
+        else if (recipType === 'O') {
+            label = 'Operations Group';
+        }
+        else if (recipType === 'G') {
+            label = 'Assignment Group';
+        }
+        else if (recipType === 'A') {
+            label = 'Assigned User';
+        }
+        else { /* Default */
+            label = 'Notification Group';
+        }
+
+        return label;
+    },
+
+    getEventTypeLabel: function (eventType) {
+
+        var label = '';
+
+        if (eventType === 'C') {
+            label = 'Created';
+        }
+        else if (eventType === 'D') {
+            label = 'Deleted';
+        }
+        else if (eventType === 'U') {
+            label = 'Updated';
+        }
+        else { /* Default */
+            label = 'Updated';
+        }
+
+        return label;
+    },
+
+    getCategoryLabel: function (incident) {
+
+        var label = '';
+
+        var category = incident.category;
+
+        if (category === 'inquiry') {
+            label = 'Inquiry / Help';
+        }
+        else if (category.length > 1) {
+            label = category.charAt(0).toUpperCase() + category.substr(1);
+        }
+        else { /* Default */
+            label = category;
+        }
+
+        return label;
+    },
+
+    getPriorityLabel: function (incident) {
+
+        var label = '';
+
+        var priority = parseInt(incident.priority);
+
+        if (priority === 1) {
+            label = '1 (Critical)';
+        }
+        else if (priority === 2) {
+            label = '2 (High)';
+        }
+        else if (priority === 3) {
+            label = '3 (Moderate)';
+        }
+        else if (priority === 4) {
+            label = '4 (Low)';
+        }
+        else if (priority === 5) {
+            label = '5 (Planning)';
+        }
+        else { /* Default */
+            label = 'Unknown';
+        }
+
+        return label;
+    },
+
+    getImpactLabel: function (incident) {
+
+        var label = '';
+
+        var impact = parseInt(incident.impact);
+
+        if (impact === 1) {
+            label = 'High';
+        }
+        else if (impact === 2) {
+            label = 'Medium';
+        }
+        else if (impact === 3) {
+            label = 'Low';
+        }
+        else { /* Default */
+            label = 'Unknown';
+        }
+
+        return label;
+    },
+
+    getUrgencyLabel: function (incident) {
+
+        var label = '';
+
+        var urgency = parseInt(incident.urgency);
+
+        if (urgency === 1) {
+            label = 'High';
+        }
+        else if (urgency === 2) {
+            label = 'Medium';
+        }
+        else if (urgency === 3) {
+            label = 'Low';
+        }
+        else { /* Default */
+            label = 'Unknown';
+        }
+
+        return label;
+    },
+
+    getStateLabel: function (incident) {
+
+        var label = '';
+
+        var state = parseInt(incident.state);
+
+        if (state === 1) {
+            label = 'New';
+        }
+        else if (state === 2) {
+            label = 'In Progress';
+        }
+        else if (state === 3) {
+            label = 'On Hold - ' + this.getHoldReasonLabel(incident);
+        }
+        else if (state === 6) {
+            label = 'Resolved - ' + incident.close_code;
+        }
+        else if (state === 7) {
+            label = 'Closed - ' + incident.close_code;
+        }
+        else if (state === 8) {
+            label = 'Canceled';
+        }
+        else { /* Default */
+            label = 'Unknown';
+        }
+
+        return label;
+    },
+
+    getHoldReasonLabel: function (incident) {
+
+        var label = '';
+
+        var holdReason = parseInt(incident.hold_reason);
+
+        if (holdReason === 1) {
+            label = 'Awaiting Caller';
+        }
+        else if (holdReason === 3) {
+            label = 'Awaiting Problem';
+        }
+        else if (holdReason === 4) {
+            label = 'Awaiting Vendor';
+        }
+        else if (holdReason === 5) {
+            label = 'Awaiting Change';
+        }
+        else { /* Default */
+            label = 'Awaiting';
+        }
+
+        return label;
+    },
+
+    getWorkNotes: function (incident) {
+
+        var notes = '';
+
+        var tag = '(work notes)';
+        var index = incident.work_notes.toLowerCase().indexOf(tag);
+
+        if (index !== -1) {
+            notes = incident.work_notes.substr(index + tag.length).trim();
+        }
+        else {
+            notes = incident.work_notes;
+        }
+
+        return notes;
+    },
+
+    getAdditionalComments: function (incident) {
+
+        var comments = '';
+
+        var tag = '(additional comments)';
+        var index = incident.comments.toLowerCase().indexOf(tag);
+
+        if (index !== -1) {
+            comments = incident.comments.substr(index + tag.length).trim();
+        }
+        else {
+            comments = incident.comments;
+        }
+
+        return comments;
+    },
+
+    type: 'hiplink_incident_operations'
+};
+
+hiplink_incident_operations.getInstance = function () {
+
+    if (typeof hiplink_incident_operations._instance === 'undefined') {
+        hiplink_incident_operations._instance = new hiplink_incident_operations();
+    }
+
+    return hiplink_incident_operations._instance;
+};
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-20 13:36:01</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>330522dd1b65b30079ee2136ec4bcb10</sys_id>
+        <sys_mod_count>84</sys_mod_count>
+        <sys_name>hiplink_incident_operations</sys_name>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_update_name>sys_script_include_330522dd1b65b30079ee2136ec4bcb10</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-10-15 12:16:11</sys_updated_on>
+    </sys_script_include>
+</record_update>

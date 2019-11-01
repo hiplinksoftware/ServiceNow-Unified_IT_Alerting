@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_rest_message">
+    <sys_rest_message action="DELETE">
+        <access>package_private</access>
+        <authentication_type>no_authentication</authentication_type>
+        <basic_auth_password/>
+        <basic_auth_profile/>
+        <basic_auth_user/>
+        <description/>
+        <name>hiplink.send_message.twoway.0</name>
+        <oauth2_profile/>
+        <protocol_name/>
+        <rest_endpoint>${hiplink_webservices_api_endpoint}</rest_endpoint>
+        <sys_class_name>sys_rest_message</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-04-11 19:48:07</sys_created_on>
+        <sys_id>ce04cbb01b30730079ee2136ec4bcbba</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>hiplink.send_message.twoway.0</sys_name>
+        <sys_package display_value="HipLink Integration" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="HipLink Integration">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_update_name>sys_rest_message_ce04cbb01b30730079ee2136ec4bcbba</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-04-12 07:54:24</sys_updated_on>
+        <use_basic_auth>false</use_basic_auth>
+        <use_mutual_auth>false</use_mutual_auth>
+    </sys_rest_message>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</application>
+        <file_path/>
+        <instance_id>a9aedeb3db407f4091232f17d496193e</instance_id>
+        <instance_name>dev74936</instance_name>
+        <name>sys_rest_message_ce04cbb01b30730079ee2136ec4bcbba</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_rest_message"><sys_rest_message action="INSERT_OR_UPDATE"><access>package_private</access><authentication_type>no_authentication</authentication_type><basic_auth_password/><basic_auth_profile/><basic_auth_user/><description/><name>hiplink.send_message.twoway.0</name><oauth2_profile/><protocol_name/><rest_endpoint>${hiplink_webservices_api_endpoint}</rest_endpoint><sys_class_name>sys_rest_message</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2019-04-11 19:48:07</sys_created_on><sys_id>ce04cbb01b30730079ee2136ec4bcbba</sys_id><sys_mod_count>3</sys_mod_count><sys_name>hiplink.send_message.twoway.0</sys_name><sys_package display_value="HipLink Integration" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package><sys_policy/><sys_scope display_value="HipLink Integration">5385a1ff1b10330079ee2136ec4bcb24</sys_scope><sys_update_name>sys_rest_message_ce04cbb01b30730079ee2136ec4bcbba</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2019-04-12 07:54:24</sys_updated_on><use_basic_auth>false</use_basic_auth><use_mutual_auth>false</use_mutual_auth></sys_rest_message></record_update>]]></payload>
+        <payload_hash>-1186103711</payload_hash>
+        <record_name>hiplink.send_message.twoway.0</record_name>
+        <reverted_from/>
+        <source>d38569b71b50330079ee2136ec4bcbf8</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-04-12 07:54:24</sys_created_on>
+        <sys_id>1faae9851bb4730079ee2136ec4bcb61</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>16a108a5dcd0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-04-12 07:54:24</sys_updated_on>
+        <type>REST Message</type>
+        <update_guid>97aae98541b473006f79f3fcf317fe61</update_guid>
+        <update_guid_history>97aae98541b473006f79f3fcf317fe61:-1186103711,940a4b384a30730022d21010cf401daf:-1021281513,b6944f349630730052ea83fd256dd3a2:-1186103711,2c740f3469307300020cf4f76b75010d:47418267</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-09-30 13:03:36</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_db_object display_value="" name="sys_rest_message">sys_rest_message</sys_db_object>
+        <sys_id>bb190cbb396442609bc6169db261a1e4</sys_id>
+        <sys_metadata>ce04cbb01b30730079ee2136ec4bcbba</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>hiplink.send_message.twoway.0</sys_name>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_scope_delete display_value="">0a8b33d3732c48818461461b9bbe4e19</sys_scope_delete>
+        <sys_update_name>sys_rest_message_ce04cbb01b30730079ee2136ec4bcbba</sys_update_name>
+        <sys_update_version display_value="sys_rest_message_ce04cbb01b30730079ee2136ec4bcbba">1faae9851bb4730079ee2136ec4bcb61</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-09-30 13:03:36</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

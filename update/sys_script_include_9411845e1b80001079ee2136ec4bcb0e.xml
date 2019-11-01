@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_hls_hiplink.hiplink_message_response</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>hiplink_message_response</name>
+        <script><![CDATA[var hiplink_message_response = Class.create();
+hiplink_message_response.prototype = {
+    initialize: function () {
+
+        this.objSystemProperties = hiplink_system_properties.getInstance();
+        this.objDataOperations = hiplink_data_operations.getInstance();
+        this.objIncidentOperations = hiplink_incident_operations.getInstance();
+        this.objHipLinkWebService = hiplink_web_service_consumer.getInstance();
+    },
+
+    process: function (/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+
+        try {
+
+            if (typeof request.queryParams !== 'undefined') {
+
+                if (typeof request.queryParams.job_id !== 'undefined' &&
+                    typeof request.queryParams.receiver_name !== 'undefined' &&
+                    typeof request.queryParams.message_text !== 'undefined' &&
+                    typeof request.queryParams.message_status !== 'undefined') {
+
+                    var jobID = request.queryParams.job_id.toString();
+                    var receiverName = request.queryParams.receiver_name.toString();
+                    var messageText = request.queryParams.message_text.toString();
+                    var messageStatus = request.queryParams.message_status.toString();
+
+                    if (messageStatus.indexOf('REPLIED:') === 0) {
+
+                        var messageResponse = messageStatus.substr(8).trim();
+
+                        gs.info('Inbound Web Service: Processing HipLink message (job id: ' + jobID + ')'
+                            + ' two-way response "' + messageResponse + '" for "' + receiverName + '"');
+
+                        this.processMessageResponse(receiverName, messageText, messageResponse);
+                    }
+                    else {
+
+                        gs.error('Inbound Web Service: Unable to process HipLink message response - unexpected data'
+                            + '\nRequest Data: ' + JSON.stringify(request.queryParams));
+                    }
+                }
+                else {
+
+                    gs.error('Inbound Web Service: Unable to process HipLink message response - unknown or incomplete data'
+                        + '\nRequest Data: ' + JSON.stringify(request.queryParams));
+                }
+            }
+            else {
+
+                gs.error('Inbound Web Service: Unable to process HipLink message response - missing request data');
+            }
+        }
+        catch (ex) {
+
+            gs.error('Inbound Web Service: Unable to process HipLink message response'
+                + '\nError message: ' + ex.message);
+        }
+    },
+
+    processMessageResponse: function (receiverName, messageText, messageResponse) {
+
+        var incidentRefID = this.parseIncidentRefID(messageText);
+        var incidentNumber = this.parseIncidentNumber(messageText);
+
+        if (incidentRefID !== '' && incidentNumber !== '') {
+
+            var incidentID = this.parseIncidentID(incidentRefID);
+            var incidentModCount = this.parseIncidentModCount(incidentRefID);
+            var userName = this.parseUserName(receiverName);
+
+            var incident = this.getIncident(incidentID, incidentNumber);
+            var responseChoice = this.getResponseChoice(messageResponse);
+            var userID = this.getUserID(userName);
+            var userDisplayName = this.getUserDisplayName(userID, receiverName);
+
+            if (incident === null) {
+
+                gs.error('Inbound Web Service: Unable to process HipLink message response - '
+                    + 'unable to retrieve incident record (id: ' + incidentID + ', number: ' + incidentNumber + ')');
+            }
+            else if (incidentModCount !== parseInt(incident.sys_mod_count)) {
+
+                gs.error('Inbound Web Service: Unable to process HipLink message response - '
+                    + 'incident has been updated elsewhere in the system (' + incidentModCount + ' -> ' + incident.sys_mod_count + ')');
+            }
+            else if (responseChoice === '') {
+
+                gs.error('Inbound Web Service: Unable to process HipLink message response - '
+                    + 'unknown message response choice');
+            }
+            else if (userDisplayName === '') {
+
+                gs.error('Inbound Web Service: Unable to process HipLink message response - '
+                    + 'unable to identify user display name');
+            }
+            else if (userID === '' &&
+                responseChoice === this.objSystemProperties.message_response.choices.assign_to_me) {
+
+                gs.error('Inbound Web Service: Unable to process HipLink message response - '
+                    + 'unable to retrieve user record (user name: ' + userName + ')');
+            }
+            else {
+
+                this.updateIncident(incident, responseChoice, userID, userDisplayName);
+            }
+        }
+        else {
+
+            gs.error('Inbound Web Service: Unable to process HipLink message response - '
+                + 'unable to parse incident ref ID and/or incident number (ref id: ' + incidentRefID + ', number: ' + incidentNumber + ')');
+        }
+    },
+
+    updateIncident: function (incident, responseChoice, userID, userDisplayName) {
+
+        var choices = this.objSystemProperties.message_response.choices;
+
+        if (responseChoice === choices.assign_to_me) {
+
+            incident.assigned_to = userID;
+            if (parseInt(incident.state) === 1) /* New */ {
+                incident.state = 2; /* In Progress */
+            }
+            incident.work_notes = 'Incident state changed to "In Progress"';
+            incident.comments = 'Assigned using HipLink two-way message response by ' + userDisplayName;
+        }
+        else if (responseChoice === choices.in_progress) {
+
+            incident.state = 2; /* In Progress */
+            incident.work_notes = 'Incident state changed to "In Progress"';
+            incident.comments = 'Updated using HipLink two-way message response by ' + userDisplayName;
+        }
+        else if (responseChoice === choices.on_hold) {
+
+            incident.state = 3; /* On Hold */
+            incident.hold_reason = 5; /* Awaiting Change */
+            incident.work_notes = 'Incident state changed to "On Hold"';
+            incident.comments = 'Updated using HipLink two-way message response by ' + userDisplayName;
+        }
+        else if (responseChoice === choices.resolved_permanent) {
+
+            incident.state = 6; /* Resolved */
+            incident.close_code = 'Solved Remotely (Permanently)';
+            incident.close_notes = 'Resolved using HipLink two-way message response by ' + userDisplayName;
+        }
+        else if (responseChoice === choices.resolved_workaround) {
+
+            incident.state = 6; /* Resolved */
+            incident.close_code = 'Solved Remotely (Work Around)';
+            incident.close_notes = 'Resolved using HipLink two-way message response by ' + userDisplayName;
+        }
+        else if (responseChoice === choices.not_reproducible) {
+
+            incident.state = 6; /* Resolved */
+            incident.close_code = 'Not Solved (Not Reproducible)';
+            incident.close_notes = 'Resolved using HipLink two-way message response by ' + userDisplayName;
+        }
+        else if (responseChoice === choices.close) {
+
+            incident.state = 7; /* Closed */
+            if (incident.close_code.toString() === '') {
+                incident.close_code = 'Closed/Resolved by Caller';
+            }
+            if (incident.close_notes.toString() === '') {
+                incident.close_notes = 'Closed using HipLink two-way message response by ' + userDisplayName;
+            }
+        }
+        else if (responseChoice === choices.cancel) {
+
+            incident.state = 8; /* Canceled */
+            incident.work_notes = 'Incident state changed to "Canceled"';
+            incident.comments = 'Canceled using HipLink two-way message response by ' + userDisplayName;
+        }
+        else if (responseChoice === choices.reopen) {
+
+            incident.state = 2; /* In Progress */
+            incident.work_notes = 'Incident state changed to "In Progress"';
+            incident.comments = 'Re-opened using HipLink two-way message response by ' + userDisplayName;
+        }
+
+        this.objDataOperations.updateIncident(incident, true, true);
+    },
+
+    getUserID: function (userName) {
+
+        var userID = '';
+
+        if (userName !== '') {
+            userID = this.objDataOperations.getUserIDByName(userName);
+        }
+
+        return userID;
+    },
+
+    getUserDisplayName: function (userID, receiverName) {
+
+        var userDisplayName = '';
+
+        if (userID !== '') {
+            userDisplayName = this.objDataOperations.getUserDisplayNameByID(userID);
+        }
+        else {
+            userDisplayName = 'HipLink receiver "' + receiverName + '"';
+        }
+
+        return userDisplayName;
+    },
+
+    getResponseChoice: function (messageResponse) {
+
+        var responseChoice = '';
+
+        var choices = this.objSystemProperties.message_response.choices;
+        for (var obj in choices) {
+
+            if (choices[obj].toLowerCase() === messageResponse.toLowerCase()) {
+
+                responseChoice = choices[obj];
+                break;
+            }
+        }
+
+        return responseChoice;
+    },
+
+    getIncident: function (incidentID, incidentNumber) {
+        return this.objDataOperations.getIncident(incidentID, incidentNumber);
+    },
+
+    parseUserName: function (receiverName) {
+
+        var userName = '';
+
+        var objSysProp = this.objSystemProperties;
+
+        var indexNameStart = 0;
+        var indexNameEnd = receiverName.length;
+
+        if (objSysProp.recipient_name_ident.prefix !== '') {
+            indexNameStart = objSysProp.recipient_name_ident.prefix.length;
+        }
+
+        if (objSysProp.recipient_name_ident.suffix !== '') {
+            indexNameEnd = receiverName.lastIndexOf(objSysProp.recipient_name_ident.suffix);
+        }
+
+        var indexCarrierSuffix = 0;
+        if ((indexCarrierSuffix = receiverName.lastIndexOf(objSysProp.receiver_profile.email.name_suffix, indexNameEnd)) > 0 ||
+            (indexCarrierSuffix = receiverName.lastIndexOf(objSysProp.receiver_profile.hiplink_mobile.name_suffix, indexNameEnd)) > 0 ||
+            (indexCarrierSuffix = receiverName.lastIndexOf(objSysProp.receiver_profile.sms_text.name_suffix, indexNameEnd)) > 0 ||
+            (indexCarrierSuffix = receiverName.lastIndexOf(objSysProp.receiver_profile.voice_call.name_suffix, indexNameEnd)) > 0) {
+
+            indexNameEnd = indexCarrierSuffix;
+        }
+
+        userName = receiverName.substring(indexNameStart, indexNameEnd).trim();
+
+        return userName;
+    },
+
+    parseIncidentID: function (incidentRefID) {
+
+        var incidentID = '';
+
+        var indexHash = incidentRefID.lastIndexOf('#');
+        if (indexHash > 0) {
+            incidentID = incidentRefID.substring(0, indexHash);
+        }
+        else {
+            incidentID = incidentRefID;
+        }
+
+        return incidentID;
+    },
+
+    parseIncidentModCount: function (incidentRefID) {
+
+        var incidentModCount = 0;
+
+        var indexHash = incidentRefID.lastIndexOf('#');
+        if (indexHash > 0) {
+
+            var value = incidentRefID.substring(indexHash + 1);
+            if (value !== '') {
+                incidentModCount = parseInt(value);
+            }
+        }
+
+        return incidentModCount;
+    },
+
+    parseIncidentRefID: function (messageText) {
+
+        var incidentRefID = this.parseMessageTagValue(messageText, '-- ref id: ', ' --');
+        return incidentRefID;
+    },
+
+    parseIncidentNumber: function (messageText) {
+
+        var incidentNumber = this.parseMessageTagValue(messageText, '| Number: ', '\n');
+        return incidentNumber;
+    },
+
+    parseMessageTagValue: function (messageText, tagStart, tagEnd) {
+
+        var value = '';
+
+        var indexStart = messageText.indexOf(tagStart);
+        if (indexStart > 0) {
+
+            var indexEnd = messageText.indexOf(tagEnd, indexStart);
+            if (indexEnd > indexStart) {
+                value = messageText.substring(indexStart + tagStart.length, indexEnd).trim();
+            }
+        }
+
+        return value;
+    },
+
+    type: 'hiplink_message_response'
+};
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-09-24 10:49:56</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>9411845e1b80001079ee2136ec4bcb0e</sys_id>
+        <sys_mod_count>53</sys_mod_count>
+        <sys_name>hiplink_message_response</sys_name>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_update_name>sys_script_include_9411845e1b80001079ee2136ec4bcb0e</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-10-31 02:56:15</sys_updated_on>
+    </sys_script_include>
+</record_update>

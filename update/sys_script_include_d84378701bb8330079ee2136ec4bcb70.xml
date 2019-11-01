@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_hls_hiplink.hiplink_contacts_sync_operations</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>hiplink_contacts_sync_operations</name>
+        <script><![CDATA[var hiplink_contacts_sync_operations = Class.create();
+hiplink_contacts_sync_operations.prototype = {
+    initialize: function () {
+
+        this.objSystemProperties = hiplink_system_properties.getInstance();
+        this.objDataOperations = hiplink_data_operations.getInstance();
+        this.objHipLinkWebService = hiplink_web_service_consumer.getInstance();
+    },
+
+    addHLReceiverForUserRole: function (userHasRole) {
+
+        var userRoleID = userHasRole.role.toString();
+        var userID = userHasRole.user.toString();
+
+        var receiver = this.getHLReceiverData(userRoleID, null, userID, null);
+
+        if (receiver.name !== '') {
+
+            this.objHipLinkWebService.addReceiver(receiver.name,
+                receiver.description, receiver.department, receiver.carrier, receiver.pin,
+                receiver.type, receiver.firstName, receiver.lastName,
+                receiver.emailAddress, receiver.emailCC, receiver.emailFailover,
+                receiver.assignedOwner, receiver.autoAssignOwner, receiver.ownerUserGroup,
+                receiver.disabled);
+
+            var assignedUserRoleNames = [
+                receiver.roleName
+            ];
+
+            var assignedUserGroupIDs = this.objDataOperations.getAssignedUserGroupIDs(userID);
+
+            for (var i = 0; i < assignedUserGroupIDs.length; i++) {
+
+                var recipGroupMembers = this.getHLRecipGroupsMembersData(assignedUserGroupIDs[i], userID, null, assignedUserRoleNames);
+
+                this.addHLRecipGroupMembers(null, null, recipGroupMembers);
+            }
+        }
+    },
+
+    deleteHLReceiverForUserRole: function (userHasRole) {
+
+        var userRoleID = userHasRole.role.toString();
+        var userID = userHasRole.user.toString();
+
+        var receiver = this.getHLReceiverData(userRoleID, null, userID, null);
+
+        if (receiver.name !== '') {
+            this.objHipLinkWebService.deleteReceiver(receiver.name);
+        }
+    },
+
+    addHLReceiversForUser: function (user) {
+
+        var userID = user.sys_id.toString();
+
+        var assignedUserRoleNames = this.objDataOperations.getAssignedUserRoleNames(userID);
+
+        var i;
+        for (i = 0; i < assignedUserRoleNames.length; i++) {
+
+            var userRoleName = assignedUserRoleNames[i];
+
+            var receiver = this.getHLReceiverData(null, userRoleName, null, user);
+
+            if (receiver.name !== '') {
+
+                this.objHipLinkWebService.addReceiver(receiver.name,
+                    receiver.description, receiver.department, receiver.carrier, receiver.pin,
+                    receiver.type, receiver.firstName, receiver.lastName,
+                    receiver.emailAddress, receiver.emailCC, receiver.emailFailover,
+                    receiver.assignedOwner, receiver.autoAssignOwner, receiver.ownerUserGroup,
+                    receiver.disabled);
+            }
+        }
+
+        var assignedUserGroupIDs = this.objDataOperations.getAssignedUserGroupIDs(userID);
+
+        for (i = 0; i < assignedUserGroupIDs.length; i++) {
+
+            var recipGroupMembers = this.getHLRecipGroupsMembersData(assignedUserGroupIDs[i], userID, null, assignedUserRoleNames);
+
+            this.addHLRecipGroupMembers(null, null, recipGroupMembers);
+        }
+    },
+
+    deleteHLReceiversForUser: function (user, assignedUserRoleNames) {
+
+        var userID = user.sys_id.toString();
+
+        if (typeof assignedUserRoleNames === 'undefined'
+            || assignedUserRoleNames === null) {
+
+            assignedUserRoleNames = this.objDataOperations.getAssignedUserRoleNames(userID);
+        }
+
+        var i;
+        for (i = 0; i < assignedUserRoleNames.length; i++) {
+
+            var userRoleName = assignedUserRoleNames[i];
+
+            var receiver = this.getHLReceiverData(null, userRoleName, null, user);
+
+            if (receiver.name !== '') {
+                this.objHipLinkWebService.deleteReceiver(receiver.name);
+            }
+        }
+    },
+
+    updateHLReceiversForUser: function (name, user) {
+
+        var userID = user.sys_id.toString();
+
+        var assignedUserRoleNames = this.objDataOperations.getAssignedUserRoleNames(userID);
+
+        var i;
+        for (i = 0; i < assignedUserRoleNames.length; i++) {
+
+            var userRoleName = assignedUserRoleNames[i];
+
+            var receiver = this.getHLReceiverData(null, userRoleName, null, user);
+
+            if (receiver.name !== '') {
+
+                var oldName = receiver.name.replace(user.user_name.toString(), name);
+
+                var isReceiverUpdated = this.objHipLinkWebService.updateReceiver(oldName, receiver.name,
+                    receiver.description, receiver.department, receiver.carrier, receiver.pin,
+                    receiver.type, receiver.firstName, receiver.lastName,
+                    receiver.emailAddress, receiver.emailCC, receiver.emailFailover,
+                    receiver.assignedOwner, receiver.autoAssignOwner, receiver.ownerUserGroup,
+                    receiver.disabled);
+
+                if (isReceiverUpdated === false) {
+
+                    this.objHipLinkWebService.addReceiver(receiver.name,
+                        receiver.description, receiver.department, receiver.carrier, receiver.pin,
+                        receiver.type, receiver.firstName, receiver.lastName,
+                        receiver.emailAddress, receiver.emailCC, receiver.emailFailover,
+                        receiver.assignedOwner, receiver.autoAssignOwner, receiver.ownerUserGroup,
+                        receiver.disabled);
+                }
+            }
+        }
+
+        var assignedUserGroupIDs = this.objDataOperations.getAssignedUserGroupIDs(userID);
+
+        for (i = 0; i < assignedUserGroupIDs.length; i++) {
+
+            var recipGroupMembers = this.getHLRecipGroupsMembersData(assignedUserGroupIDs[i], userID, null, assignedUserRoleNames);
+
+            this.addHLRecipGroupMembers(null, null, recipGroupMembers);
+        }
+    },
+
+    addHLRecipGroupForGroupRole: function (groupHasRole) {
+
+        var groupRoleID = groupHasRole.role.toString();
+        var groupID = groupHasRole.group.toString();
+
+        var recipGroup = this.getHLRecipGroupData(groupRoleID, null, groupID, null);
+
+        if (recipGroup.name !== '') {
+
+            this.objHipLinkWebService.addRecipientGroup(recipGroup.name,
+                recipGroup.description, recipGroup.department, recipGroup.type, recipGroup.disabled);
+
+            var assignedGroupRoleNames = [
+                recipGroup.roleName
+            ];
+
+            var assignedGroupMemberIDs = this.objDataOperations.getAssignedGroupMemberIDs(groupID);
+
+            for (var i = 0; i < assignedGroupMemberIDs.length; i++) {
+
+                var recipGroupMembers = this.getHLRecipGroupsMembersData(groupID, assignedGroupMemberIDs[i], assignedGroupRoleNames, null);
+
+                this.addHLRecipGroupMembers(null, null, recipGroupMembers);
+            }
+        }
+    },
+
+    deleteHLRecipGroupForGroupRole: function (groupHasRole) {
+
+        var groupRoleID = groupHasRole.role.toString();
+        var groupID = groupHasRole.group.toString();
+
+        var recipGroup = this.getHLRecipGroupData(groupRoleID, null, groupID, null);
+
+        if (recipGroup.name !== '') {
+            this.objHipLinkWebService.deleteRecipientGroup(recipGroup.name);
+        }
+    },
+
+    addHLRecipGroupsForGroup: function (group) {
+
+        var groupID = group.sys_id.toString();
+
+        var assignedGroupRoleNames = this.objDataOperations.getAssignedGroupRoleNames(groupID);
+
+        var i;
+        for (i = 0; i < assignedGroupRoleNames.length; i++) {
+
+            var groupRoleName = assignedGroupRoleNames[i];
+
+            var recipGroup = this.getHLRecipGroupData(null, groupRoleName, null, group);
+
+            if (recipGroup.name !== '') {
+
+                this.objHipLinkWebService.addRecipientGroup(recipGroup.name,
+                    recipGroup.description, recipGroup.department, recipGroup.type, recipGroup.disabled);
+            }
+        }
+
+        var assignedGroupMemberIDs = this.objDataOperations.getAssignedGroupMemberIDs(groupID);
+
+        for (i = 0; i < assignedGroupMemberIDs.length; i++) {
+
+            var recipGroupMembers = this.getHLRecipGroupsMembersData(groupID, assignedGroupMemberIDs[i], assignedGroupRoleNames, null);
+
+            this.addHLRecipGroupMembers(null, null, recipGroupMembers);
+        }
+    },
+
+    deleteHLRecipGroupsForGroup: function (group, assignedGroupRoleNames) {
+
+        var groupID = group.sys_id.toString();
+
+        if (typeof assignedGroupRoleNames === 'undefined'
+            || assignedGroupRoleNames === null) {
+
+            assignedGroupRoleNames = this.objDataOperations.getAssignedGroupRoleNames(groupID);
+        }
+
+        var i;
+        for (i = 0; i < assignedGroupRoleNames.length; i++) {
+
+            var groupRoleName = assignedGroupRoleNames[i];
+
+            var recipGroup = this.getHLRecipGroupData(null, groupRoleName, null, group);
+
+            if (recipGroup.name !== '') {
+                this.objHipLinkWebService.deleteRecipientGroup(recipGroup.name);
+            }
+        }
+    },
+
+    updateHLRecipGroupsForGroup: function (name, group) {
+
+        var groupID = group.sys_id.toString();
+
+        var assignedGroupRoleNames = this.objDataOperations.getAssignedGroupRoleNames(groupID);
+
+        var i;
+        for (i = 0; i < assignedGroupRoleNames.length; i++) {
+
+            var groupRoleName = assignedGroupRoleNames[i];
+
+            var recipGroup = this.getHLRecipGroupData(null, groupRoleName, null, group);
+
+            if (recipGroup.name !== '') {
+
+                var oldName = recipGroup.name.replace(group.name.toString(), name);
+
+                var isRecipGroupUpdated = this.objHipLinkWebService.updateRecipientGroup(oldName, recipGroup.name,
+                    recipGroup.description, recipGroup.department, recipGroup.type, recipGroup.disabled);
+
+                if (isRecipGroupUpdated === false) {
+
+                    this.objHipLinkWebService.addRecipientGroup(recipGroup.name,
+                        recipGroup.description, recipGroup.department, recipGroup.type, recipGroup.disabled);
+                }
+            }
+        }
+
+        var assignedGroupMemberIDs = this.objDataOperations.getAssignedGroupMemberIDs(groupID);
+
+        for (i = 0; i < assignedGroupMemberIDs.length; i++) {
+
+            var recipGroupMembers = this.getHLRecipGroupsMembersData(groupID, assignedGroupMemberIDs[i], assignedGroupRoleNames, null);
+
+            this.addHLRecipGroupMembers(null, null, recipGroupMembers);
+        }
+    },
+
+    addHLRecipGroupMembersForGroupMember: function (groupMember) {
+
+        this.addHLRecipGroupMembers(groupMember.group.toString(), groupMember.user.toString());
+    },
+
+    deleteHLRecipGroupMembersForGroupMember: function (groupMember) {
+
+        this.deleteHLRecipGroupMembers(groupMember.group.toString(), groupMember.user.toString());
+    },
+
+    addHLRecipGroupMembers: function (groupID, userID, recipGroupMembers) {
+
+        if (typeof recipGroupMembers === 'undefined'
+            || recipGroupMembers === null) {
+
+            recipGroupMembers = this.getHLRecipGroupsMembersData(groupID, userID);
+        }
+
+        for (var rg in recipGroupMembers) {
+
+            if (recipGroupMembers[rg].name !== '') {
+
+                for (var i = 0; i < recipGroupMembers[rg].members.length; i++) {
+
+                    if (recipGroupMembers[rg].members[i] !== '') {
+                        this.objHipLinkWebService.addRecipientGroupMember(recipGroupMembers[rg].name, recipGroupMembers[rg].members[i]);
+                    }
+                }
+            }
+        }
+    },
+
+    deleteHLRecipGroupMembers: function (groupID, userID, recipGroupMembers) {
+
+        if (typeof recipGroupMembers === 'undefined'
+            || recipGroupMembers === null) {
+
+            recipGroupMembers = this.getHLRecipGroupsMembersData(groupID, userID);
+        }
+
+        for (var rg in recipGroupMembers) {
+
+            if (recipGroupMembers[rg].name !== '') {
+
+                for (var i = 0; i < recipGroupMembers[rg].members.length; i++) {
+
+                    if (recipGroupMembers[rg].members[i] !== '') {
+                        this.objHipLinkWebService.deleteRecipientGroupMember(recipGroupMembers[rg].name, recipGroupMembers[rg].members[i]);
+                    }
+                }
+            }
+        }
+    },
+
+    getHLReceiverData: function (userRoleID, userRoleName, userID, user) {
+
+        var receiver = {
+            roleName: '',
+            name: '',
+            description: '',
+            department: '',
+            carrier: '',
+            pin: '',
+            type: '',
+            firstName: '',
+            lastName: '',
+            emailAddress: '',
+            emailCC: '',
+            emailFailover: '',
+            assignedOwner: '',
+            autoAssignOwner: '',
+            ownerUserGroup: '',
+            disabled: ''
+        };
+
+        if (userRoleName === null && userRoleID !== null) {
+            userRoleName = this.objDataOperations.getUserRoleName(userRoleID);
+        }
+
+        if (userRoleName !== null && userRoleName !== '') {
+
+            receiver.roleName = userRoleName;
+
+            if (user === null && userID !== null) {
+                user = this.objDataOperations.getUser(userID);
+            }
+        }
+
+        if (userRoleName !== null && user !== null) {
+
+            var objSysProp = this.objSystemProperties;
+
+            receiver.name = objSysProp.recipient_name_ident.prefix
+                + user.user_name.toString();
+            receiver.description = user.first_name.toString()
+                + ' ' + user.last_name.toString()
+                + ', ' + user.title.toString();
+
+            receiver.emailAddress = user.email.toString();
+
+            if (userRoleName.lastIndexOf('.email') > 0) {
+
+                receiver.name += objSysProp.receiver_profile.email.name_suffix;
+                receiver.description += objSysProp.receiver_profile.email.description_suffix;
+
+                receiver.carrier = objSysProp.receiver_profile.email.carrier_name;
+                receiver.pin = objSysProp.receiver_profile.email.pin_prefix
+                    + user.email.toString()
+                    + objSysProp.receiver_profile.email.pin_suffix;
+                receiver.type = objSysProp.receiver_profile.email.type;
+
+                if (receiver.emailAddress !== '') {
+
+                    receiver.emailCC = objSysProp.receiver_profile.email.email_cc;
+                    receiver.emailFailover = objSysProp.receiver_profile.email.email_failover;
+                }
+            }
+            else if (userRoleName.lastIndexOf('.hiplink_mobile') > 0) {
+
+                receiver.name += objSysProp.receiver_profile.hiplink_mobile.name_suffix;
+                receiver.description += objSysProp.receiver_profile.hiplink_mobile.description_suffix;
+
+                receiver.carrier = objSysProp.receiver_profile.hiplink_mobile.carrier_name;
+                receiver.pin = objSysProp.receiver_profile.hiplink_mobile.pin_prefix
+                    + user.user_name.toString()
+                    + objSysProp.receiver_profile.hiplink_mobile.pin_suffix;
+                receiver.type = objSysProp.receiver_profile.hiplink_mobile.type;
+
+                if (receiver.emailAddress !== '') {
+
+                    receiver.emailCC = objSysProp.receiver_profile.hiplink_mobile.email_cc;
+                    receiver.emailFailover = objSysProp.receiver_profile.hiplink_mobile.email_failover;
+                }
+
+                if (objSysProp.receiver_profile.hiplink_mobile.auto_assign_owner) {
+                    receiver.autoAssignOwner = 'true';
+                    receiver.ownerUserGroup = objSysProp.receiver_profile.hiplink_mobile.owner_user_group;
+                }
+                else {
+                    receiver.autoAssignOwner = 'false';
+                    receiver.assignedOwner = objSysProp.receiver_profile.hiplink_mobile.default_assigned_owner;
+                }
+            }
+            else if (userRoleName.lastIndexOf('.sms_text') > 0) {
+
+                receiver.name += objSysProp.receiver_profile.sms_text.name_suffix;
+                receiver.description += objSysProp.receiver_profile.sms_text.description_suffix;
+
+                receiver.carrier = objSysProp.receiver_profile.sms_text.carrier_name;
+                receiver.pin = objSysProp.receiver_profile.sms_text.pin_prefix
+                    + this.getCleanPin(user.mobile_phone.toString(), objSysProp.receiver_profile.sms_text.pin_filter)
+                    + objSysProp.receiver_profile.sms_text.pin_suffix;
+                receiver.type = objSysProp.receiver_profile.sms_text.type;
+
+                if (receiver.emailAddress !== '') {
+
+                    receiver.emailCC = objSysProp.receiver_profile.sms_text.email_cc;
+                    receiver.emailFailover = objSysProp.receiver_profile.sms_text.email_failover;
+                }
+            }
+            else if (userRoleName.lastIndexOf('.voice_call') > 0) {
+
+                receiver.name += objSysProp.receiver_profile.voice_call.name_suffix;
+                receiver.description += objSysProp.receiver_profile.voice_call.description_suffix;
+
+                receiver.carrier = objSysProp.receiver_profile.voice_call.carrier_name;
+                receiver.pin = objSysProp.receiver_profile.voice_call.pin_prefix
+                    + this.getCleanPin(user.phone.toString(), objSysProp.receiver_profile.voice_call.pin_filter)
+                    + objSysProp.receiver_profile.voice_call.pin_suffix;
+                receiver.type = objSysProp.receiver_profile.voice_call.type;
+
+                if (receiver.emailAddress !== '') {
+
+                    receiver.emailCC = objSysProp.receiver_profile.voice_call.email_cc;
+                    receiver.emailFailover = objSysProp.receiver_profile.voice_call.email_failover;
+                }
+            }
+
+            receiver.name += objSysProp.recipient_name_ident.suffix;
+
+            receiver.firstName = this.getCleanFirstLastName(user.first_name.toString());
+            receiver.lastName = this.getCleanFirstLastName(user.last_name.toString());
+
+            if (objSysProp.multi_department.enabled) {
+                receiver.department = user.department.toString();
+            }
+            else {
+                receiver.department = objSysProp.multi_department.default_department;
+            }
+
+            if (user.locked_out.toString() === '1') {
+                receiver.disabled = 'true';
+            }
+            else {
+                receiver.disabled = 'false';
+            }
+        }
+
+        return receiver;
+    },
+
+    getHLRecipGroupData: function (groupRoleID, groupRoleName, groupID, group) {
+
+        var recipGroup = {
+            roleName: '',
+            name: '',
+            description: '',
+            department: '',
+            type: '',
+            disabled: ''
+        };
+
+        if (groupRoleName === null && groupRoleID !== null) {
+            groupRoleName = this.objDataOperations.getGroupRoleName(groupRoleID);
+        }
+
+        if (groupRoleName !== null && groupRoleName !== '') {
+
+            recipGroup.roleName = groupRoleName;
+
+            if (group === null && groupID !== null) {
+                group = this.objDataOperations.getGroup(groupID);
+            }
+        }
+
+        if (groupRoleName !== null && group !== null) {
+
+            var objSysProp = this.objSystemProperties;
+
+            recipGroup.name = objSysProp.recipient_name_ident.prefix
+                + group.name.toString();
+            recipGroup.description = group.name.toString();
+
+            if (groupRoleName.lastIndexOf('.all') > 0) {
+
+                recipGroup.name += ' (All)';
+                recipGroup.description += ' (All)';
+            }
+            else if (groupRoleName.lastIndexOf('.email') > 0) {
+
+                recipGroup.name += objSysProp.receiver_profile.email.name_suffix;
+                recipGroup.description += objSysProp.receiver_profile.email.description_suffix;
+            }
+            else if (groupRoleName.lastIndexOf('.hiplink_mobile') > 0) {
+
+                recipGroup.name += objSysProp.receiver_profile.hiplink_mobile.name_suffix;
+                recipGroup.description += objSysProp.receiver_profile.hiplink_mobile.description_suffix;
+            }
+            else if (groupRoleName.lastIndexOf('.sms_text') > 0) {
+
+                recipGroup.name += objSysProp.receiver_profile.sms_text.name_suffix;
+                recipGroup.description += objSysProp.receiver_profile.sms_text.description_suffix;
+            }
+            else if (groupRoleName.lastIndexOf('.voice_call') > 0) {
+
+                recipGroup.name += objSysProp.receiver_profile.voice_call.name_suffix;
+                recipGroup.description += objSysProp.receiver_profile.voice_call.description_suffix;
+            }
+
+            recipGroup.name += objSysProp.recipient_name_ident.suffix;
+            if (group.description.toString() !== '')
+                recipGroup.description += ' - ' + group.description.toString();
+
+            recipGroup.department = this.objSystemProperties.multi_department.default_department;
+            recipGroup.type = 'Broadcast';
+            recipGroup.disabled = 'false';
+        }
+
+        return recipGroup;
+    },
+
+    getHLRecipGroupsMembersData: function (groupID, userID, assignedGroupRoleNames, assignedUserRoleNames) {
+
+        var recipGroupMembers = {
+            all: {
+                name: '',
+                members: []
+            },
+            email: {
+                name: '',
+                members: []
+            },
+            hiplink_mobile: {
+                name: '',
+                members: []
+            },
+            sms_text: {
+                name: '',
+                members: []
+            },
+            voice_call: {
+                name: '',
+                members: []
+            }
+        };
+
+        if (typeof assignedGroupRoleNames === 'undefined'
+            || assignedGroupRoleNames === null) {
+
+            assignedGroupRoleNames = this.objDataOperations.getAssignedGroupRoleNames(groupID);
+        }
+
+        if (assignedGroupRoleNames.length > 0) {
+
+            if (typeof assignedUserRoleNames === 'undefined'
+                || assignedUserRoleNames === null) {
+
+                assignedUserRoleNames = this.objDataOperations.getAssignedUserRoleNames(userID);
+            }
+
+            if (assignedUserRoleNames.length > 0) {
+
+                for (var iGroup = 0; iGroup < assignedGroupRoleNames.length; iGroup++) {
+
+                    var groupRoleName = assignedGroupRoleNames[iGroup];
+
+                    var recipGroup = this.getHLRecipGroupData(null, groupRoleName, groupID, null);
+
+                    if (recipGroup.name !== '') {
+
+                        if (groupRoleName.lastIndexOf('.all') > 0) {
+                            recipGroupMembers.all.name = recipGroup.name;
+                        }
+                        else if (groupRoleName.lastIndexOf('.email') > 0) {
+                            recipGroupMembers.email.name = recipGroup.name;
+                        }
+                        else if (groupRoleName.lastIndexOf('.hiplink_mobile') > 0) {
+                            recipGroupMembers.hiplink_mobile.name = recipGroup.name;
+                        }
+                        else if (groupRoleName.lastIndexOf('.sms_text') > 0) {
+                            recipGroupMembers.sms_text.name = recipGroup.name;
+                        }
+                        else if (groupRoleName.lastIndexOf('.voice_call') > 0) {
+                            recipGroupMembers.voice_call.name = recipGroup.name;
+                        }
+                    }
+                }
+
+                for (var iUser = 0; iUser < assignedUserRoleNames.length; iUser++) {
+
+                    var userRoleName = assignedUserRoleNames[iUser];
+
+                    var receiver = this.getHLReceiverData(null, userRoleName, userID, null);
+
+                    if (receiver.name !== '') {
+
+                        recipGroupMembers.all.members.push(receiver.name);
+
+                        if (receiver.name !== '') {
+
+                            if (userRoleName.lastIndexOf('.email') > 0) {
+                                recipGroupMembers.email.members.push(receiver.name);
+                            }
+                            else if (userRoleName.lastIndexOf('.hiplink_mobile') > 0) {
+                                recipGroupMembers.hiplink_mobile.members.push(receiver.name);
+                            }
+                            else if (userRoleName.lastIndexOf('.sms_text') > 0) {
+                                recipGroupMembers.sms_text.members.push(receiver.name);
+                            }
+                            else if (userRoleName.lastIndexOf('.voice_call') > 0) {
+                                recipGroupMembers.voice_call.members.push(receiver.name);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return recipGroupMembers;
+    },
+
+    getCleanPin: function (data, filter) {
+
+        var cleanData = data;
+
+        if (filter === 'numeric') {
+            cleanData = data.replace(/[\D]/g, '');
+        }
+        else if (filter === 'numeric-comma') {
+            cleanData = data.replace(/[^\d,]/g, '');
+        }
+
+        return cleanData;
+    },
+
+    getCleanFirstLastName: function (data) {
+
+        var cleanData = data.replace(/[^a-zA-Z0-9_'.\- ()&]/g, '');
+        return cleanData;
+    },
+
+    type: 'hiplink_contacts_sync_operations'
+};
+
+hiplink_contacts_sync_operations.getInstance = function () {
+
+    if (typeof hiplink_contacts_sync_operations._instance === 'undefined') {
+        hiplink_contacts_sync_operations._instance = new hiplink_contacts_sync_operations();
+    }
+
+    return hiplink_contacts_sync_operations._instance;
+};
+]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-04-11 09:14:12</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>d84378701bb8330079ee2136ec4bcb70</sys_id>
+        <sys_mod_count>164</sys_mod_count>
+        <sys_name>hiplink_contacts_sync_operations</sys_name>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_policy>protected</sys_policy>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_update_name>sys_script_include_d84378701bb8330079ee2136ec4bcb70</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-10-31 02:56:32</sys_updated_on>
+    </sys_script_include>
+</record_update>
