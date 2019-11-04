@@ -5,14 +5,14 @@
         <ignore_cache>true</ignore_cache>
         <is_private>false</is_private>
         <name>x_hls_hiplink.@integration_enabled</name>
-        <read_roles/>
+        <read_roles>admin</read_roles>
         <suffix>@integration_enabled</suffix>
         <sys_class_name>sys_properties</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-04-11 13:22:50</sys_created_on>
         <sys_customer_update>false</sys_customer_update>
         <sys_id>6e2ce9f81b3c330079ee2136ec4bcbe6</sys_id>
-        <sys_mod_count>10</sys_mod_count>
+        <sys_mod_count>11</sys_mod_count>
         <sys_name>x_hls_hiplink.@integration_enabled</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
@@ -20,10 +20,10 @@
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_properties_6e2ce9f81b3c330079ee2136ec4bcbe6</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-01 11:06:49</sys_updated_on>
+        <sys_updated_on>2019-11-04 16:10:20</sys_updated_on>
         <type>boolean</type>
         <value>true</value>
-        <write_roles/>
+        <write_roles>admin</write_roles>
     </sys_properties>
     <sys_translated_text action="delete_multiple" query="documentkey=6e2ce9f81b3c330079ee2136ec4bcbe6"/>
 </record_update>
