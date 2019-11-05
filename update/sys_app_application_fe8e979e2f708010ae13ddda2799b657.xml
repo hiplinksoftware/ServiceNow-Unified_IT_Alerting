@@ -7,24 +7,22 @@
         <hint>HipLink Unified IT Alerting</hint>
         <name>x_hls_hiplink_hiplink unified alertin</name>
         <order>100</order>
-        <roles/>
+        <roles>admin,x_hls_hiplink.admin</roles>
         <sys_class_name>sys_app_application</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-11-01 09:44:11</sys_created_on>
-        <sys_customer_update>false</sys_customer_update>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>fe8e979e2f708010ae13ddda2799b657</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>3</sys_mod_count>
         <sys_name>HipLink Unified IT Alerting</sys_name>
         <sys_overrides/>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
-        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_app_application_fe8e979e2f708010ae13ddda2799b657</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-01 16:33:37</sys_updated_on>
+        <sys_updated_on>2019-11-05 16:30:37</sys_updated_on>
         <title>HipLink Unified IT Alerting</title>
         <view_name/>
     </sys_app_application>

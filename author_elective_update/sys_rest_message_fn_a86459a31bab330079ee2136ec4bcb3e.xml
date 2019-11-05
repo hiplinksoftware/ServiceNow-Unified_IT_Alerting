@@ -59,7 +59,6 @@
         <sys_class_name>sys_metadata_delete</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-09-03 17:35:29</sys_created_on>
-        <sys_customer_update>false</sys_customer_update>
         <sys_db_object display_value="" name="sys_rest_message_fn">sys_rest_message_fn</sys_db_object>
         <sys_id>1286c7cd324c4108a9fd764fbf28d240</sys_id>
         <sys_metadata>a86459a31bab330079ee2136ec4bcb3e</sys_metadata>
@@ -68,7 +67,6 @@
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_parent display_value="hiplink.recipient_group.update">90b31d631bab330079ee2136ec4bcb45</sys_parent>
         <sys_policy/>
-        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_scope_delete display_value="">0a8b33d3732c48818461461b9bbe4e19</sys_scope_delete>
         <sys_update_name>sys_rest_message_fn_a86459a31bab330079ee2136ec4bcb3e</sys_update_name>

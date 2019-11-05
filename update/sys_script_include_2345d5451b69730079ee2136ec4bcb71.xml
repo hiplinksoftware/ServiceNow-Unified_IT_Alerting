@@ -265,13 +265,11 @@ hiplink_event_script_actions.prototype = {
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-19 13:09:23</sys_created_on>
-        <sys_customer_update>false</sys_customer_update>
         <sys_id>2345d5451b69730079ee2136ec4bcb71</sys_id>
         <sys_mod_count>87</sys_mod_count>
         <sys_name>hiplink_event_script_actions</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy>protected</sys_policy>
-        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_script_include_2345d5451b69730079ee2136ec4bcb71</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>

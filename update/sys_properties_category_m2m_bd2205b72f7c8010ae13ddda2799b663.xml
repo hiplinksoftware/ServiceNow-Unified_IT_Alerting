@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category_m2m">
+    <sys_properties_category_m2m action="INSERT_OR_UPDATE">
+        <category display_value="Receiver Profiles - Voice Call">4c52b62f2f348010ae13ddda2799b67b</category>
+        <order>300</order>
+        <property display_value="x_hls_hiplink.receiver_profile.voice_call.description_suffix" name="x_hls_hiplink.receiver_profile.voice_call.description_suffix">ab2b783f2f3c8010ae13ddda2799b6b8</property>
+        <sys_class_name>sys_properties_category_m2m</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-11-05 14:11:47</sys_created_on>
+        <sys_id>bd2205b72f7c8010ae13ddda2799b663</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_hls_hiplink.receiver_profile.voice_call.description_suffix.Receiver Profile - Voice Call</sys_name>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_update_name>sys_properties_category_m2m_bd2205b72f7c8010ae13ddda2799b663</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-11-05 14:11:47</sys_updated_on>
+    </sys_properties_category_m2m>
+</record_update>

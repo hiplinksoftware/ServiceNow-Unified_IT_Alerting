@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category_m2m">
+    <sys_properties_category_m2m action="DELETE">
+        <category display_value="Properties">ce5758eb2f3c4010ae13ddda2799b6dc</category>
+        <order>1200</order>
+        <property display_value="x_hls_hiplink.receiver_profile.hipink_mobile" name="x_hls_hiplink.receiver_profile.hipink_mobile">fdda523b1bd0330079ee2136ec4bcbaa</property>
+        <sys_class_name>sys_properties_category_m2m</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-11-04 16:26:47</sys_created_on>
+        <sys_id>6d77d8eb2f3c4010ae13ddda2799b6fe</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_hls_hiplink.receiver_profile.hipink_mobile.Properties</sys_name>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_update_name>sys_properties_category_m2m_6d77d8eb2f3c4010ae13ddda2799b6fe</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-11-04 16:26:47</sys_updated_on>
+    </sys_properties_category_m2m>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</application>
+        <file_path/>
+        <instance_id>a9aedeb3db407f4091232f17d496193e</instance_id>
+        <instance_name>dev74936</instance_name>
+        <name>sys_properties_category_m2m_6d77d8eb2f3c4010ae13ddda2799b6fe</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category_m2m"><sys_properties_category_m2m action="INSERT_OR_UPDATE"><category display_value="Properties">ce5758eb2f3c4010ae13ddda2799b6dc</category><order>1200</order><property display_value="x_hls_hiplink.receiver_profile.hipink_mobile" name="x_hls_hiplink.receiver_profile.hipink_mobile">fdda523b1bd0330079ee2136ec4bcbaa</property><sys_class_name>sys_properties_category_m2m</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2019-11-04 16:26:47</sys_created_on><sys_id>6d77d8eb2f3c4010ae13ddda2799b6fe</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_hls_hiplink.receiver_profile.hipink_mobile.Properties</sys_name><sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package><sys_policy/><sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope><sys_update_name>sys_properties_category_m2m_6d77d8eb2f3c4010ae13ddda2799b6fe</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2019-11-04 16:26:47</sys_updated_on></sys_properties_category_m2m></record_update>]]></payload>
+        <payload_hash>1691622679</payload_hash>
+        <record_name>x_hls_hiplink.receiver_profile.hipink_mobile.Properties</record_name>
+        <reverted_from/>
+        <source>4c3eb8032f340010ae13ddda2799b6b5</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-11-04 16:26:47</sys_created_on>
+        <sys_id>65771ceb2f3c4010ae13ddda2799b600</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>16e373d7eef0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-11-04 16:26:47</sys_updated_on>
+        <type>Category Property</type>
+        <update_guid>ad77d8eb8c3c4010c3f42697a15b9eff</update_guid>
+        <update_guid_history>ad77d8eb8c3c4010c3f42697a15b9eff:1691622679</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-11-05 03:38:12</sys_created_on>
+        <sys_db_object display_value="" name="sys_properties_category_m2m">sys_properties_category_m2m</sys_db_object>
+        <sys_id>984f544c110c43eda2ac09c026643b11</sys_id>
+        <sys_metadata>6d77d8eb2f3c4010ae13ddda2799b6fe</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_hls_hiplink.receiver_profile.hipink_mobile.Properties</sys_name>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_scope_delete display_value="">0a8b33d3732c48818461461b9bbe4e19</sys_scope_delete>
+        <sys_update_name>sys_properties_category_m2m_6d77d8eb2f3c4010ae13ddda2799b6fe</sys_update_name>
+        <sys_update_version display_value="sys_properties_category_m2m_6d77d8eb2f3c4010ae13ddda2799b6fe">65771ceb2f3c4010ae13ddda2799b600</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-11-05 03:38:12</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>
