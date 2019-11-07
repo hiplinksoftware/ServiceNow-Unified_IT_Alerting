@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category_m2m">
     <sys_properties_category_m2m action="INSERT_OR_UPDATE">
-        <category display_value="Receiver Profiles - Voice Call">4c52b62f2f348010ae13ddda2799b67b</category>
+        <category display_value="Receiver Profile - Voice Call">4c52b62f2f348010ae13ddda2799b67b</category>
         <order>100</order>
         <property display_value="x_hls_hiplink.receiver_profile.voice_call.carrier_name" name="x_hls_hiplink.receiver_profile.voice_call.carrier_name">3ada1ab71bd0330079ee2136ec4bcbb4</property>
         <sys_class_name>sys_properties_category_m2m</sys_class_name>

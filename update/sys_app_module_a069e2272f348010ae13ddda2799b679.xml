@@ -6,7 +6,7 @@
         <content_page/>
         <device_type/>
         <filter/>
-        <hint>HipLink Unified IT Alerting - Incident Recipients</hint>
+        <hint>HipLink Unified IT Alerting &gt; Configuration - Alerts</hint>
         <homepage/>
         <image/>
         <link_type>SEPARATOR</link_type>
@@ -18,24 +18,24 @@
         <override_menu_roles>false</override_menu_roles>
         <query/>
         <report/>
-        <roles>admin,x_hls_hiplink.admin</roles>
+        <roles>x_hls_hiplink.admin</roles>
         <sys_class_name>sys_app_module</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-11-05 03:04:45</sys_created_on>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>a069e2272f348010ae13ddda2799b679</sys_id>
-        <sys_mod_count>4</sys_mod_count>
-        <sys_name>Incident Recipients</sys_name>
+        <sys_mod_count>10</sys_mod_count>
+        <sys_name>Configuration - Alerts</sys_name>
         <sys_overrides/>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_app_module_a069e2272f348010ae13ddda2799b679</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-05 16:11:33</sys_updated_on>
+        <sys_updated_on>2019-11-07 19:50:22</sys_updated_on>
         <timeline_page/>
-        <title>Incident Recipients</title>
+        <title>Configuration - Alerts</title>
         <uncancelable>false</uncancelable>
         <view_name/>
         <window_name/>

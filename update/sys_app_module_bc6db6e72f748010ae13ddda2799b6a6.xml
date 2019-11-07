@@ -6,7 +6,7 @@
         <content_page/>
         <device_type/>
         <filter/>
-        <hint>HipLink Unified IT Alerting - Incident Recipients - P3</hint>
+        <hint>HipLink Unified IT Alerting &gt; Configuration - Alerts &gt; Incident Recipients - P3</hint>
         <homepage/>
         <image/>
         <link_type>DIRECT</link_type>
@@ -16,26 +16,26 @@
         <name/>
         <order>3300</order>
         <override_menu_roles>false</override_menu_roles>
-        <query>system_properties_ui.do?sysparm_title=HipLink Unified IT Alerting - Incident Recipients - P3&amp;sysparm_category=Incident Recipients - P3</query>
+        <query>system_properties_ui.do?sysparm_title=HipLink Unified IT Alerting &gt; Configuration - Alerts &gt; Incident Recipients - P3&amp;sysparm_category=Incident Recipients - P3</query>
         <report/>
-        <roles>admin,x_hls_hiplink.admin</roles>
+        <roles>x_hls_hiplink.admin</roles>
         <sys_class_name>sys_app_module</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-11-05 04:34:36</sys_created_on>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>bc6db6e72f748010ae13ddda2799b6a6</sys_id>
-        <sys_mod_count>2</sys_mod_count>
-        <sys_name>P3 - Moderate</sys_name>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_name>Incident Recipients - P3</sys_name>
         <sys_overrides/>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_app_module_bc6db6e72f748010ae13ddda2799b6a6</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-05 16:11:25</sys_updated_on>
+        <sys_updated_on>2019-11-07 19:51:21</sys_updated_on>
         <timeline_page/>
-        <title>P3 - Moderate</title>
+        <title>Incident Recipients - P3</title>
         <uncancelable>false</uncancelable>
         <view_name/>
         <window_name/>

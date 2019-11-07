@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category_m2m">
     <sys_properties_category_m2m action="INSERT_OR_UPDATE">
-        <category display_value="Receiver Profiles - Email">1642be2f2f348010ae13ddda2799b674</category>
+        <category display_value="Receiver Profile - Email">1642be2f2f348010ae13ddda2799b674</category>
         <order>200</order>
         <property display_value="x_hls_hiplink.receiver_profile.email.name_suffix" name="x_hls_hiplink.receiver_profile.email.name_suffix">462eec332f3c8010ae13ddda2799b69d</property>
         <sys_class_name>sys_properties_category_m2m</sys_class_name>

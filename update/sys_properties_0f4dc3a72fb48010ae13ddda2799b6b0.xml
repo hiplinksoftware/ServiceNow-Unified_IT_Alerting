@@ -3,7 +3,7 @@
         <choices/>
         <description>&lt;strong&gt;Re-Open Incident&lt;/strong&gt;&#13;
 &lt;br/&gt;&#13;
-Specify the label of the message response choice for re-opening the incident</description>
+Specify the label of the alerts response choice for re-opening the incident</description>
         <ignore_cache>false</ignore_cache>
         <is_private>false</is_private>
         <name>x_hls_hiplink.message_response.choices.reopen</name>
@@ -13,14 +13,14 @@ Specify the label of the message response choice for re-opening the incident</de
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-11-05 05:43:48</sys_created_on>
         <sys_id>0f4dc3a72fb48010ae13ddda2799b6b0</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name>x_hls_hiplink.message_response.choices.reopen</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_properties_0f4dc3a72fb48010ae13ddda2799b6b0</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-05 15:22:09</sys_updated_on>
+        <sys_updated_on>2019-11-07 19:59:26</sys_updated_on>
         <type>string</type>
         <value>Re-Open Incident</value>
         <write_roles/>

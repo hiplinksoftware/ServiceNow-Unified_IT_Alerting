@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category">
     <sys_properties_category action="INSERT_OR_UPDATE">
-        <name>Receiver Profiles - HipLink Mobile</name>
+        <name>Receiver Profile - HipLink Mobile</name>
         <sys_class_name>sys_properties_category</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-11-05 03:39:57</sys_created_on>
         <sys_id>9431b2eb2f348010ae13ddda2799b626</sys_id>
-        <sys_mod_count>8</sys_mod_count>
-        <sys_name>Receiver Profiles - HipLink Mobile</sys_name>
+        <sys_mod_count>13</sys_mod_count>
+        <sys_name>Receiver Profile - HipLink Mobile</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_properties_category_9431b2eb2f348010ae13ddda2799b626</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-05 16:04:00</sys_updated_on>
+        <sys_updated_on>2019-11-07 19:38:05</sys_updated_on>
         <title><![CDATA[<p style="text-align: left;"><span style="font-family: verdana, geneva;"><img style="float: left;" title="HipLink" src="HipLink.ico" alt="HipLink" width="32" height="32" align="baseline" /> <strong><span style="font-size: 20pt;"> HipLink Unified IT Alerting</span></strong></span></p>
 <p style="text-align: left;"> </p>
-<p style="text-align: left;"><span style="font-size: 14pt; font-family: verdana, geneva;"><strong>Receiver Profile Parameters for HipLink Mobile Receivers</strong></span></p>
+<p style="text-align: left;"><span style="font-size: 14pt; font-family: verdana, geneva;"><strong>Contacts Sync Configuration: HipLink Mobile Receivers Profile Parameters </strong></span></p>
 <p style="text-align: left;"> </p>]]></title>
     </sys_properties_category>
     <sys_translated_text action="delete_multiple" query="documentkey=9431b2eb2f348010ae13ddda2799b626"/>

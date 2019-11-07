@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category_m2m">
     <sys_properties_category_m2m action="INSERT_OR_UPDATE">
-        <category display_value="Receiver Profiles - HipLink Mobile">9431b2eb2f348010ae13ddda2799b626</category>
+        <category display_value="Receiver Profile - HipLink Mobile">9431b2eb2f348010ae13ddda2799b626</category>
         <order>400</order>
         <property display_value="x_hls_hiplink.receiver_profile.hipink_mobile.type" name="x_hls_hiplink.receiver_profile.hipink_mobile.type">e8adb0732f7c8010ae13ddda2799b67a</property>
         <sys_class_name>sys_properties_category_m2m</sys_class_name>

@@ -3,15 +3,15 @@
         <choices/>
         <description>&lt;strong&gt;Operations Group&lt;/strong&gt;&#13;
 &lt;br/&gt;&#13;
-Specify the name of recipient group to send automated P5 incident operations messages.&#13;
+Specify the name of recipient group to send automated P5 incident operations alerts.&#13;
 &lt;br/&gt;&#13;
-Use the prefix hl: or sn: for groups defined in HipLink and ServiceNow respectively, or leave it blank to disable P5 incident operations messages.&#13;
+Use the prefix hl: or sn: for groups defined in HipLink and ServiceNow respectively, or leave it blank to disable P5 incident operations alerts.&#13;
 &lt;br/&gt;&#13;
 Examples:&#13;
 &lt;br/&gt;&#13;
-&amp;nbsp;&amp;nbsp;hl:HipLink Broadcast Group&#13;
+&amp;nbsp;&amp;nbsp;hl:HipLink Escalation Group&#13;
 &lt;br/&gt;&#13;
-&amp;nbsp;&amp;nbsp;sn:Technical Support&#13;
+&amp;nbsp;&amp;nbsp;sn:IT Operations Group&#13;
 &lt;br/&gt;&#13;
 Note: Only one group name is supported.</description>
         <ignore_cache>false</ignore_cache>
@@ -23,14 +23,14 @@ Note: Only one group name is supported.</description>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-11-05 06:51:00</sys_created_on>
         <sys_id>5c6cd3a72ff48010ae13ddda2799b636</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name>x_hls_hiplink.incident_recipient.P5.operations_group_name</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_properties_5c6cd3a72ff48010ae13ddda2799b636</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-05 15:41:00</sys_updated_on>
+        <sys_updated_on>2019-11-07 19:55:35</sys_updated_on>
         <type>string</type>
         <value/>
         <write_roles/>

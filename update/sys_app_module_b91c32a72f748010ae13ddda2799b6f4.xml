@@ -6,7 +6,7 @@
         <content_page/>
         <device_type/>
         <filter/>
-        <hint>HipLink Unified IT Alerting - Receiver Profiles - HipLink Mobile</hint>
+        <hint>HipLink Unified IT Alerting &gt; Configuration - Contacts Sync &gt; Receiver Profile - HipLink Mobile</hint>
         <homepage/>
         <image/>
         <link_type>DIRECT</link_type>
@@ -14,28 +14,28 @@
         <mobile_title>HipLink Mobile</mobile_title>
         <mobile_view_name>Mobile</mobile_view_name>
         <name/>
-        <order>2100</order>
+        <order>2300</order>
         <override_menu_roles>false</override_menu_roles>
-        <query>system_properties_ui.do?sysparm_title=HipLink Unified IT Alerting - Receiver Profiles - HipLink Mobile&amp;sysparm_category=Receiver Profiles - HipLink Mobile</query>
+        <query>system_properties_ui.do?sysparm_title=HipLink Unified IT Alerting &gt; Configuration - Contacts Sync &gt; HipLink Mobile&amp;sysparm_category=Receiver Profile - HipLink Mobile</query>
         <report/>
-        <roles>admin,x_hls_hiplink.admin</roles>
+        <roles>x_hls_hiplink.admin</roles>
         <sys_class_name>sys_app_module</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-11-05 04:28:22</sys_created_on>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>b91c32a72f748010ae13ddda2799b6f4</sys_id>
-        <sys_mod_count>3</sys_mod_count>
-        <sys_name>HipLink Mobile</sys_name>
+        <sys_mod_count>9</sys_mod_count>
+        <sys_name>Receiver Profile - HipLink Mobile</sys_name>
         <sys_overrides/>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_app_module_b91c32a72f748010ae13ddda2799b6f4</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-05 16:10:23</sys_updated_on>
+        <sys_updated_on>2019-11-07 19:38:41</sys_updated_on>
         <timeline_page/>
-        <title>HipLink Mobile</title>
+        <title>Receiver Profile - HipLink Mobile</title>
         <uncancelable>false</uncancelable>
         <view_name/>
         <window_name/>

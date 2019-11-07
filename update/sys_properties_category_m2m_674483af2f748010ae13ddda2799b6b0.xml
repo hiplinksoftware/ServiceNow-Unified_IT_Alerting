@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category_m2m">
     <sys_properties_category_m2m action="INSERT_OR_UPDATE">
-        <category display_value="Web Services API">7d97b6ef2f348010ae13ddda2799b6ac</category>
+        <category display_value="HipLink Web Services API">7d97b6ef2f348010ae13ddda2799b6ac</category>
         <order>200</order>
         <property display_value="x_hls_hiplink.webservices_api.username" name="x_hls_hiplink.webservices_api.username">a763836f2f748010ae13ddda2799b6fd</property>
         <sys_class_name>sys_properties_category_m2m</sys_class_name>

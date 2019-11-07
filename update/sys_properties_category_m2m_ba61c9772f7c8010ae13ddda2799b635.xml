@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category_m2m">
     <sys_properties_category_m2m action="INSERT_OR_UPDATE">
-        <category display_value="Receiver Profiles - SMS Text">8f42be2f2f348010ae13ddda2799b630</category>
+        <category display_value="Receiver Profile - SMS Text">8f42be2f2f348010ae13ddda2799b630</category>
         <order>600</order>
         <property display_value="x_hls_hiplink.receiver_profile.sms_text.pin_prefix" name="x_hls_hiplink.receiver_profile.sms_text.pin_prefix">f729b4fb2f3c8010ae13ddda2799b674</property>
         <sys_class_name>sys_properties_category_m2m</sys_class_name>

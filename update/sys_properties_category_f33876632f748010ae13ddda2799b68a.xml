@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category">
     <sys_properties_category action="INSERT_OR_UPDATE">
-        <name>Recipient Name Identification</name>
+        <name>Name Identification</name>
         <sys_class_name>sys_properties_category</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-11-05 04:10:59</sys_created_on>
         <sys_id>f33876632f748010ae13ddda2799b68a</sys_id>
-        <sys_mod_count>3</sys_mod_count>
-        <sys_name>Recipient Name Identification</sys_name>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_name>Name Identification</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_properties_category_f33876632f748010ae13ddda2799b68a</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-05 04:53:44</sys_updated_on>
+        <sys_updated_on>2019-11-07 19:30:45</sys_updated_on>
         <title><![CDATA[<p style="text-align: left;"><span style="font-family: verdana, geneva;"><img style="float: left;" title="HipLink" src="HipLink.ico" alt="HipLink" width="32" height="32" align="baseline" /> <strong><span style="font-size: 20pt;"> HipLink Unified IT Alerting</span></strong></span></p>
 <p style="text-align: left;"> </p>
-<p style="text-align: left;"><span style="font-size: 14pt; font-family: verdana, geneva;"><strong> <span style="font-family: verdana, geneva;">Configuration</span> for Recipient Name Identification </strong></span></p>
+<p style="text-align: left;"><span style="font-size: 14pt; font-family: verdana, geneva;"><strong>Contacts Sync Configuration: Name Identification</strong></span></p>
 <p style="text-align: left;"> </p>]]></title>
     </sys_properties_category>
     <sys_translated_text action="delete_multiple" query="documentkey=f33876632f748010ae13ddda2799b68a"/>

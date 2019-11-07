@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category_m2m">
     <sys_properties_category_m2m action="INSERT_OR_UPDATE">
-        <category display_value="Message Response">59447eaf2f348010ae13ddda2799b6e5</category>
+        <category display_value="Two-Way Response">59447eaf2f348010ae13ddda2799b6e5</category>
         <order>1000</order>
         <property display_value="x_hls_hiplink.message_response.choices.reopen" name="x_hls_hiplink.message_response.choices.reopen">0f4dc3a72fb48010ae13ddda2799b6b0</property>
         <sys_class_name>sys_properties_category_m2m</sys_class_name>

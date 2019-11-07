@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_module">
+    <sys_app_module action="DELETE">
+        <active>true</active>
+        <application display_value="HipLink Unified IT Alerting">fe8e979e2f708010ae13ddda2799b657</application>
+        <assessment/>
+        <content_page/>
+        <device_type/>
+        <filter/>
+        <hint>HipLink Unified IT Alerting - Configuration - Recipients</hint>
+        <homepage/>
+        <image/>
+        <link_type>SEPARATOR</link_type>
+        <map_page/>
+        <mobile_title>Configuration - Recipients</mobile_title>
+        <mobile_view_name>Mobile</mobile_view_name>
+        <name/>
+        <order/>
+        <override_menu_roles>false</override_menu_roles>
+        <query/>
+        <report/>
+        <roles>x_hls_hiplink.admin</roles>
+        <sys_class_name>sys_app_module</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-11-07 19:04:12</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>b3f714a82f050010ae13ddda2799b67d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Configuration - Recipients</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_update_name>sys_app_module_b3f714a82f050010ae13ddda2799b67d</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-11-07 19:04:12</sys_updated_on>
+        <timeline_page/>
+        <title>Configuration - Recipients</title>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+        <window_name/>
+    </sys_app_module>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</application>
+        <file_path/>
+        <instance_id>a9aedeb3db407f4091232f17d496193e</instance_id>
+        <instance_name>dev74936</instance_name>
+        <name>sys_app_module_b3f714a82f050010ae13ddda2799b67d</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_module"><sys_app_module action="INSERT_OR_UPDATE"><active>true</active><application display_value="HipLink Unified IT Alerting">fe8e979e2f708010ae13ddda2799b657</application><assessment/><content_page/><device_type/><filter/><hint>HipLink Unified IT Alerting - Configuration - Recipients</hint><homepage/><image/><link_type>SEPARATOR</link_type><map_page/><mobile_title>Configuration - Recipients</mobile_title><mobile_view_name>Mobile</mobile_view_name><name/><order/><override_menu_roles>false</override_menu_roles><query/><report/><roles>x_hls_hiplink.admin</roles><sys_class_name>sys_app_module</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2019-11-07 19:04:12</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>b3f714a82f050010ae13ddda2799b67d</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Configuration - Recipients</sys_name><sys_overrides/><sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package><sys_policy/><sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope><sys_update_name>sys_app_module_b3f714a82f050010ae13ddda2799b67d</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2019-11-07 19:04:12</sys_updated_on><timeline_page/><title>Configuration - Recipients</title><uncancelable>false</uncancelable><view_name/><window_name/></sys_app_module></record_update>]]></payload>
+        <payload_hash>415430307</payload_hash>
+        <record_name>Configuration - Recipients</record_name>
+        <reverted_from/>
+        <source>5f82adf72ffc8010ae13ddda2799b698</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-11-07 19:04:12</sys_created_on>
+        <sys_id>3c48d4a82f050010ae13ddda2799b68f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>16e4740b1d80000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-11-07 19:04:12</sys_updated_on>
+        <type>Module</type>
+        <update_guid>7448d4a8bf05001079d5ed663906d18f</update_guid>
+        <update_guid_history>7448d4a8bf05001079d5ed663906d18f:415430307</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Configuration - Recipients">267a9c2c2f050010ae13ddda2799b6cf</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-11-07 19:13:53</sys_created_on>
+        <sys_db_object display_value="" name="sys_app_module">sys_app_module</sys_db_object>
+        <sys_id>20689975a5174cbea52aed3aaca06111</sys_id>
+        <sys_metadata>b3f714a82f050010ae13ddda2799b67d</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Configuration - Recipients</sys_name>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_scope_delete display_value="">0a8b33d3732c48818461461b9bbe4e19</sys_scope_delete>
+        <sys_update_name>sys_app_module_b3f714a82f050010ae13ddda2799b67d</sys_update_name>
+        <sys_update_version display_value="sys_app_module_b3f714a82f050010ae13ddda2799b67d">3c48d4a82f050010ae13ddda2799b68f</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-11-07 19:13:53</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

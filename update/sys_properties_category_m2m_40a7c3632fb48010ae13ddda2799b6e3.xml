@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category_m2m">
     <sys_properties_category_m2m action="INSERT_OR_UPDATE">
-        <category display_value="Recipient Name Identification">f33876632f748010ae13ddda2799b68a</category>
+        <category display_value="Name Identification">f33876632f748010ae13ddda2799b68a</category>
         <order>100</order>
         <property display_value="x_hls_hiplink.recipient_name_ident.prefix" name="x_hls_hiplink.recipient_name_ident.prefix">b1145af31bd0330079ee2136ec4bcb81</property>
         <sys_class_name>sys_properties_category_m2m</sys_class_name>
