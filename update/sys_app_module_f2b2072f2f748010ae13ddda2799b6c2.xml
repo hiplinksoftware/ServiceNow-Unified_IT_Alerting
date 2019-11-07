@@ -6,7 +6,7 @@
         <content_page/>
         <device_type/>
         <filter/>
-        <hint>HipLink Unified IT Alerting &gt; Configuration - Alerts &gt; Message Response</hint>
+        <hint>HipLink Unified IT Alerting &gt; Configuration - Alerts &gt; Two-Way Response</hint>
         <homepage/>
         <image/>
         <link_type>DIRECT</link_type>
@@ -16,7 +16,7 @@
         <name/>
         <order>3600</order>
         <override_menu_roles>false</override_menu_roles>
-        <query>system_properties_ui.do?sysparm_title=HipLink Unified IT Alerting &gt; Configuration - Alerts &gt; Message Response&amp;sysparm_category=Message Response</query>
+        <query>system_properties_ui.do?sysparm_title=HipLink Unified IT Alerting &gt; Configuration - Alerts &gt; Two-Way Response&amp;sysparm_category=Two-Way Response</query>
         <report/>
         <roles>x_hls_hiplink.admin</roles>
         <sys_class_name>sys_app_module</sys_class_name>
@@ -25,17 +25,17 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>f2b2072f2f748010ae13ddda2799b6c2</sys_id>
-        <sys_mod_count>8</sys_mod_count>
-        <sys_name>Message Response</sys_name>
+        <sys_mod_count>9</sys_mod_count>
+        <sys_name>Two-Way Response</sys_name>
         <sys_overrides/>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_app_module_f2b2072f2f748010ae13ddda2799b6c2</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-07 19:51:18</sys_updated_on>
+        <sys_updated_on>2019-11-07 21:16:59</sys_updated_on>
         <timeline_page/>
-        <title>Message Response</title>
+        <title>Two-Way Response</title>
         <uncancelable>false</uncancelable>
         <view_name/>
         <window_name/>
