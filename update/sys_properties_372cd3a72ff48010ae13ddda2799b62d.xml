@@ -4,7 +4,7 @@
         <description>&lt;strong&gt;Message Severity&lt;/strong&gt;&#13;
 &lt;br/&gt;&#13;
 Specify the HipLink message severity level for P3 incident messages</description>
-        <ignore_cache>false</ignore_cache>
+        <ignore_cache>true</ignore_cache>
         <is_private>false</is_private>
         <name>x_hls_hiplink.incident_recipient.P3.message_severity</name>
         <read_roles/>
@@ -13,14 +13,14 @@ Specify the HipLink message severity level for P3 incident messages</description
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-11-05 06:50:13</sys_created_on>
         <sys_id>372cd3a72ff48010ae13ddda2799b62d</sys_id>
-        <sys_mod_count>5</sys_mod_count>
+        <sys_mod_count>6</sys_mod_count>
         <sys_name>x_hls_hiplink.incident_recipient.P3.message_severity</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_properties_372cd3a72ff48010ae13ddda2799b62d</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-05 15:39:42</sys_updated_on>
+        <sys_updated_on>2019-11-07 20:16:40</sys_updated_on>
         <type>choicelist</type>
         <value>Normal</value>
         <write_roles/>

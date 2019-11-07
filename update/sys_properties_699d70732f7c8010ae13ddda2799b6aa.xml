@@ -4,7 +4,7 @@
         <description>&lt;strong&gt;Email Fail-Over&lt;/strong&gt;&#13;
 &lt;br/&gt;&#13;
 Enable the email fail-over option for HipLink Mobile receivers</description>
-        <ignore_cache>false</ignore_cache>
+        <ignore_cache>true</ignore_cache>
         <is_private>false</is_private>
         <name>x_hls_hiplink.receiver_profile.hipink_mobile.email_failover</name>
         <read_roles/>
@@ -13,14 +13,14 @@ Enable the email fail-over option for HipLink Mobile receivers</description>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-11-05 14:01:21</sys_created_on>
         <sys_id>699d70732f7c8010ae13ddda2799b6aa</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>3</sys_mod_count>
         <sys_name>x_hls_hiplink.receiver_profile.hipink_mobile.email_failover</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_properties_699d70732f7c8010ae13ddda2799b6aa</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-05 15:51:19</sys_updated_on>
+        <sys_updated_on>2019-11-07 20:21:32</sys_updated_on>
         <type>boolean</type>
         <value>false</value>
         <write_roles/>
