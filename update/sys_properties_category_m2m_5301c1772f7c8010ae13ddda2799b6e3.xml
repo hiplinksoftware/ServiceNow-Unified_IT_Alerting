@@ -2,7 +2,7 @@
     <sys_properties_category_m2m action="INSERT_OR_UPDATE">
         <category display_value="Receiver Profile - HipLink Mobile">9431b2eb2f348010ae13ddda2799b626</category>
         <order>700</order>
-        <property display_value="x_hls_hiplink.receiver_profile.hipink_mobile.pin_suffix" name="x_hls_hiplink.receiver_profile.hipink_mobile.pin_suffix">a39d70332f7c8010ae13ddda2799b645</property>
+        <property display_value="x_hls_hiplink.receiver_profile.hiplink_mobile.pin_suffix" name="x_hls_hiplink.receiver_profile.hiplink_mobile.pin_suffix">a39d70332f7c8010ae13ddda2799b645</property>
         <sys_class_name>sys_properties_category_m2m</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-11-05 14:06:59</sys_created_on>
