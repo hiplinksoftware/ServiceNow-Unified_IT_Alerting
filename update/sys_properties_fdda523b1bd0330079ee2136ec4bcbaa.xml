@@ -7,23 +7,23 @@ Specify the name of the HipLink carrier for HipLink Mobile receivers</descriptio
         <ignore_cache>true</ignore_cache>
         <is_private>false</is_private>
         <name>x_hls_hiplink.receiver_profile.hiplink_mobile.carrier_name</name>
-        <read_roles/>
+        <read_roles>x_hls_hiplink.user,x_hls_hiplink.admin</read_roles>
         <suffix>receiver_profile.hiplink_mobile.carrier_name</suffix>
         <sys_class_name>sys_properties</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-03-27 03:57:19</sys_created_on>
         <sys_id>fdda523b1bd0330079ee2136ec4bcbaa</sys_id>
-        <sys_mod_count>21</sys_mod_count>
+        <sys_mod_count>23</sys_mod_count>
         <sys_name>x_hls_hiplink.receiver_profile.hiplink_mobile.carrier_name</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_properties_fdda523b1bd0330079ee2136ec4bcbaa</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-07 20:28:44</sys_updated_on>
+        <sys_updated_on>2019-11-08 19:37:39</sys_updated_on>
         <type>string</type>
         <value>HNP Two-Way Carrier 1</value>
-        <write_roles/>
+        <write_roles>x_hls_hiplink.admin</write_roles>
     </sys_properties>
     <sys_translated_text action="delete_multiple" query="documentkey=fdda523b1bd0330079ee2136ec4bcbaa"/>
 </record_update>

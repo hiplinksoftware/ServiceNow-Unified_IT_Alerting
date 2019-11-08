@@ -7,23 +7,23 @@ Specify the receiver type for Voice Call receivers</description>
         <ignore_cache>true</ignore_cache>
         <is_private>false</is_private>
         <name>x_hls_hiplink.receiver_profile.voice_call.type</name>
-        <read_roles/>
+        <read_roles>x_hls_hiplink.user,x_hls_hiplink.admin</read_roles>
         <suffix>receiver_profile.voice_call.type</suffix>
         <sys_class_name>sys_properties</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-11-05 13:50:25</sys_created_on>
         <sys_id>858cf4332f7c8010ae13ddda2799b692</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name>x_hls_hiplink.receiver_profile.voice_call.type</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_properties_858cf4332f7c8010ae13ddda2799b692</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-07 20:22:57</sys_updated_on>
+        <sys_updated_on>2019-11-08 19:36:12</sys_updated_on>
         <type>choicelist</type>
         <value>2 Way</value>
-        <write_roles/>
+        <write_roles>x_hls_hiplink.admin</write_roles>
     </sys_properties>
     <sys_translated_text action="delete_multiple" query="documentkey=858cf4332f7c8010ae13ddda2799b692"/>
 </record_update>

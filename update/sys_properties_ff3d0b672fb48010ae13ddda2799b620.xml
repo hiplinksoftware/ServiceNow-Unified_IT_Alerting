@@ -7,23 +7,23 @@ Specify the label of the alerts response choice for marking the incident to be o
         <ignore_cache>true</ignore_cache>
         <is_private>false</is_private>
         <name>x_hls_hiplink.message_response.choices.on_hold</name>
-        <read_roles/>
+        <read_roles>x_hls_hiplink.user,x_hls_hiplink.admin</read_roles>
         <suffix>message_response.choices.on_hold</suffix>
         <sys_class_name>sys_properties</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-11-05 05:44:02</sys_created_on>
         <sys_id>ff3d0b672fb48010ae13ddda2799b620</sys_id>
-        <sys_mod_count>6</sys_mod_count>
+        <sys_mod_count>8</sys_mod_count>
         <sys_name>x_hls_hiplink.message_response.choices.on_hold</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_properties_ff3d0b672fb48010ae13ddda2799b620</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-07 20:17:51</sys_updated_on>
+        <sys_updated_on>2019-11-08 19:37:53</sys_updated_on>
         <type>string</type>
         <value>On Hold</value>
-        <write_roles/>
+        <write_roles>x_hls_hiplink.admin</write_roles>
     </sys_properties>
     <sys_translated_text action="delete_multiple" query="documentkey=ff3d0b672fb48010ae13ddda2799b620"/>
 </record_update>

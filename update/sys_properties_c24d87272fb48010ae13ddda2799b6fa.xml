@@ -7,23 +7,23 @@ Specify the label of the alerts response choice for closing the incident</descri
         <ignore_cache>true</ignore_cache>
         <is_private>false</is_private>
         <name>x_hls_hiplink.message_response.choices.close</name>
-        <read_roles/>
+        <read_roles>x_hls_hiplink.user,x_hls_hiplink.admin</read_roles>
         <suffix>message_response.choices.close</suffix>
         <sys_class_name>sys_properties</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-11-05 05:43:53</sys_created_on>
         <sys_id>c24d87272fb48010ae13ddda2799b6fa</sys_id>
-        <sys_mod_count>6</sys_mod_count>
+        <sys_mod_count>8</sys_mod_count>
         <sys_name>x_hls_hiplink.message_response.choices.close</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_properties_c24d87272fb48010ae13ddda2799b6fa</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-07 20:17:43</sys_updated_on>
+        <sys_updated_on>2019-11-08 19:36:44</sys_updated_on>
         <type>string</type>
         <value>Close Incident</value>
-        <write_roles/>
+        <write_roles>x_hls_hiplink.admin</write_roles>
     </sys_properties>
     <sys_translated_text action="delete_multiple" query="documentkey=c24d87272fb48010ae13ddda2799b6fa"/>
 </record_update>
