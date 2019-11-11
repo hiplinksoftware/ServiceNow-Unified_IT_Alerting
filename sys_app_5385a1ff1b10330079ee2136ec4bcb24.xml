@@ -25,15 +25,15 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-03-27 00:03:55</sys_created_on>
         <sys_id>5385a1ff1b10330079ee2136ec4bcb24</sys_id>
-        <sys_mod_count>22</sys_mod_count>
+        <sys_mod_count>23</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-08 20:09:33</sys_updated_on>
+        <sys_updated_on>2019-11-11 20:49:10</sys_updated_on>
         <template/>
         <trackable>true</trackable>
         <user_role/>
         <vendor/>
         <vendor_prefix/>
-        <version>1.0.15</version>
+        <version>1.0.16</version>
     </sys_app>
     <sys_attachment action="INSERT_OR_UPDATE">
         <average_image_color/>
