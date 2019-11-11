@@ -7,20 +7,20 @@ Enable sending automated messages to the Assignment Group of P4 incident message
         <ignore_cache>true</ignore_cache>
         <is_private>false</is_private>
         <name>x_hls_hiplink.incident_recipient.P4.enable_assignment_group</name>
-        <read_roles>x_hls_hiplink.user,x_hls_hiplink.admin</read_roles>
+        <read_roles>x_hls_hiplink.admin</read_roles>
         <suffix>incident_recipient.P4.enable_assignment_group</suffix>
         <sys_class_name>sys_properties</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-11-05 06:50:16</sys_created_on>
         <sys_id>ed4c53a72ff48010ae13ddda2799b68d</sys_id>
-        <sys_mod_count>6</sys_mod_count>
+        <sys_mod_count>7</sys_mod_count>
         <sys_name>x_hls_hiplink.incident_recipient.P4.enable_assignment_group</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_properties_ed4c53a72ff48010ae13ddda2799b68d</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-08 19:37:07</sys_updated_on>
+        <sys_updated_on>2019-11-11 21:00:15</sys_updated_on>
         <type>boolean</type>
         <value>false</value>
         <write_roles>x_hls_hiplink.admin</write_roles>
