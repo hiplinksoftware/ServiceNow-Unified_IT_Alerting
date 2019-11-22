@@ -161,19 +161,19 @@ hiplink_contacts_sync_operations.prototype = {
                 nameSuffixPrevious = systemPropertyPrevious.value.toString();
             }
 
-            this.objContactsSyncOperations.updateHLReceiversForAllUsers('email',
+            this.updateHLReceiversForAllUsers('email',
                 namePrefixPrevious, nameSuffixPrevious,
                 this.objSystemProperties.receiver_profile.email.name_suffix);
 
-            this.objContactsSyncOperations.updateHLReceiversForAllUsers('hiplink_mobile',
+            this.updateHLReceiversForAllUsers('hiplink_mobile',
                 namePrefixPrevious, nameSuffixPrevious,
                 this.objSystemProperties.receiver_profile.hiplink_mobile.name_suffix);
 
-            this.objContactsSyncOperations.updateHLReceiversForAllUsers('sms_text',
+            this.updateHLReceiversForAllUsers('sms_text',
                 namePrefixPrevious, nameSuffixPrevious,
                 this.objSystemProperties.receiver_profile.sms_text.name_suffix);
 
-            this.objContactsSyncOperations.updateHLReceiversForAllUsers('voice_call',
+            this.updateHLReceiversForAllUsers('voice_call',
                 namePrefixPrevious, nameSuffixPrevious,
                 this.objSystemProperties.receiver_profile.voice_call.name_suffix);
         }
@@ -189,7 +189,7 @@ hiplink_contacts_sync_operations.prototype = {
                     carrierSuffixPrevious = systemPropertyPrevious.value.toString();
                 }
 
-                this.objContactsSyncOperations.updateHLReceiversForAllUsers('email',
+                this.updateHLReceiversForAllUsers('email',
                     namePrefixPrevious, nameSuffixPrevious,
                     carrierSuffixPrevious);
             }
@@ -201,7 +201,7 @@ hiplink_contacts_sync_operations.prototype = {
                     carrierSuffixPrevious = systemPropertyPrevious.value.toString();
                 }
 
-                this.objContactsSyncOperations.updateHLReceiversForAllUsers('hiplink_mobile',
+                this.updateHLReceiversForAllUsers('hiplink_mobile',
                     namePrefixPrevious, nameSuffixPrevious,
                     carrierSuffixPrevious);
             }
@@ -213,7 +213,7 @@ hiplink_contacts_sync_operations.prototype = {
                     carrierSuffixPrevious = systemPropertyPrevious.value.toString();
                 }
 
-                this.objContactsSyncOperations.updateHLReceiversForAllUsers('sms_text',
+                this.updateHLReceiversForAllUsers('sms_text',
                     namePrefixPrevious, nameSuffixPrevious,
                     carrierSuffixPrevious);
             }
@@ -225,7 +225,7 @@ hiplink_contacts_sync_operations.prototype = {
                     carrierSuffixPrevious = systemPropertyPrevious.value.toString();
                 }
 
-                this.objContactsSyncOperations.updateHLReceiversForAllUsers('voice_call',
+                this.updateHLReceiversForAllUsers('voice_call',
                     namePrefixPrevious, nameSuffixPrevious,
                     carrierSuffixPrevious);
             }
@@ -950,13 +950,13 @@ hiplink_contacts_sync_operations.getInstance = function () {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-04-11 09:14:12</sys_created_on>
         <sys_id>d84378701bb8330079ee2136ec4bcb70</sys_id>
-        <sys_mod_count>168</sys_mod_count>
+        <sys_mod_count>175</sys_mod_count>
         <sys_name>hiplink_contacts_sync_operations</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy>protected</sys_policy>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_script_include_d84378701bb8330079ee2136ec4bcb70</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-22 20:35:03</sys_updated_on>
+        <sys_updated_on>2019-11-22 21:16:54</sys_updated_on>
     </sys_script_include>
 </record_update>
