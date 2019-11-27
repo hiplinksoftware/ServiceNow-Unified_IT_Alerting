@@ -1,37 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties">
     <sys_properties action="INSERT_OR_UPDATE">
         <choices/>
-        <description/>
+        <description>&lt;br/&gt;&#13;
+&lt;strong&gt;Labels for Response Choices&lt;/strong&gt;&#13;
+&lt;br/&gt;&#13;
+&lt;br/&gt;&#13;
+&lt;strong&gt;Assign To Me&lt;/strong&gt;&#13;
+&lt;br/&gt;&#13;
+Specify the label of the alerts response choice for incident self-assignment</description>
         <ignore_cache>true</ignore_cache>
         <is_private>false</is_private>
-        <name>x_hls_hiplink.message_response.choices</name>
-        <read_roles/>
-        <suffix>message_response.choices</suffix>
+        <name>x_hls_hiplink.message_response.choices.assign_to_me</name>
+        <read_roles>x_hls_hiplink.admin</read_roles>
+        <suffix>message_response.choices.assign_to_me</suffix>
         <sys_class_name>sys_properties</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-25 13:43:00</sys_created_on>
-        <sys_customer_update>false</sys_customer_update>
         <sys_id>c5b6148f1b25b30079ee2136ec4bcb96</sys_id>
-        <sys_mod_count>7</sys_mod_count>
-        <sys_name>x_hls_hiplink.message_response.choices</sys_name>
+        <sys_mod_count>26</sys_mod_count>
+        <sys_name>x_hls_hiplink.message_response.choices.assign_to_me</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
-        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_properties_c5b6148f1b25b30079ee2136ec4bcb96</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-01 11:06:25</sys_updated_on>
+        <sys_updated_on>2019-11-11 20:59:44</sys_updated_on>
         <type>string</type>
-        <value>assign_to_me=Assign To Me&#13;
-in_progress=In Progress&#13;
-on_hold=On Hold&#13;
-resolved_permanent=Resolved Permanently&#13;
-resolved_workaround=Resolved With Work-Around&#13;
-not_reproducible=Not Reproducible&#13;
-close=Close Incident&#13;
-cancel=Cancel Incident&#13;
-reopen=Re-Open Incident</value>
-        <write_roles/>
+        <value>Assign To Me</value>
+        <write_roles>x_hls_hiplink.admin</write_roles>
     </sys_properties>
     <sys_translated_text action="delete_multiple" query="documentkey=c5b6148f1b25b30079ee2136ec4bcb96"/>
 </record_update>

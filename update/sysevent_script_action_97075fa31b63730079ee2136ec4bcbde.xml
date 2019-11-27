@@ -19,7 +19,6 @@ objHipLinkEventScriptActions.onGroupRoleAdded(groupHasRole);
         <sys_class_name>sysevent_script_action</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-09-04 03:06:15</sys_created_on>
-        <sys_customer_update>false</sys_customer_update>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>97075fa31b63730079ee2136ec4bcbde</sys_id>
@@ -28,7 +27,6 @@ objHipLinkEventScriptActions.onGroupRoleAdded(groupHasRole);
         <sys_overrides/>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy/>
-        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sysevent_script_action_97075fa31b63730079ee2136ec4bcbde</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>

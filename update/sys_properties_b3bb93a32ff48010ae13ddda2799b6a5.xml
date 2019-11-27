@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description>&lt;strong&gt;Notification Group&lt;/strong&gt;&#13;
+&lt;br/&gt;&#13;
+Specify the name of recipient group to send automated P2 incident notification alerts.&#13;
+&lt;br/&gt;&#13;
+Use the prefix hl: or sn: for groups defined in HipLink and ServiceNow respectively, or leave it blank to disable P2 incident notification alerts.&#13;
+&lt;br/&gt;&#13;
+Examples:&#13;
+&lt;br/&gt;&#13;
+&amp;nbsp;&amp;nbsp;hl:HipLink Broadcast Group&#13;
+&lt;br/&gt;&#13;
+&amp;nbsp;&amp;nbsp;sn:Technical Support Group&#13;
+&lt;br/&gt;&#13;
+Note: Only one group name is supported.</description>
+        <ignore_cache>true</ignore_cache>
+        <is_private>false</is_private>
+        <name>x_hls_hiplink.incident_recipient.P2.notification_group_name</name>
+        <read_roles>x_hls_hiplink.admin</read_roles>
+        <suffix>incident_recipient.P2.notification_group_name</suffix>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-11-05 06:49:18</sys_created_on>
+        <sys_id>b3bb93a32ff48010ae13ddda2799b6a5</sys_id>
+        <sys_mod_count>9</sys_mod_count>
+        <sys_name>x_hls_hiplink.incident_recipient.P2.notification_group_name</sys_name>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_update_name>sys_properties_b3bb93a32ff48010ae13ddda2799b6a5</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-11-11 20:59:11</sys_updated_on>
+        <type>string</type>
+        <value/>
+        <write_roles>x_hls_hiplink.admin</write_roles>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=b3bb93a32ff48010ae13ddda2799b6a5"/>
+</record_update>

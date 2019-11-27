@@ -25,12 +25,7 @@ hiplink_contacts_sync_operations.prototype = {
 
         if (receiver.name !== '') {
 
-            this.objHipLinkWebService.addReceiver(receiver.name,
-                receiver.description, receiver.department, receiver.carrier, receiver.pin,
-                receiver.type, receiver.firstName, receiver.lastName,
-                receiver.emailAddress, receiver.emailCC, receiver.emailFailover,
-                receiver.assignedOwner, receiver.autoAssignOwner, receiver.ownerUserGroup,
-                receiver.disabled);
+            this.invokeAddReceiver(receiver);
 
             var assignedUserRoleNames = [
                 receiver.roleName
@@ -52,10 +47,10 @@ hiplink_contacts_sync_operations.prototype = {
         var userRoleID = userHasRole.role.toString();
         var userID = userHasRole.user.toString();
 
-        var receiver = this.getHLReceiverData(userRoleID, null, userID, null);
+        var receiverName = this.getHLReceiverName(userRoleID, null, userID, null);
 
-        if (receiver.name !== '') {
-            this.objHipLinkWebService.deleteReceiver(receiver.name);
+        if (receiverName !== '') {
+            this.invokeDeleteReceiver(receiverName);
         }
     },
 
@@ -73,13 +68,7 @@ hiplink_contacts_sync_operations.prototype = {
             var receiver = this.getHLReceiverData(null, userRoleName, null, user);
 
             if (receiver.name !== '') {
-
-                this.objHipLinkWebService.addReceiver(receiver.name,
-                    receiver.description, receiver.department, receiver.carrier, receiver.pin,
-                    receiver.type, receiver.firstName, receiver.lastName,
-                    receiver.emailAddress, receiver.emailCC, receiver.emailFailover,
-                    receiver.assignedOwner, receiver.autoAssignOwner, receiver.ownerUserGroup,
-                    receiver.disabled);
+                this.invokeAddReceiver(receiver);
             }
         }
 
@@ -108,17 +97,17 @@ hiplink_contacts_sync_operations.prototype = {
 
             var userRoleName = assignedUserRoleNames[i];
 
-            var receiver = this.getHLReceiverData(null, userRoleName, null, user);
+            var receiverName = this.getHLReceiverName(null, userRoleName, null, user);
 
-            if (receiver.name !== '') {
-                this.objHipLinkWebService.deleteReceiver(receiver.name);
+            if (receiverName !== '') {
+                this.invokeDeleteReceiver(receiverName);
             }
         }
     },
 
-    updateHLReceiversForUser: function (name, user) {
+    updateHLReceiversForUser: function (userPrevious, userCurrent) {
 
-        var userID = user.sys_id.toString();
+        var userID = userCurrent.sys_id.toString();
 
         var assignedUserRoleNames = this.objDataOperations.getAssignedUserRoleNames(userID);
 
@@ -127,27 +116,20 @@ hiplink_contacts_sync_operations.prototype = {
 
             var userRoleName = assignedUserRoleNames[i];
 
-            var receiver = this.getHLReceiverData(null, userRoleName, null, user);
+            var receiver = this.getHLReceiverData(null, userRoleName, null, userCurrent);
 
             if (receiver.name !== '') {
 
-                var oldName = receiver.name.replace(user.user_name.toString(), name);
+                var receiverName = this.getHLReceiverName(null, userRoleName, null, userPrevious);
 
-                var isReceiverUpdated = this.objHipLinkWebService.updateReceiver(oldName, receiver.name,
-                    receiver.description, receiver.department, receiver.carrier, receiver.pin,
-                    receiver.type, receiver.firstName, receiver.lastName,
-                    receiver.emailAddress, receiver.emailCC, receiver.emailFailover,
-                    receiver.assignedOwner, receiver.autoAssignOwner, receiver.ownerUserGroup,
-                    receiver.disabled);
+                if (receiverName === '') {
+                    receiverName = receiver.name;
+                }
+
+                var isReceiverUpdated = this.invokeUpdateReceiver(receiverName, receiver);
 
                 if (isReceiverUpdated === false) {
-
-                    this.objHipLinkWebService.addReceiver(receiver.name,
-                        receiver.description, receiver.department, receiver.carrier, receiver.pin,
-                        receiver.type, receiver.firstName, receiver.lastName,
-                        receiver.emailAddress, receiver.emailCC, receiver.emailFailover,
-                        receiver.assignedOwner, receiver.autoAssignOwner, receiver.ownerUserGroup,
-                        receiver.disabled);
+                    this.invokeAddReceiver(receiver);
                 }
             }
         }
@@ -171,8 +153,7 @@ hiplink_contacts_sync_operations.prototype = {
 
         if (recipGroup.name !== '') {
 
-            this.objHipLinkWebService.addRecipientGroup(recipGroup.name,
-                recipGroup.description, recipGroup.department, recipGroup.type, recipGroup.disabled);
+            this.invokeAddRecipGroup(recipGroup);
 
             var assignedGroupRoleNames = [
                 recipGroup.roleName
@@ -194,10 +175,10 @@ hiplink_contacts_sync_operations.prototype = {
         var groupRoleID = groupHasRole.role.toString();
         var groupID = groupHasRole.group.toString();
 
-        var recipGroup = this.getHLRecipGroupData(groupRoleID, null, groupID, null);
+        var recipGroupName = this.getHLRecipGroupName(groupRoleID, null, groupID, null);
 
-        if (recipGroup.name !== '') {
-            this.objHipLinkWebService.deleteRecipientGroup(recipGroup.name);
+        if (recipGroupName !== '') {
+            this.invokeDeleteRecipGroup(recipGroupName);
         }
     },
 
@@ -215,9 +196,7 @@ hiplink_contacts_sync_operations.prototype = {
             var recipGroup = this.getHLRecipGroupData(null, groupRoleName, null, group);
 
             if (recipGroup.name !== '') {
-
-                this.objHipLinkWebService.addRecipientGroup(recipGroup.name,
-                    recipGroup.description, recipGroup.department, recipGroup.type, recipGroup.disabled);
+                this.invokeAddRecipGroup(recipGroup);
             }
         }
 
@@ -246,17 +225,17 @@ hiplink_contacts_sync_operations.prototype = {
 
             var groupRoleName = assignedGroupRoleNames[i];
 
-            var recipGroup = this.getHLRecipGroupData(null, groupRoleName, null, group);
+            var recipGroupName = this.getHLRecipGroupName(null, groupRoleName, null, group);
 
-            if (recipGroup.name !== '') {
-                this.objHipLinkWebService.deleteRecipientGroup(recipGroup.name);
+            if (recipGroupName !== '') {
+                this.invokeDeleteRecipGroup(recipGroupName);
             }
         }
     },
 
-    updateHLRecipGroupsForGroup: function (name, group) {
+    updateHLRecipGroupsForGroup: function (groupPrevious, groupCurrent) {
 
-        var groupID = group.sys_id.toString();
+        var groupID = groupCurrent.sys_id.toString();
 
         var assignedGroupRoleNames = this.objDataOperations.getAssignedGroupRoleNames(groupID);
 
@@ -265,19 +244,20 @@ hiplink_contacts_sync_operations.prototype = {
 
             var groupRoleName = assignedGroupRoleNames[i];
 
-            var recipGroup = this.getHLRecipGroupData(null, groupRoleName, null, group);
+            var recipGroup = this.getHLRecipGroupData(null, groupRoleName, null, groupCurrent);
 
             if (recipGroup.name !== '') {
 
-                var oldName = recipGroup.name.replace(group.name.toString(), name);
+                var recipGroupName = this.getHLRecipGroupName(null, groupRoleName, null, groupPrevious);
 
-                var isRecipGroupUpdated = this.objHipLinkWebService.updateRecipientGroup(oldName, recipGroup.name,
-                    recipGroup.description, recipGroup.department, recipGroup.type, recipGroup.disabled);
+                if (recipGroupName === '') {
+                    recipGroupName = recipGroup.name;
+                }
+
+                var isRecipGroupUpdated = this.invokeUpdateRecipGroup(recipGroupName, recipGroup);
 
                 if (isRecipGroupUpdated === false) {
-
-                    this.objHipLinkWebService.addRecipientGroup(recipGroup.name,
-                        recipGroup.description, recipGroup.department, recipGroup.type, recipGroup.disabled);
+                    this.invokeAddRecipGroup(recipGroup);
                 }
             }
         }
@@ -317,7 +297,7 @@ hiplink_contacts_sync_operations.prototype = {
                 for (var i = 0; i < recipGroupMembers[rg].members.length; i++) {
 
                     if (recipGroupMembers[rg].members[i] !== '') {
-                        this.objHipLinkWebService.addRecipientGroupMember(recipGroupMembers[rg].name, recipGroupMembers[rg].members[i]);
+                        this.invokeAddRecipGroupMember(recipGroupMembers[rg].name, recipGroupMembers[rg].members[i]);
                     }
                 }
             }
@@ -339,9 +319,252 @@ hiplink_contacts_sync_operations.prototype = {
                 for (var i = 0; i < recipGroupMembers[rg].members.length; i++) {
 
                     if (recipGroupMembers[rg].members[i] !== '') {
-                        this.objHipLinkWebService.deleteRecipientGroupMember(recipGroupMembers[rg].name, recipGroupMembers[rg].members[i]);
+                        this.invokeDeleteRecipGroupMember(recipGroupMembers[rg].name, recipGroupMembers[rg].members[i]);
                     }
                 }
+            }
+        }
+    },
+
+    updateAllContactsForSystemPropertyUpdate: function (systemPropertyPrevious, systemPropertyCurrent) {
+
+        var propertyName = systemPropertyCurrent.name.toString();
+
+        var namePrefixPrevious = this.objSystemProperties.recipient_name_ident.prefix;
+        var nameSuffixPrevious = this.objSystemProperties.recipient_name_ident.suffix;
+
+        if (propertyName.indexOf('x_hls_hiplink.recipient_name_ident') === 0 ||
+            propertyName.indexOf('x_hls_hiplink.multi_department') === 0) {
+
+            if (propertyName === 'x_hls_hiplink.recipient_name_ident.prefix') {
+                namePrefixPrevious = systemPropertyPrevious.value.toString();
+            }
+            else if (propertyName === 'x_hls_hiplink.recipient_name_ident.suffix') {
+                nameSuffixPrevious = systemPropertyPrevious.value.toString();
+            }
+
+            this.updateHLReceiversForAllUsers('email',
+                namePrefixPrevious, nameSuffixPrevious,
+                this.objSystemProperties.receiver_profile.email.name_suffix);
+
+            this.updateHLRecipGroupsForAllGroups('email',
+                namePrefixPrevious, nameSuffixPrevious,
+                this.objSystemProperties.receiver_profile.email.name_suffix);
+
+            this.updateHLReceiversForAllUsers('hiplink_mobile',
+                namePrefixPrevious, nameSuffixPrevious,
+                this.objSystemProperties.receiver_profile.hiplink_mobile.name_suffix);
+
+            this.updateHLRecipGroupsForAllGroups('hiplink_mobile',
+                namePrefixPrevious, nameSuffixPrevious,
+                this.objSystemProperties.receiver_profile.hiplink_mobile.name_suffix);
+
+            this.updateHLReceiversForAllUsers('sms_text',
+                namePrefixPrevious, nameSuffixPrevious,
+                this.objSystemProperties.receiver_profile.sms_text.name_suffix);
+
+            this.updateHLRecipGroupsForAllGroups('sms_text',
+                namePrefixPrevious, nameSuffixPrevious,
+                this.objSystemProperties.receiver_profile.sms_text.name_suffix);
+
+            this.updateHLReceiversForAllUsers('voice_call',
+                namePrefixPrevious, nameSuffixPrevious,
+                this.objSystemProperties.receiver_profile.voice_call.name_suffix);
+
+            this.updateHLRecipGroupsForAllGroups('voice_call',
+                namePrefixPrevious, nameSuffixPrevious,
+                this.objSystemProperties.receiver_profile.voice_call.name_suffix);
+
+            this.updateHLRecipGroupsForAllGroups('all',
+                namePrefixPrevious, nameSuffixPrevious,
+                this.objSystemProperties.recip_group_all_profile.name_suffix);
+        }
+        else if (propertyName.indexOf('x_hls_hiplink.receiver_profile') === 0) {
+
+            var carrierSuffixPrevious;
+
+            if (propertyName.indexOf('x_hls_hiplink.receiver_profile.email') === 0) {
+
+                carrierSuffixPrevious = this.objSystemProperties.receiver_profile.email.name_suffix;
+
+                if (propertyName === 'x_hls_hiplink.receiver_profile.email.name_suffix') {
+                    carrierSuffixPrevious = systemPropertyPrevious.value.toString();
+                }
+
+                this.updateHLReceiversForAllUsers('email',
+                    namePrefixPrevious, nameSuffixPrevious,
+                    carrierSuffixPrevious);
+
+                this.updateHLRecipGroupsForAllGroups('email',
+                    namePrefixPrevious, nameSuffixPrevious,
+                    carrierSuffixPrevious);
+            }
+            else if (propertyName.indexOf('x_hls_hiplink.receiver_profile.hiplink_mobile') === 0) {
+
+                carrierSuffixPrevious = this.objSystemProperties.receiver_profile.hiplink_mobile.name_suffix;
+
+                if (propertyName === 'x_hls_hiplink.receiver_profile.hiplink_mobile.name_suffix') {
+                    carrierSuffixPrevious = systemPropertyPrevious.value.toString();
+                }
+
+                this.updateHLReceiversForAllUsers('hiplink_mobile',
+                    namePrefixPrevious, nameSuffixPrevious,
+                    carrierSuffixPrevious);
+
+                this.updateHLRecipGroupsForAllGroups('hiplink_mobile',
+                    namePrefixPrevious, nameSuffixPrevious,
+                    carrierSuffixPrevious);
+            }
+            else if (propertyName.indexOf('x_hls_hiplink.receiver_profile.sms_text') === 0) {
+
+                carrierSuffixPrevious = this.objSystemProperties.receiver_profile.sms_text.name_suffix;
+
+                if (propertyName === 'x_hls_hiplink.receiver_profile.sms_text.name_suffix') {
+                    carrierSuffixPrevious = systemPropertyPrevious.value.toString();
+                }
+
+                this.updateHLReceiversForAllUsers('sms_text',
+                    namePrefixPrevious, nameSuffixPrevious,
+                    carrierSuffixPrevious);
+
+                this.updateHLRecipGroupsForAllGroups('sms_text',
+                    namePrefixPrevious, nameSuffixPrevious,
+                    carrierSuffixPrevious);
+            }
+            else if (propertyName.indexOf('x_hls_hiplink.receiver_profile.voice_call') === 0) {
+
+                carrierSuffixPrevious = this.objSystemProperties.receiver_profile.voice_call.name_suffix;
+
+                if (propertyName === 'x_hls_hiplink.receiver_profile.voice_call.name_suffix') {
+                    carrierSuffixPrevious = systemPropertyPrevious.value.toString();
+                }
+
+                this.updateHLReceiversForAllUsers('voice_call',
+                    namePrefixPrevious, nameSuffixPrevious,
+                    carrierSuffixPrevious);
+
+                this.updateHLRecipGroupsForAllGroups('voice_call',
+                    namePrefixPrevious, nameSuffixPrevious,
+                    carrierSuffixPrevious);
+            }
+        }
+    },
+
+    updateHLReceiversForAllUsers: function (carrierType, namePrefixPrevious, nameSuffixPrevious, carrierSuffixPrevious) {
+
+        var assignedUsers = this.objDataOperations.getAllAssignedUsers(carrierType);
+
+        for (var userID in assignedUsers) {
+
+            var assignedUserRoleNames = assignedUsers[userID];
+
+            var i;
+            for (i = 0; i < assignedUserRoleNames.length; i++) {
+
+                var userRoleName = assignedUserRoleNames[i];
+
+                var receiver = this.getHLReceiverData(null, userRoleName, userID, null);
+
+                if (receiver.name !== '') {
+
+                    var namePrefixCurrent = this.objSystemProperties.recipient_name_ident.prefix;
+                    var nameSuffixCurrent = this.objSystemProperties.recipient_name_ident.suffix;
+                    var carrierSuffixCurrent = this.objSystemProperties.receiver_profile[carrierType].name_suffix;
+
+                    this.objSystemProperties.recipient_name_ident.prefix = namePrefixPrevious;
+                    this.objSystemProperties.recipient_name_ident.suffix = nameSuffixPrevious;
+                    this.objSystemProperties.receiver_profile[carrierType].name_suffix = carrierSuffixPrevious;
+
+                    var receiverName = this.getHLReceiverName(null, userRoleName, userID, null);
+
+                    if (receiverName === '') {
+                        receiverName = receiver.name;
+                    }
+
+                    var isReceiverUpdated = this.invokeUpdateReceiver(receiverName, receiver);
+
+                    if (isReceiverUpdated === false) {
+                        this.invokeAddReceiver(receiver);
+                    }
+
+                    this.objSystemProperties.recipient_name_ident.prefix = namePrefixCurrent;
+                    this.objSystemProperties.recipient_name_ident.suffix = nameSuffixCurrent;
+                    this.objSystemProperties.receiver_profile[carrierType].name_suffix = carrierSuffixCurrent;
+                }
+            }
+
+            var assignedUserGroupIDs = this.objDataOperations.getAssignedUserGroupIDs(userID);
+
+            for (i = 0; i < assignedUserGroupIDs.length; i++) {
+
+                var recipGroupMembers = this.getHLRecipGroupsMembersData(assignedUserGroupIDs[i], userID, null, assignedUserRoleNames);
+
+                this.addHLRecipGroupMembers(null, null, recipGroupMembers);
+            }
+        }
+    },
+
+    updateHLRecipGroupsForAllGroups: function (carrierType, namePrefixPrevious, nameSuffixPrevious, carrierSuffixPrevious) {
+
+        var assignedGroups = this.objDataOperations.getAllAssignedGroups(carrierType);
+
+        for (var groupID in assignedGroups) {
+
+            var assignedGroupRoleNames = assignedGroups[groupID];
+
+            var i;
+            for (i = 0; i < assignedGroupRoleNames.length; i++) {
+
+                var groupRoleName = assignedGroupRoleNames[i];
+
+                var recipGroup = this.getHLRecipGroupData(null, groupRoleName, groupID, null);
+
+                if (recipGroup.name !== '') {
+
+                    var namePrefixCurrent = this.objSystemProperties.recipient_name_ident.prefix;
+                    var nameSuffixCurrent = this.objSystemProperties.recipient_name_ident.suffix;
+
+                    var carrierSuffixCurrent;
+                    if (carrierType !== 'all') {
+                        carrierSuffixCurrent = this.objSystemProperties.receiver_profile[carrierType].name_suffix;
+                    }
+                    else {
+                        carrierSuffixCurrent = this.objSystemProperties.recip_group_all_profile.name_suffix;
+                    }
+
+                    this.objSystemProperties.recipient_name_ident.prefix = namePrefixPrevious;
+                    this.objSystemProperties.recipient_name_ident.suffix = nameSuffixPrevious;
+                    if (carrierType !== 'all') {
+                        this.objSystemProperties.receiver_profile[carrierType].name_suffix = carrierSuffixPrevious;
+                    }
+
+                    var recipGroupName = this.getHLRecipGroupName(null, groupRoleName, groupID, null);
+
+                    if (recipGroupName === '') {
+                        recipGroupName = recipGroup.name;
+                    }
+
+                    var isRecipGroupUpdated = this.invokeUpdateRecipGroup(recipGroupName, recipGroup);
+
+                    if (isRecipGroupUpdated === false) {
+                        this.invokeAddRecipGroup(recipGroup);
+                    }
+
+                    this.objSystemProperties.recipient_name_ident.prefix = namePrefixCurrent;
+                    this.objSystemProperties.recipient_name_ident.suffix = nameSuffixCurrent;
+                    if (carrierType !== 'all') {
+                        this.objSystemProperties.receiver_profile[carrierType].name_suffix = carrierSuffixCurrent;
+                    }
+                }
+            }
+
+            var assignedGroupMemberIDs = this.objDataOperations.getAssignedGroupMemberIDs(groupID);
+
+            for (i = 0; i < assignedGroupMemberIDs.length; i++) {
+
+                var recipGroupMembers = this.getHLRecipGroupsMembersData(groupID, assignedGroupMemberIDs[i], assignedGroupRoleNames, null);
+
+                this.addHLRecipGroupMembers(null, null, recipGroupMembers);
             }
         }
     },
@@ -493,6 +716,47 @@ hiplink_contacts_sync_operations.prototype = {
         return receiver;
     },
 
+    getHLReceiverName: function (userRoleID, userRoleName, userID, user) {
+
+        var receiverName = '';
+
+        if (userRoleName === null && userRoleID !== null) {
+            userRoleName = this.objDataOperations.getUserRoleName(userRoleID);
+        }
+
+        if (userRoleName !== null && userRoleName !== '') {
+
+            if (user === null && userID !== null) {
+                user = this.objDataOperations.getUser(userID);
+            }
+        }
+
+        if (userRoleName !== null && user !== null) {
+
+            var objSysProp = this.objSystemProperties;
+
+            receiverName = this.objSystemProperties.recipient_name_ident.prefix
+                + user.user_name.toString();
+
+            if (userRoleName.lastIndexOf('.email') > 0) {
+                receiverName += objSysProp.receiver_profile.email.name_suffix;
+            }
+            else if (userRoleName.lastIndexOf('.hiplink_mobile') > 0) {
+                receiverName += objSysProp.receiver_profile.hiplink_mobile.name_suffix;
+            }
+            else if (userRoleName.lastIndexOf('.sms_text') > 0) {
+                receiverName += objSysProp.receiver_profile.sms_text.name_suffix;
+            }
+            else if (userRoleName.lastIndexOf('.voice_call') > 0) {
+                receiverName += objSysProp.receiver_profile.voice_call.name_suffix;
+            }
+
+            receiverName += objSysProp.recipient_name_ident.suffix;
+        }
+
+        return receiverName;
+    },
+
     getHLRecipGroupData: function (groupRoleID, groupRoleName, groupID, group) {
 
         var recipGroup = {
@@ -527,8 +791,8 @@ hiplink_contacts_sync_operations.prototype = {
 
             if (groupRoleName.lastIndexOf('.all') > 0) {
 
-                recipGroup.name += ' (All)';
-                recipGroup.description += ' (All)';
+                recipGroup.name += objSysProp.recip_group_all_profile.name_suffix;
+                recipGroup.description += objSysProp.recip_group_all_profile.description_suffix;
             }
             else if (groupRoleName.lastIndexOf('.email') > 0) {
 
@@ -561,6 +825,50 @@ hiplink_contacts_sync_operations.prototype = {
         }
 
         return recipGroup;
+    },
+
+    getHLRecipGroupName: function (groupRoleID, groupRoleName, groupID, group) {
+
+        var recipGroupName = '';
+
+        if (groupRoleName === null && groupRoleID !== null) {
+            groupRoleName = this.objDataOperations.getGroupRoleName(groupRoleID);
+        }
+
+        if (groupRoleName !== null && groupRoleName !== '') {
+
+            if (group === null && groupID !== null) {
+                group = this.objDataOperations.getGroup(groupID);
+            }
+        }
+
+        if (groupRoleName !== null && group !== null) {
+
+            var objSysProp = this.objSystemProperties;
+
+            recipGroupName = objSysProp.recipient_name_ident.prefix
+                + group.name.toString();
+
+            if (groupRoleName.lastIndexOf('.all') > 0) {
+                recipGroupName += objSysProp.recip_group_all_profile.name_suffix;
+            }
+            else if (groupRoleName.lastIndexOf('.email') > 0) {
+                recipGroupName += objSysProp.receiver_profile.email.name_suffix;
+            }
+            else if (groupRoleName.lastIndexOf('.hiplink_mobile') > 0) {
+                recipGroupName += objSysProp.receiver_profile.hiplink_mobile.name_suffix;
+            }
+            else if (groupRoleName.lastIndexOf('.sms_text') > 0) {
+                recipGroupName += objSysProp.receiver_profile.sms_text.name_suffix;
+            }
+            else if (groupRoleName.lastIndexOf('.voice_call') > 0) {
+                recipGroupName += objSysProp.receiver_profile.voice_call.name_suffix;
+            }
+
+            recipGroupName += objSysProp.recipient_name_ident.suffix;
+        }
+
+        return recipGroupName;
     },
 
     getHLRecipGroupsMembersData: function (groupID, userID, assignedGroupRoleNames, assignedUserRoleNames) {
@@ -608,24 +916,24 @@ hiplink_contacts_sync_operations.prototype = {
 
                     var groupRoleName = assignedGroupRoleNames[iGroup];
 
-                    var recipGroup = this.getHLRecipGroupData(null, groupRoleName, groupID, null);
+                    var recipGroupName = this.getHLRecipGroupName(null, groupRoleName, groupID, null);
 
-                    if (recipGroup.name !== '') {
+                    if (recipGroupName !== '') {
 
                         if (groupRoleName.lastIndexOf('.all') > 0) {
-                            recipGroupMembers.all.name = recipGroup.name;
+                            recipGroupMembers.all.name = recipGroupName;
                         }
                         else if (groupRoleName.lastIndexOf('.email') > 0) {
-                            recipGroupMembers.email.name = recipGroup.name;
+                            recipGroupMembers.email.name = recipGroupName;
                         }
                         else if (groupRoleName.lastIndexOf('.hiplink_mobile') > 0) {
-                            recipGroupMembers.hiplink_mobile.name = recipGroup.name;
+                            recipGroupMembers.hiplink_mobile.name = recipGroupName;
                         }
                         else if (groupRoleName.lastIndexOf('.sms_text') > 0) {
-                            recipGroupMembers.sms_text.name = recipGroup.name;
+                            recipGroupMembers.sms_text.name = recipGroupName;
                         }
                         else if (groupRoleName.lastIndexOf('.voice_call') > 0) {
-                            recipGroupMembers.voice_call.name = recipGroup.name;
+                            recipGroupMembers.voice_call.name = recipGroupName;
                         }
                     }
                 }
@@ -634,25 +942,25 @@ hiplink_contacts_sync_operations.prototype = {
 
                     var userRoleName = assignedUserRoleNames[iUser];
 
-                    var receiver = this.getHLReceiverData(null, userRoleName, userID, null);
+                    var receiverName = this.getHLReceiverName(null, userRoleName, userID, null);
 
-                    if (receiver.name !== '') {
+                    if (receiverName !== '') {
 
-                        recipGroupMembers.all.members.push(receiver.name);
+                        recipGroupMembers.all.members.push(receiverName);
 
-                        if (receiver.name !== '') {
+                        if (receiverName !== '') {
 
                             if (userRoleName.lastIndexOf('.email') > 0) {
-                                recipGroupMembers.email.members.push(receiver.name);
+                                recipGroupMembers.email.members.push(receiverName);
                             }
                             else if (userRoleName.lastIndexOf('.hiplink_mobile') > 0) {
-                                recipGroupMembers.hiplink_mobile.members.push(receiver.name);
+                                recipGroupMembers.hiplink_mobile.members.push(receiverName);
                             }
                             else if (userRoleName.lastIndexOf('.sms_text') > 0) {
-                                recipGroupMembers.sms_text.members.push(receiver.name);
+                                recipGroupMembers.sms_text.members.push(receiverName);
                             }
                             else if (userRoleName.lastIndexOf('.voice_call') > 0) {
-                                recipGroupMembers.voice_call.members.push(receiver.name);
+                                recipGroupMembers.voice_call.members.push(receiverName);
                             }
                         }
                     }
@@ -683,6 +991,50 @@ hiplink_contacts_sync_operations.prototype = {
         return cleanData;
     },
 
+    invokeAddReceiver: function (receiver) {
+        return this.objHipLinkWebService.addReceiver(receiver.name,
+            receiver.description, receiver.department, receiver.carrier, receiver.pin,
+            receiver.type, receiver.firstName, receiver.lastName,
+            receiver.emailAddress, receiver.emailCC, receiver.emailFailover,
+            receiver.assignedOwner, receiver.autoAssignOwner, receiver.ownerUserGroup,
+            receiver.disabled);
+    },
+
+    invokeUpdateReceiver: function (name, receiver) {
+        return this.objHipLinkWebService.updateReceiver(name, receiver.name,
+            receiver.description, receiver.department, receiver.carrier, receiver.pin,
+            receiver.type, receiver.firstName, receiver.lastName,
+            receiver.emailAddress, receiver.emailCC, receiver.emailFailover,
+            receiver.assignedOwner, receiver.autoAssignOwner, receiver.ownerUserGroup,
+            receiver.disabled);
+    },
+
+    invokeDeleteReceiver: function (name) {
+        return this.objHipLinkWebService.deleteReceiver(name);
+    },
+
+    invokeAddRecipGroup: function (recipGroup) {
+        return this.objHipLinkWebService.addRecipientGroup(recipGroup.name,
+            recipGroup.description, recipGroup.department, recipGroup.type, recipGroup.disabled);
+    },
+
+    invokeUpdateRecipGroup: function (name, recipGroup) {
+        return this.objHipLinkWebService.updateRecipientGroup(name, recipGroup.name,
+            recipGroup.description, recipGroup.department, recipGroup.type, recipGroup.disabled);
+    },
+
+    invokeDeleteRecipGroup: function (name) {
+        return this.objHipLinkWebService.deleteRecipientGroup(name);
+    },
+
+    invokeAddRecipGroupMember: function (name, member) {
+        return this.objHipLinkWebService.addRecipientGroupMember(name, member);
+    },
+
+    invokeDeleteRecipGroupMember: function (name, member) {
+        return this.objHipLinkWebService.deleteRecipientGroupMember(name, member);
+    },
+
     type: 'hiplink_contacts_sync_operations'
 };
 
@@ -698,16 +1050,14 @@ hiplink_contacts_sync_operations.getInstance = function () {
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-04-11 09:14:12</sys_created_on>
-        <sys_customer_update>false</sys_customer_update>
         <sys_id>d84378701bb8330079ee2136ec4bcb70</sys_id>
-        <sys_mod_count>164</sys_mod_count>
+        <sys_mod_count>177</sys_mod_count>
         <sys_name>hiplink_contacts_sync_operations</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy>protected</sys_policy>
-        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_script_include_d84378701bb8330079ee2136ec4bcb70</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-10-31 02:56:32</sys_updated_on>
+        <sys_updated_on>2019-11-26 05:11:00</sys_updated_on>
     </sys_script_include>
 </record_update>

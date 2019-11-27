@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category">
+    <sys_properties_category action="INSERT_OR_UPDATE">
+        <name>Application Settings</name>
+        <sys_class_name>sys_properties_category</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-11-04 16:26:26</sys_created_on>
+        <sys_id>ce5758eb2f3c4010ae13ddda2799b6dc</sys_id>
+        <sys_mod_count>17</sys_mod_count>
+        <sys_name>Application Settings</sys_name>
+        <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
+        <sys_update_name>sys_properties_category_ce5758eb2f3c4010ae13ddda2799b6dc</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-11-07 19:41:04</sys_updated_on>
+        <title><![CDATA[<p style="text-align: left;"><span style="font-family: verdana, geneva;"><img style="float: left;" title="HipLink" src="HipLink.ico" alt="HipLink" width="32" height="32" align="baseline" /> <strong><span style="font-size: 20pt;"> HipLink Unified IT Alerting</span></strong></span></p>
+<p style="text-align: left;"> </p>
+<p style="text-align: left;"><span style="font-size: 14pt; font-family: verdana, geneva;"><strong>Administration: Application Settings</strong></span></p>
+<p style="text-align: left;"> </p>]]></title>
+    </sys_properties_category>
+    <sys_translated_text action="delete_multiple" query="documentkey=ce5758eb2f3c4010ae13ddda2799b6dc"/>
+</record_update>

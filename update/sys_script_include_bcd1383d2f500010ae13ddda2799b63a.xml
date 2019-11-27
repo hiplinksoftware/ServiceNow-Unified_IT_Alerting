@@ -12,6 +12,88 @@ hiplink_data_operations.prototype = {
     initialize: function () {
     },
 
+    getAllAssignedUsers: function (carrierType) {
+
+        var assignedUsers = [];
+
+        var grUserRole = new GlideRecord('sys_user_role');
+        if (typeof carrierType === 'undefined' || carrierType === null) {
+            grUserRole.addQuery('name', 'STARTSWITH', 'x_hls_hiplink.contact.user');
+        }
+        else {
+            grUserRole.addQuery('name', 'STARTSWITH', 'x_hls_hiplink.contact.user.' + carrierType);
+        }
+        grUserRole.query();
+
+        var userRoleIDs = [];
+        var userRoleNamesMap = {};
+
+        while (grUserRole.next()) {
+
+            var userRoleID = grUserRole.sys_id.toString();
+            userRoleIDs.push(userRoleID);
+            userRoleNamesMap[userRoleID] = grUserRole.name.toString();
+        }
+
+        var grUserHasRole = new GlideRecord('sys_user_has_role');
+        grUserHasRole.addQuery('role', 'IN', userRoleIDs.join(','));
+        grUserHasRole.query();
+
+        while (grUserHasRole.next()) {
+
+            var userID = grUserHasRole.user.toString();
+            var userRoleName = userRoleNamesMap[grUserHasRole.role.toString()];
+
+            if (typeof assignedUsers[userID] === 'undefined') {
+                assignedUsers[userID] = [];
+            }
+            assignedUsers[userID].push(userRoleName);
+        }
+
+        return assignedUsers;
+    },
+
+    getAllAssignedGroups: function (carrierType) {
+
+        var assignedGroups = [];
+
+        var grGroupRole = new GlideRecord('sys_user_role');
+        if (typeof carrierType === 'undefined' || carrierType === null) {
+            grGroupRole.addQuery('name', 'STARTSWITH', 'x_hls_hiplink.contact.group');
+        }
+        else {
+            grGroupRole.addQuery('name', 'STARTSWITH', 'x_hls_hiplink.contact.group.' + carrierType);
+        }
+        grGroupRole.query();
+
+        var groupRoleIDs = [];
+        var groupRoleNamesMap = {};
+
+        while (grGroupRole.next()) {
+
+            var groupRoleID = grGroupRole.sys_id.toString();
+            groupRoleIDs.push(groupRoleID);
+            groupRoleNamesMap[groupRoleID] = grGroupRole.name.toString();
+        }
+
+        var grGroupHasRole = new GlideRecord('sys_group_has_role');
+        grGroupHasRole.addQuery('role', 'IN', groupRoleIDs.join(','));
+        grGroupHasRole.query();
+
+        while (grGroupHasRole.next()) {
+
+            var groupID = grGroupHasRole.group.toString();
+            var groupRoleName = groupRoleNamesMap[grGroupHasRole.role.toString()];
+
+            if (typeof assignedGroups[groupID] === 'undefined') {
+                assignedGroups[groupID] = [];
+            }
+            assignedGroups[groupID].push(groupRoleName);
+        }
+
+        return assignedGroups;
+    },
+
     getAssignedUserRoleNames: function (userID) {
 
         var assignedUserRoleNames = [];
@@ -277,16 +359,14 @@ hiplink_data_operations.getInstance = function () {
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-10-05 11:22:12</sys_created_on>
-        <sys_customer_update>false</sys_customer_update>
         <sys_id>bcd1383d2f500010ae13ddda2799b63a</sys_id>
-        <sys_mod_count>8</sys_mod_count>
+        <sys_mod_count>18</sys_mod_count>
         <sys_name>hiplink_data_operations</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy>protected</sys_policy>
-        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_script_include_bcd1383d2f500010ae13ddda2799b63a</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-11-01 11:13:09</sys_updated_on>
+        <sys_updated_on>2019-11-26 04:53:24</sys_updated_on>
     </sys_script_include>
 </record_update>

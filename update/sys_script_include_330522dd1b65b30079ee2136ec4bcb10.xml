@@ -32,7 +32,7 @@ hiplink_incident_operations.prototype = {
     sendIncidentMessages: function (incident, eventType) {
 
         var recipient = this.getIncidentRecipient(incident);
-        var messageSeverity = recipient.message_severity;
+        var messageSeverity = this.parseMessageSeverity(recipient.message_severity);
         var messageBody = this.getMessageBody(incident);
         var messageResponseAction = this.objSystemProperties.message_response.action;
         var messageResponseChoices = this.getMessageResponseChoices(incident);
@@ -173,6 +173,24 @@ hiplink_incident_operations.prototype = {
         return message;
     },
 
+    parseMessageSeverity: function (severity) {
+
+        var value = 0;
+
+        if (severity === 'Normal')
+            value = 0;
+        else if (severity === 'Important')
+            value = 1;
+        else if (severity === 'Warning')
+            value = 2;
+        else if (severity === 'Critical')
+            value = 3;
+        else if (severity === 'Emergency')
+            value = 4;
+
+        return value;
+    },
+
     getMessageResponseChoices: function (incident) {
 
         var responseChoices = [];
@@ -223,13 +241,13 @@ hiplink_incident_operations.prototype = {
         else if (incidentState === 7) /* Closed */ {
 
             responseChoices = [
-                choices.reopen,
+                choices.reopen
             ];
         }
         else if (incidentState === 8) /* Canceled */ {
 
             responseChoices = [
-                choices.reopen,
+                choices.reopen
             ];
         }
         else {
@@ -591,16 +609,14 @@ hiplink_incident_operations.getInstance = function () {
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-20 13:36:01</sys_created_on>
-        <sys_customer_update>false</sys_customer_update>
         <sys_id>330522dd1b65b30079ee2136ec4bcb10</sys_id>
-        <sys_mod_count>84</sys_mod_count>
+        <sys_mod_count>85</sys_mod_count>
         <sys_name>hiplink_incident_operations</sys_name>
         <sys_package display_value="HipLink Unified IT Alerting" source="x_hls_hiplink">5385a1ff1b10330079ee2136ec4bcb24</sys_package>
         <sys_policy>protected</sys_policy>
-        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
         <sys_scope display_value="HipLink Unified IT Alerting">5385a1ff1b10330079ee2136ec4bcb24</sys_scope>
         <sys_update_name>sys_script_include_330522dd1b65b30079ee2136ec4bcb10</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-10-15 12:16:11</sys_updated_on>
+        <sys_updated_on>2019-11-07 18:56:00</sys_updated_on>
     </sys_script_include>
 </record_update>
