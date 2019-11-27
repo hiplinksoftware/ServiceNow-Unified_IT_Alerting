@@ -3,7 +3,6 @@
         <active>true</active>
         <application display_value="HipLink Unified IT Alerting">fe8e979e2f708010ae13ddda2799b657</application>
         <assessment/>
-        <content_page/>
         <device_type/>
         <filter/>
         <hint>HipLink Unified IT Alerting &gt; Configuration - Alerts &gt; Incident Recipients - P2</hint>
